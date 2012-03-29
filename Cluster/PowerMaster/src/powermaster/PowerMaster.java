@@ -36,7 +36,7 @@ public class PowerMaster {
             System.out.println("Module Error!!!");
             
         }*/
-        Solver teste = new Solver(1000, 10, 0.1);
-        teste.execute();        
+        //Solver teste = new Solver(1000, 10, 0.1);
+        //teste.execute();        
     }
 }

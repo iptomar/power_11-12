@@ -51,19 +51,19 @@ public class webSocketServer extends NanoHTTPD
 		return new NanoHTTPD.Response( HTTP_OK, MIME_HTML, msg );
 	}
 
-//
-//	public static void main( String[] args )
-//	{
-//		try
-//		{
-//			new HelloServer();
-//		}
-//		catch( IOException ioe )
-//		{
-//			System.err.println( "Couldn't start server:\n" + ioe );
-//			System.exit( -1 );
-//		}
-//		System.out.println( "Listening on port 8080. Hit Enter to stop.\n" );
-//		try { System.in.read(); } catch( Throwable t ) {};
-//	}
+
+	public static void main( String[] args )
+	{
+		try
+		{
+			new webSocketServer(8080);
+		}
+		catch( IOException ioe )
+		{
+			System.err.println( "Couldn't start server:\n" + ioe );
+			System.exit( -1 );
+		}
+		System.out.println( "Listening on port 8080. Hit Enter to stop.\n" );
+		try { System.in.read(); } catch( Throwable t ) {};
+	}
 }
