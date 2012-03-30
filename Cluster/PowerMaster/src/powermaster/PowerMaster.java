@@ -19,8 +19,11 @@ public class PowerMaster {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+        //Inicialização de todos os módulos do PowerMaster
         Aplication app = new Aplication();
+        
+        
+        
         /*if(Aplication.STATUS){
         arrayThread = new SolverThread[4];
         

@@ -4,6 +4,7 @@
  */
 package Module.Administration;
 
+import Module.AbstractAplication;
 import com.jezhumble.javasysmon.JavaSysMon;
 import java.io.IOException;
 
@@ -11,27 +12,24 @@ import java.io.IOException;
  *
  * @author Bruno Oliveira nº 11127 IPT-ESTT
  */
-public class Administration{
+public class Administration extends AbstractAplication{
     
     public static JavaSysMon mon;
-    
-    private boolean iniStatus;
-    
-    public static String ModuleName = "Administration Module";
-    
+  
+    /**
+     * Construtor do módulo de Administração (Versão Exprimental) 
+     */
     public Administration(){
+        super("Administration Module");
         mon = new JavaSysMon();
         try {
-            this.iniStatus = StartUp();
+            this.AplicationStatus = StartUp();
         } catch (IOException ex) {
-            this.iniStatus = false;
+            this.AplicationStatus = false;
         }
         
     }
-    
-    public boolean isIniStatus() {
-        return iniStatus;
-    }    
+     
 
     private boolean StartUp() throws IOException{
         
