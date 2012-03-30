@@ -19,14 +19,9 @@ public class WebSocket {
      
      public static String ModuleName = "WebSocket Module";
      
-     public WebSocket(){
-        try {
+     public WebSocket() throws IOException{
             webSocket = new webSocketServer(WebSocketConfig.LOCAL_PORT);
             iniStatus = true;
-        } catch (IOException ex) {
-            iniStatus = false;
-            Logger.getLogger(WebSocket.class.getName()).log(Level.SEVERE, null, ex);
-        }
      }
      
     public boolean isIniStatus() {
