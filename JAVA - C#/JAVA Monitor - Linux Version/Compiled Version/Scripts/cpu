@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#Bruno Oliveira Nº 11127 ESTT-IPT
+
+#www.tldp.org Para mais info
+
+#obter informação sobre o cpu
+# -n porque só queremos uma iteração
+top -n 1 > cpu.tmp
+
+#contar o número de linhas do resultado do top
+#é preciso retirar as 7 primeiras para remover o cabeçalho
+linha=`cat cpu.tmp | wc -l`
+
+#limpar o conteúdo com a escolha das linhas certas e a coluna.
+#realizar a soma da coluna
+#http://www.liamdelahunty.com/tips/linux_ls_awk_totals.php
+#manda para dentro de ficheiro cpu.res
+
+cat cpu.tmp | tail -n $[$linha-7] | awk '{ SUM += $10} END { print SUM }' > cpu.res
+
+#remover o ficheiro temporario
+rm cpu.tmp 
+./cpu
