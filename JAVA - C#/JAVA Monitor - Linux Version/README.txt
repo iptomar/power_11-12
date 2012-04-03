@@ -1,0 +1,1 @@
+Para executar correctamente primeiro correr o script cpu e depois correr o jar.

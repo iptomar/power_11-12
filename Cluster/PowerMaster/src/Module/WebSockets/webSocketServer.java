@@ -15,14 +15,37 @@ import powermaster.SolverThread;
 
 public class webSocketServer extends NanoHTTPD
 {
-    String thisIp;
+        /**
+         * Variável interna para guardar o enderenço IP do cliente
+         */
+        private String thisIp;
+        /**
+         * Contrutor do objecto webSocketServer
+         * Este objecto permite criar um servidor web na porta especificada no contrutor.
+         * Ver documentação e código do ficheiro NanoHTTPD.java
+         * http://elonen.iki.fi/code/nanohttpd/
+         * @param port
+         * @throws IOException 
+         */
 	public webSocketServer(int port) throws IOException
 	{
 		super(port,new File("C:\\xampp\\htdocs\\index.html"));
                 //System.out.println(port);
 	}
 
-    @Override
+        /**
+         * Método que permite fazer uma resposta ao cliente HTTP
+         * Ver documentação e código do ficheiro NanoHTTPD.java
+         * http://elonen.iki.fi/code/nanohttpd/
+         * @param uri
+         * @param method
+         * @param header
+         * @param parms
+         * @param files
+         * @param s
+         * @return 
+         */
+        @Override
 	public Response serve( String uri, String method, Properties header, Properties parms, Properties files,Socket s )
 	{
             
@@ -52,7 +75,7 @@ public class webSocketServer extends NanoHTTPD
 	}
 
 
-	public static void main( String[] args )
+	/*public static void main( String[] args )
 	{
 		try
 		{
@@ -65,5 +88,5 @@ public class webSocketServer extends NanoHTTPD
 		}
 		System.out.println( "Listening on port 8080. Hit Enter to stop.\n" );
 		try { System.in.read(); } catch( Throwable t ) {};
-	}
+	}*/
 }
