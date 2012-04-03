@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONException;
 
 /* -------------------------------------------------------------------------
  * -------------------------------------------------------------------------
@@ -76,37 +77,69 @@ public class Solver {
         ArrayList<Individual> afterReproduction = new ArrayList<Individual>();
         int numRepetCons = 0;
         int aux = 1;
-        do {
-            fitnessAnt = Popul.fitnessPopulationAvarage();
-            Torn = new Tournament();
-            afterTournament = Torn.execute(Popul.getPopulation());
-            Rep = new Reprodution(afterTournament);
-            afterReproduction = Rep.execute();
-            Popul = new Population(afterReproduction);
-            Popul.addToPopulation(afterTournament);
-            Mut = new Mutacao(TaxaMut, Popul);
-            Popul.setPopulation(Mut.IniciarMutacao().getPopulation());
-            /*System.out.println("--------------Iteração nº " + aux + "---------------");
-            System.out.println("Avarage Anterior :" + fitnessAnt);*/
-            if (fitnessAnt == Popul.fitnessPopulationAvarage()) {
-                numRepetCons++;
-            } else {
-                numRepetCons = 0;
-            }
 
+        try {
+            Aplication.nodeJS.Emit("startrun", "1", "[[");
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        
+        int TotalEmit = 100;
+        int ActualEmit = 0;
+        try {
+            do {
+                fitnessAnt = Popul.fitnessPopulationAvarage();
+                Torn = new Tournament();
+                afterTournament = Torn.execute(Popul.getPopulation());
+                Rep = new Reprodution(afterTournament);
+                afterReproduction = Rep.execute();
+                Popul = new Population(afterReproduction);
+                Popul.addToPopulation(afterTournament);
+                Mut = new Mutacao(TaxaMut, Popul);
+                Popul.setPopulation(Mut.IniciarMutacao().getPopulation());
+                /*System.out.println("--------------Iteração nº " + aux + "---------------");
+                System.out.println("Avarage Anterior :" + fitnessAnt);*/
+                if (fitnessAnt == Popul.fitnessPopulationAvarage()) {
+                    numRepetCons++;
+                } else {
+                    numRepetCons = 0;
+                }
+
+                try {
+                    //System.out.println("INSERT INTO resultados VALUES (null, '"+(fitnessAnt)+"','"+(Popul.fitnessPopulationAvarage())+"','"+Popul.getNumberIndividuals()+"','"+(Popul.HallOfFame()[0].fitnessIndividual())+"', NOW())");
+                    Aplication.db.ExecuteNonQuery("INSERT INTO resultados VALUES (null, '" + (fitnessAnt) + "','" + (Popul.fitnessPopulationAvarage()) + "','" + Popul.getNumberIndividuals() + "','" + (Popul.HallOfFame()[0].fitnessIndividual()) + "', NOW())");
+                    if(TotalEmit==ActualEmit){
+                        ActualEmit = 0;
+                        try {
+                            Aplication.nodeJS.Emit("event", "" + aux, "" + Popul.fitnessPopulationAvarage());
+                        } catch (JSONException ex) {
+                            ex.printStackTrace();
+                        }
+                    }else{
+                        ActualEmit++;
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    //Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                /*System.out.println("Avarage Actual :" + Popul.fitnessPopulationAvarage());
+                System.out.println("Número de individuos: " + Popul.getPopulation().size());
+                System.out.println("Melhor individuo"+ Popul.HallOfFame()[0].fitnessIndividual());*/
+                aux++;
+            } while (numRepetCons != numRepeticoesFitness);
             try {
-                //System.out.println("INSERT INTO resultados VALUES (null, '"+(fitnessAnt)+"','"+(Popul.fitnessPopulationAvarage())+"','"+Popul.getNumberIndividuals()+"','"+(Popul.HallOfFame()[0].fitnessIndividual())+"', NOW())");
-                Aplication.db.ExecuteNonQuery("INSERT INTO resultados VALUES (null, '"+(fitnessAnt)+"','"+(Popul.fitnessPopulationAvarage())+"','"+Popul.getNumberIndividuals()+"','"+(Popul.HallOfFame()[0].fitnessIndividual())+"', NOW())");
-            } catch (SQLException ex) {
+                Aplication.nodeJS.Emit("final", "1", "]]");
+            } catch (JSONException ex) {
                 ex.printStackTrace();
-                //Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            /*System.out.println("Avarage Actual :" + Popul.fitnessPopulationAvarage());
-            System.out.println("Número de individuos: " + Popul.getPopulation().size());
-            System.out.println("Melhor individuo"+ Popul.HallOfFame()[0].fitnessIndividual());*/
-            aux++;
-        } while (numRepetCons != numRepeticoesFitness);
+        } catch (Exception e) {
+            try {
+                Aplication.nodeJS.Emit("final", "1", "]]");
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        }
         return 1;
     }
 }

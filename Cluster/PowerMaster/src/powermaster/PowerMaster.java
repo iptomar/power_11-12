@@ -19,8 +19,11 @@ public class PowerMaster {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+        //Inicialização de todos os módulos do PowerMaster
         Aplication app = new Aplication();
+        
+        
+        
         /*if(Aplication.STATUS){
         arrayThread = new SolverThread[4];
         
@@ -36,7 +39,7 @@ public class PowerMaster {
             System.out.println("Module Error!!!");
             
         }*/
-        Solver teste = new Solver(1000, 10, 0.1);
-        teste.execute();        
+        //Solver teste = new Solver(1000, 10, 0.1);
+        //teste.execute();        
     }
 }

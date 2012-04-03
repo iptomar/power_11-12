@@ -4,33 +4,24 @@
  */
 package Module.WebSockets;
 
+import Module.AbstractAplication;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
  * @author Bruno Oliveira nº 11127 IPT-ESTT
  */
-public class WebSocket {
-     private boolean iniStatus;
+public class WebSocket extends AbstractAplication {
+   
      
      private webSocketServer webSocket;
      
-     public static String ModuleName = "WebSocket Module";
-     
-     public WebSocket(){
-        try {
+     public WebSocket() throws IOException{
+            super("WebSocket Module");
             webSocket = new webSocketServer(WebSocketConfig.LOCAL_PORT);
-            iniStatus = true;
-        } catch (IOException ex) {
-            iniStatus = false;
-            Logger.getLogger(WebSocket.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            this.AplicationStatus = true;
      }
-     
-    public boolean isIniStatus() {
-        return iniStatus;
-    }     
+       
      
 }

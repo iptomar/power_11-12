@@ -1,0 +1,6 @@
+//O import 
+        import io.socket.IOConnection;
+
+
+//Mudar para true para activar o debug mod
+        IOConnection.loggerDebug = false;
