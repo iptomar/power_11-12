@@ -56,13 +56,17 @@ public class webServerSocket extends NanoHTTPD {
             e.printStackTrace();
         }
 
-        if (parms.getProperty("pop") != null && parms.getProperty("max") != null && parms.getProperty("mut") != null) {
-            String pop = parms.getProperty("pop");
-            String max = parms.getProperty("max");
-            String mut = parms.getProperty("mut");
-            System.out.println("Population: " + pop + "\nMax Population: " + max + "\nMutation: " + mut);
+        //int sizePopulation, int sizeAllelo, int intera, int bestfitness
+        //code.dei.estt.ipt.pt:8080?pop=<val>&alello=<val>&itera=<val>&best=<val>
+        if (parms.getProperty("pop") != null && parms.getProperty("alello") != null && parms.getProperty("itera") != null && parms.getProperty("best") != null) {
+            int pop = Integer.parseInt(parms.getProperty("pop"));
+            int alello = Integer.parseInt( parms.getProperty("alello"));
+            int itera = Integer.parseInt(parms.getProperty("itera"));
+            int best = Integer.parseInt(parms.getProperty("best"));
+            System.out.println("Population: " + pop + "\n Alello: " + alello + "\n Iterations: " + itera+"\n BestValue:" + best);
             
-              
+            SolverThread thr = new  SolverThread(pop,alello,itera,best);
+            thr.start();              
             
             //SolverThread thr = new SolverThread(Integer.parseInt(pop), Integer.parseInt(max), Double.parseDouble(mut));
             //thr.start();
@@ -70,10 +74,10 @@ public class webServerSocket extends NanoHTTPD {
 
            // Solver __newSolver = new Solver(1000, 100, new OnesMax(), 100000, 99, new GeneticEvents());
            // __newSolver.run(); 
-        if (parms.getProperty("pop")!=null){
-            SolverThread thr = new  SolverThread();
-            thr.start();
-        }
+//        if (parms.getProperty("pop")!=null){
+//            SolverThread thr = new  SolverThread();
+//            thr.start();
+//        }
         //System.out.println( method + " '" + uri + "' " );
 	String msg = "<html><head></head><body onload='submitform()'>";
         msg += "<script type='text/javascript'>";

@@ -14,15 +14,23 @@ import genetics.Solver;
  */
 public class SolverThread extends Thread{
     
-    private Solver teste;
     
-    public SolverThread(){
-        System.out.println("New Thread Solver");
-   
+    private int pop;
+    private int alello;
+    private int itera;
+    private int best;
+    
+
+    public SolverThread(int pop, int alello, int itera, int best) {
+        this.pop = pop;
+        this.alello = alello;
+        this.itera = itera;
+        this.best = best;
     }
     
     public void run(){
-            Solver __newSolver = new Solver(1000, 100, new OnesMax(), 100000, 99, new GeneticEvents());
+            //Solver __newSolver = new Solver(1000, 100, new OnesMax(), 100000, 99, new GeneticEvents(PowerMaster.INTERVAL_PART));
+            Solver __newSolver = new Solver(pop, alello, new OnesMax(), itera, best, new GeneticEvents(PowerMaster.INTERVAL_PART));
             __newSolver.run();
          
     }

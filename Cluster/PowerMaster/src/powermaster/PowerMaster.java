@@ -19,6 +19,8 @@ public class PowerMaster {
 
     private static SolverThread[] arrayThread;
     
+    public static int INTERVAL_PART = 50;
+    
     /**
      * @param args the command line arguments
      */
@@ -30,14 +32,19 @@ public class PowerMaster {
                 //System.out.println(resultado);
                 
                 try{
-                if(args[0].equals("false")){
-                    IOConnection.loggerDebug = false;
-                }else{
-                    IOConnection.loggerDebug = true;
-                }
+                    if(args[0].equals("false")){
+                        IOConnection.loggerDebug = false;
+                    }else{
+                        IOConnection.loggerDebug = true;
+                    }
+                    INTERVAL_PART = Integer.parseInt(args[1]);
+                
                 }catch(Exception e){
-                    IOConnection.loggerDebug = true;
+                    IOConnection.loggerDebug = false;
+                    INTERVAL_PART = 50;
                 }
+                
+                
                 
                 // Desligar o debug do sockets em IOConnection
                 //IOConnection.loggerDebug = false;
