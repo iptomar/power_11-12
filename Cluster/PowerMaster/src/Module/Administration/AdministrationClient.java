@@ -6,6 +6,8 @@ package Module.Administration;
 
 import com.sun.management.OperatingSystemMXBean;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -94,15 +96,40 @@ public class AdministrationClient extends Thread {
 
                 } else if ("-cpu".equals(cmds[1])) {
 
-                    OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
-                    // What % CPU load this current JVM is taking, from 0.0-1.0  
-                    //System.out.println(osBean.getProcessCpuLoad());
+                    /*if (recebe_cena.mon.osName().contains("Windows")) {
 
-                    // What % load the overall system is at, from 0.0-1.0  
+                    OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+
+                    // What % CPU load this current JVM is taking, from 0.0-1.0
+                    //System.out.println(osBean.getProcessCpuLoad());
+                    // What % load the overall system is at, from 0.0-1.0
                     //System.out.println(osBean.getSystemCpuLoad());
-                       
-                    out.println("CPU Usage: " + (int)(osBean.getSystemCpuLoad()*100)+"%");
+
+                    out.println("CPU Usage: " + (int) (osBean.getSystemCpuLoad() * 100) + "%");
                     out.flush();
+
+                    } else {*/
+                    String cois = "";
+
+
+                    Process p;
+                    
+                    //p = Runtime.getRuntime().exec("./cpu");
+
+                    try {
+                        FileInputStream fstream = new FileInputStream("Scripts/cpu.res");
+                        DataInputStream in = new DataInputStream(fstream);
+                        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                        String str;
+                        while ((str = br.readLine()) != null) {
+                            cois=str;
+                        }
+                        in.close();
+                    } catch (Exception e) {
+                        System.err.println(e);
+                    }
+
+                    out.println(cois);
                     
                 } else if ("-mem".equals(cmds[1])) {
 

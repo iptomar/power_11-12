@@ -4,8 +4,9 @@
  */
 package powermaster;
 
-import Genetic.Solver;
-import Module.Aplication;
+
+import genetics.OnesMax;
+import genetics.Solver;
 
 /**
  *
@@ -15,13 +16,14 @@ public class SolverThread extends Thread{
     
     private Solver teste;
     
-    public SolverThread(int tamanhoPop, int Paragem, double mutation){
+    public SolverThread(){
         System.out.println("New Thread Solver");
-        teste = new Solver(tamanhoPop, Paragem, mutation);
+   
     }
     
     public void run(){
-        teste.execute();
+            Solver __newSolver = new Solver(1000, 100, new OnesMax(), 100000, 99, new GeneticEvents());
+            __newSolver.run();
          
     }
 }

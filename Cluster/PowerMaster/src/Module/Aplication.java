@@ -6,7 +6,7 @@ package Module;
 
 import Module.Administration.Administration;
 import Module.DataBase.Database;
-import Module.WebSockets.WebSocket;
+import Module.WebHTTP.WebServer;
 import NodeJS.NodeEmiter;
 import java.net.MalformedURLException;
 import java.util.Hashtable;
@@ -32,7 +32,7 @@ public class Aplication {
     /**
      * Referencia estatica para o objecto WebSocket
      */
-    public static WebSocket webSocket;
+    public static WebServer webSocket;
     /**
      * Referencia estatica para o objecto NodeEmiter
      */    
@@ -60,6 +60,7 @@ public class Aplication {
         
         System.out.println("Start Database Connection...");
         db = new Database("root", "iptpsi2012ipt", "127.0.0.1");
+        //db = new Database("optima", "optimapsi", "192.168.10.251");
         if (db.getAplicationStatus()) {
             System.out.println(db.AplicationName+" - OK");
             AplicationStatus.put(db.AplicationName, true);
@@ -91,7 +92,7 @@ public class Aplication {
          // ---- Módulo WebSocket (8080)
          // --------------------------------------------------
         try {
-            webSocket = new WebSocket();
+            webSocket = new WebServer();
             if (webSocket.getAplicationStatus()) {
                 System.out.println("WebSocket Module - OK");
                 AplicationStatus.put(webSocket.AplicationName, true);
