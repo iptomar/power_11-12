@@ -5,11 +5,16 @@
 package powermaster;
 
 import Module.Aplication;
+import Module.Loader.Loader;
+import Module.Loader.OnesMax;
+import Module.Loader.Problem;
 import Module.WebHTTP.WebFileDownloader;
-import Module.WebHTTP.WebServer;
-import genetics.OnesMax;
 import genetics.Solver;
 import io.socket.IOConnection;
+import java.io.IOException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,56 +23,48 @@ import io.socket.IOConnection;
 public class PowerMaster {
 
     private static SolverThread[] arrayThread;
-    
     public static int INTERVAL_PART = 50;
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-                //Inicialização de todos os módulos do PowerMaster
-                Aplication app = new Aplication();
-                
-                //String resultado = WebFileDownloader.Download(new URL("http://google.com"));
-                //System.out.println(resultado);
-                
-                try{
-                    if(args[0].equals("false")){
-                        IOConnection.loggerDebug = false;
-                    }else{
-                        IOConnection.loggerDebug = true;
-                    }
-                    INTERVAL_PART = Integer.parseInt(args[1]);
-                
-                }catch(Exception e){
-                    IOConnection.loggerDebug = false;
-                    INTERVAL_PART = 50;
-                }
-                
-                
-                
-                // Desligar o debug do sockets em IOConnection
-                //IOConnection.loggerDebug = false;
-                
-                //Solver __newSolver = new Solver(100, 100, new OnesMax(), 1000, 80, new GeneticEvents());
-                //__newSolver.run();               
-                
-                /*if(Aplication.STATUS){
-                arrayThread = new SolverThread[4];
-                
-                for (int i = 0; i < arrayThread.length; i++) {
-                    arrayThread[i] = new SolverThread();
-                }
-                
-                for (int i = 0; i < arrayThread.length; i++) {
-                    arrayThread[i].start();
-                }
-                
-                }else{
-                    System.out.println("Module Error!!!");
-                    
-                }*/
-                //Solver teste = new Solver(1000, 10, 0.1);
-                //teste.execute();
+        //Inicialização de todos os módulos do PowerMaster
+        /*Aplication app = new Aplication();
+
+        try {
+            if (args[0].equals("false")) {
+                IOConnection.loggerDebug = false;
+            } else {
+                IOConnection.loggerDebug = true;
+            }
+            INTERVAL_PART = Integer.parseInt(args[1]);
+
+        } catch (Exception e) {
+            IOConnection.loggerDebug = false;
+            INTERVAL_PART = 50;
+        }
+
+        //Verificação se está tudo Ok
+        if (Aplication.STATUS) {
+        }*/
+
+        // Desligar o debug do sockets em IOConnection
+        //IOConnection.loggerDebug = false;
+
+        
+        //Exemplo de um loader para OnesMax
+        /*Problem p = null;
+        try {
+
+
+            String resultado = WebFileDownloader.Download(new URL("File:C:\\Users\\Bruno\\Desktop\\load2.txt"));
+            p = Loader.Load(resultado);
+        } catch (IOException ex) {
+            Logger.getLogger(PowerMaster.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        System.out.println(p.getParms(OnesMax.PARAM_ITERATIONS));
+        Solver s = p.getNewSolver();*/
     }
 }
