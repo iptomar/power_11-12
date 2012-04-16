@@ -4,14 +4,11 @@
  */
 package Module.WebHTTP;
 
-import genetics.OnesMax;
-import genetics.Solver;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Properties;
-import powermaster.GeneticEvents;
 import powermaster.SolverThread;
 
 public class webServerSocket extends NanoHTTPD {
