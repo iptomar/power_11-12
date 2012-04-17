@@ -5,7 +5,9 @@
 package powermaster;
 
 import Module.Aplication;
+import Module.DataBase.Database;
 import genetics.Population;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONException;
@@ -41,6 +43,17 @@ public class GeneticEvents implements EventsSolver {
             if (i == nextInterval) {
                 int best = pltn.getBestFitness();
                 Aplication.nodeJS.Emit("event", "" + i, "" + pltn.getBestFitness());
+                
+               
+                // Testes
+                try {
+                    Database db = new Database("root", "","127.0.0.1");
+                    db.ExecuteNonQuery("INSERT INTO teste VALUES ("+ i + ","+ best +")");
+                } catch (SQLException ex) {
+                    Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
                 System.out.println(i + "-" + best);
                 nextInterval += Interval;
             }

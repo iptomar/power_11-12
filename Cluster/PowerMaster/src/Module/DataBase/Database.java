@@ -3,6 +3,7 @@ package Module.DataBase;
 import Module.AbstractAplication;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -73,6 +74,18 @@ public class Database extends AbstractAplication {
             Class.forName("com.mysql.jdbc.Driver");
             Connection = DriverManager.getConnection("jdbc:mysql://"+this.ipAddress+":3306/powercomputing", this.username, this.password);
             Command = Connection.createStatement();
+    }
+    
+    
+   
+    public int ExecuteCountQuery(String cmd) throws SQLException{
+        int count = 0;
+        if(this.AplicationStatus){
+            ResultSet rs = this.Command.executeQuery(cmd);
+            rs.last();
+            count = rs.getRow();
+        }
+        return count;
     }
     
     /**

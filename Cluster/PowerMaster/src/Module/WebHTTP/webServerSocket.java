@@ -62,8 +62,8 @@ public class webServerSocket extends NanoHTTPD {
             int best = Integer.parseInt(parms.getProperty("best"));
             System.out.println("Population: " + pop + "\n Alello: " + alello + "\n Iterations: " + itera+"\n BestValue:" + best);
             
-            SolverThread thr = new  SolverThread(pop,alello,itera,best);
-            thr.start();              
+            //SolverThread thr = new  SolverThread();
+            //thr.start();              
             
             //SolverThread thr = new SolverThread(Integer.parseInt(pop), Integer.parseInt(max), Double.parseDouble(mut));
             //thr.start();
