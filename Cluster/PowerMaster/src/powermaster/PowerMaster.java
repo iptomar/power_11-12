@@ -59,7 +59,7 @@ public class PowerMaster {
 
 
             //String resultado = WebFileDownloader.Download(new URL("File:C:\\Users\\Bruno\\Desktop\\load2.txt"));
-                        String resultado = WebFileDownloader.Download(new URL("http://code.dei.estt.ipt.pt:81/loader/load4.txt"));
+                        String resultado = WebFileDownloader.Download(new URL("http://code.dei.estt.ipt.pt:81/loader/load1.txt"));
 
             p = Loader.Load(resultado);
         } catch (IOException ex) {
