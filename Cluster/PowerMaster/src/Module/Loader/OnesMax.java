@@ -7,7 +7,6 @@ package Module.Loader;
 import genetics.Solver;
 import powermaster.GeneticEvents;
 import powermaster.PowerMaster;
-import powermaster.VerificaParametros;
 
 /**
  *

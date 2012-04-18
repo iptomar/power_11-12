@@ -32,7 +32,7 @@ public class GeneticEvents implements EventsSolver {
         this.idProblem = idProblem;
     }
 
-    @Override
+    /*@Override
     public void EventStartSolver() {
         try {
             System.out.println("Sovler - START");
@@ -82,5 +82,25 @@ public class GeneticEvents implements EventsSolver {
         } catch (JSONException ex) {
             Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }*/
+
+    @Override
+    public void EventStartSolver() {
+        try {
+            System.out.println("Sovler - START");
+            Aplication.nodeJS.Emit("startrun", "1", "[[");
+        } catch (JSONException ex) {
+            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void EventIteraction(int i, Population pltn) {
+        
+    }
+
+    @Override
+    public void EventFinishSolver(int i, Population pltn) {
+        ;
     }
 }
