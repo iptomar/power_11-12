@@ -7,6 +7,7 @@ package Module.Loader;
 import genetics.Solver;
 import powermaster.GeneticEvents;
 import powermaster.PowerMaster;
+import powermaster.VerificaParametros;
 
 /**
  *
@@ -69,6 +70,9 @@ public class OnesMax extends Problem {
             String[] param = parmsData[i].split("=");
             //Verificação de parametros
             //parametro 1
+            Boolean verInt=VerificaParametros.VerInt(param);
+            
+           if(verInt){
             if (param[0].equals(OnesMax.PARAM_ITERATIONS) && !this.containsParam(OnesMax.PARAM_ITERATIONS)) {
                 //carregar o parametro para um dicionario de parametros
                 this.Iterations = Integer.parseInt(param[1]);
@@ -105,7 +109,9 @@ public class OnesMax extends Problem {
                 System.out.println(OnesMax.PARAM_ALELLO_SIZE+"+:"+this.bestFitness);
                 continue;
             }
+          }
         }
+       
         //Verificar se todos os parametros foram carregados
         if (this.PARAM_ADDED == OnesMax.PARAM_REQUIRED) {
             //Ler dados (restantes Linhas)

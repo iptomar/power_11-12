@@ -4,21 +4,25 @@
  */
 package Module.Loader;
 
+import powermaster.VerificaParametros;
+
 /**
  *
  * @author Bruno Oliveira nº 11127 IPT-ESTT
  */
 public class Loader {
-    
+     static String[] linhas; 
+     
     public static Problem Load(String dataIn) {
         //remover todos os caracteres estranhos
         dataIn = dataIn.replace("\r", "");
         //Obter todas as linhas do documento
-        String[] linhas = dataIn.split("\n");
+        linhas = dataIn.split("\n");
         //Leitura da primeira linha para verificar qual o tipo de problema
         String[] primeiraLinha = linhas[0].split(";");
         //Verificação do tipo de problema (Linha 1)
-        if (primeiraLinha[0].equals(OnesMax.ProblemName)) {
+       
+        if (primeiraLinha[0].equals(OnesMax.ProblemName) && VerificaParametros.VerInt(primeiraLinha)) {
             System.out.println("##### New Ones Max Problem #####");
             //Problema do tipo OnesMax
             OnesMax oneMax = new OnesMax(linhas);
@@ -32,7 +36,7 @@ public class Loader {
             }
             System.out.println("##### OnesMax NOT LOADED #####");
         }
-        if (primeiraLinha[0].equals(KnapSack.ProblemName)) {
+        if (primeiraLinha[0].equals(KnapSack.ProblemName) && VerificaParametros.VerInt(primeiraLinha)) {
             System.out.println("##### New KnapSack Problem #####");
             //Problema do tipo OnesMax
             KnapSack knapSack = new KnapSack(linhas);
@@ -49,4 +53,9 @@ public class Loader {
         
         return null;
     }
+    
+    
+    
+    
+
 }
