@@ -88,6 +88,13 @@ public class Database extends AbstractAplication {
         return count;
     }
     
+    
+    public boolean ExecuteInsertIteration(String ThreadID, int itera, int idClient, int idProblem, double best, double average, int numBest, String attributes, double deviation, int type) throws SQLException{
+        if(this.AplicationStatus){
+            return this.Command.execute("INSERT INTO tblIterations VALUES ("+ ThreadID +","+itera +","+idClient+","+idProblem+","+"NOW()"+","+best+","+average+","+numBest+","+attributes+","+deviation+","+type+")");
+        }
+        return false;
+    }
     /**
      * Método para executar uma query sem retorno no servidor MySQL
      * @param cmd Comando a ser executado no MySQL

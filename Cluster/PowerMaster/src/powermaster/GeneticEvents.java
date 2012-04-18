@@ -21,10 +21,14 @@ public class GeneticEvents implements EventsSolver {
 
     int Interval = 100;
     int nextInterval;
-
-    public GeneticEvents(int interval) {
+    int idClient;
+    int idProblem;
+   
+    public GeneticEvents(int interval,int idClient, int idProblem) {
         this.Interval = interval;
         this.nextInterval = Interval;
+        this.idClient = idClient;
+        this.idProblem = idProblem;
     }
 
     @Override
@@ -47,9 +51,9 @@ public class GeneticEvents implements EventsSolver {
                
                 // Testes
                 try {
-                    Database db = new Database("root", "","127.0.0.1");
-                    db.ExecuteNonQuery("INSERT INTO teste VALUES ("+ i + ","+ best +")");
-                } catch (SQLException ex) {
+                  Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD","code.dei.estt.ipt.pt");
+                    db.ExecuteInsertIteration(Thread.currentThread().getName().toString(), i, idClient, idProblem, pltn.getBestFitness(), 0, 0, "", 0, 0);
+                } catch (Exception ex) {
                     Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
