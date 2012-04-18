@@ -4,10 +4,8 @@
  */
 package Module.Loader;
 
-import TMP.Item;
-import TMP.Mochila;
 import genetics.Solver;
-import java.util.ArrayList;
+import utils.Mochila;
 
 /**
  *
@@ -21,11 +19,6 @@ public class KnapSack extends Problem {
      */
     private int popSize;
     public static final String PARAM_POPULATION_SIZE = "pop";
-    /**
-     * Tamanho do alelo
-     */
-    private int alelloSize;
-    public static final String PARAM_ALELLO_SIZE = "alello";
     /**
      * Número maximo de Iterações
      */
@@ -59,9 +52,9 @@ public class KnapSack extends Problem {
     /**
      * Número de parametros que são necessário para que o problema OneMax seja corrido
      */
-    private static int PARAM_REQUIRED = 5;//Número de parametros obrigatórios
+    private static int PARAM_REQUIRED = 4;//Número de parametros obrigatórios
     private int PARAM_ADDED = 0;//Número de parametros adicionados obrigatórios
-    private static int PARAM_COUNT = 8;//Número de parametros existentes no problema
+    private static int PARAM_COUNT = 7;//Número de parametros existentes no problema
     /**
      * Referência para todas as linhas existentes no documento
      */
@@ -113,15 +106,6 @@ public class KnapSack extends Problem {
                 continue;
             }
             //parametro 3
-            if (param[0].equals(KnapSack.PARAM_ALELLO_SIZE) && !this.containsParam(KnapSack.PARAM_ALELLO_SIZE)) {
-                this.alelloSize = Integer.parseInt(param[1]);
-                this.addParam(KnapSack.PARAM_ALELLO_SIZE, this.alelloSize);
-                //registar parametros obrigatório
-                this.PARAM_ADDED++;                 
-                System.out.println(KnapSack.PARAM_ALELLO_SIZE+"+:"+this.alelloSize);
-                continue;
-            }
-            //parametro 4
             if (param[0].equals(KnapSack.PARAM_BEST_FITNESS) && !this.containsParam(KnapSack.PARAM_BEST_FITNESS)) {
                 this.bestFitness = Integer.parseInt(param[1]);
                 this.addParam(KnapSack.PARAM_BEST_FITNESS, this.bestFitness);
@@ -130,7 +114,7 @@ public class KnapSack extends Problem {
                 System.out.println(KnapSack.PARAM_BEST_FITNESS+"+:"+this.bestFitness);
                 continue;
             }
-            //parametro 5
+            //parametro 4
             if (param[0].equals(KnapSack.PARAM_MAX_WEIGHT) && !this.containsParam(KnapSack.PARAM_MAX_WEIGHT)) {
                 this.maxWeight = Integer.parseInt(param[1]);
                 this.addParam(KnapSack.PARAM_MAX_WEIGHT, this.maxWeight);
@@ -139,21 +123,21 @@ public class KnapSack extends Problem {
                 System.out.println(KnapSack.PARAM_MAX_WEIGHT+"+:"+this.maxWeight);
                 continue;
             } 
-            //parametro 6
+            //parametro 5
             if (param[0].equals(KnapSack.PARAM_MAX_ITEM_WEIGHT) && !this.containsParam(KnapSack.PARAM_MAX_ITEM_WEIGHT)) {
                 this.maxItemWeight = Integer.parseInt(param[1]);
                 this.addParam(KnapSack.PARAM_MAX_ITEM_WEIGHT, this.maxItemWeight);
                 System.out.println(KnapSack.PARAM_MAX_ITEM_WEIGHT+":"+this.maxItemWeight);
                 continue;
             }  
-            //parametro 7
+            //parametro 6
             if (param[0].equals(KnapSack.PARAM_MAX_ITEM_VALUE) && !this.containsParam(KnapSack.PARAM_MAX_ITEM_VALUE)) {
                 this.maxItemValue = Integer.parseInt(param[1]);
                 this.addParam(KnapSack.PARAM_MAX_ITEM_VALUE, this.maxItemValue);
                 System.out.println(KnapSack.PARAM_MAX_ITEM_VALUE+":"+this.maxItemValue);
                 continue;
             } 
-            //parametro 8
+            //parametro 7
             if (param[0].equals(KnapSack.PARAM_NUM_ITEMS) && !this.containsParam(KnapSack.PARAM_NUM_ITEMS)) {
                 this.numItems = Integer.parseInt(param[1]);
                 this.addParam(KnapSack.PARAM_NUM_ITEMS, this.numItems);
@@ -204,10 +188,6 @@ public class KnapSack extends Problem {
 
     public int getIterations() {
         return Iterations;
-    }
-
-    public int getAlelloSize() {
-        return alelloSize;
     }
 
     public int getBestFitness() {

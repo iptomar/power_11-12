@@ -4,7 +4,6 @@
  */
 package Module.Loader;
 
-import powermaster.VerificaParametros;
 
 /**
  *
@@ -22,7 +21,7 @@ public class Loader {
         String[] primeiraLinha = linhas[0].split(";");
         //Verificação do tipo de problema (Linha 1)
        
-        if (primeiraLinha[0].equals(OnesMax.ProblemName) && VerificaParametros.VerInt(primeiraLinha)) {
+        if (primeiraLinha[0].equals(OnesMax.ProblemName) && Problem.VerInt(primeiraLinha)) {
             System.out.println("##### New Ones Max Problem #####");
             //Problema do tipo OnesMax
             OnesMax oneMax = new OnesMax(linhas);
@@ -36,7 +35,7 @@ public class Loader {
             }
             System.out.println("##### OnesMax NOT LOADED #####");
         }
-        if (primeiraLinha[0].equals(KnapSack.ProblemName) && VerificaParametros.VerInt(primeiraLinha)) {
+        if (primeiraLinha[0].equals(KnapSack.ProblemName) && Problem.VerInt(primeiraLinha)) {
             System.out.println("##### New KnapSack Problem #####");
             //Problema do tipo OnesMax
             KnapSack knapSack = new KnapSack(linhas);
