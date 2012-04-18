@@ -3,6 +3,7 @@ package Module.DataBase;
 import Module.AbstractAplication;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -43,6 +44,9 @@ public class Database extends AbstractAplication {
      * @param password Password do utilizador do servidor de MySQL
      * @param address  Endereço publico do servidor de MySQL
      */
+    
+    public Database(){}
+    
     public Database(String user, String password, String address){
         //Invocar o constutor da classe abstracta
         super("Database Module");
@@ -75,6 +79,20 @@ public class Database extends AbstractAplication {
             Command = Connection.createStatement();
     }
     
+    
+   
+    public int ExecuteCountQuery(String cmd) throws SQLException{
+        int count = 0;
+        if(this.AplicationStatus){
+            ResultSet rs = this.Command.executeQuery(cmd);
+            rs.last();
+            count = rs.getRow();
+        }
+        return count;
+    }
+    
+
+   
     /**
      * Método para executar uma query sem retorno no servidor MySQL
      * @param cmd Comando a ser executado no MySQL

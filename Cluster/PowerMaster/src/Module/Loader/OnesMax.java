@@ -70,7 +70,7 @@ public class OnesMax extends Problem {
             String[] param = parmsData[i].split("=");
             //Verificação de parametros
             //parametro 1
-            Boolean verInt=VerificaParametros.VerInt(param);
+            Boolean verInt=Problem.VerInt(param);
             
            if(verInt){
             if (param[0].equals(OnesMax.PARAM_ITERATIONS) && !this.containsParam(OnesMax.PARAM_ITERATIONS)) {
@@ -109,7 +109,9 @@ public class OnesMax extends Problem {
                 System.out.println(OnesMax.PARAM_ALELLO_SIZE+"+:"+this.bestFitness);
                 continue;
             }
-          }
+          }else{
+               return false;
+           }
         }
        
         //Verificar se todos os parametros foram carregados
@@ -135,7 +137,7 @@ public class OnesMax extends Problem {
      */
     @Override
     public Solver getNewSolver() {
-        return new Solver(popSize, alelloSize, new genetics.OnesMax(), Iterations, bestFitness, new GeneticEvents(PowerMaster.INTERVAL_PART));
+        return new Solver(popSize, alelloSize, new genetics.OnesMax(), Iterations, bestFitness, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
     }
 
     public boolean getStatus() {
