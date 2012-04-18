@@ -102,9 +102,9 @@ public class Operations {
     
     //PARA TESTE
     public static void main(String[] args) {
-        boolean InserirIteracoes = InserirIteracoes("u","2","3","4","5","6","7","8","9","10");
+        //boolean InserirIteracoes = InserirIteracoes("u","2","3","4","5","6","7","8","9","10");
         //boolean InserirIteracoes = InserirResult("1","2","3","4","5","6","7");
-        System.out.println(InserirIteracoes);
+        //System.out.println(InserirIteracoes);
     }
   
     
