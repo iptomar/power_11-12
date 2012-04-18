@@ -63,6 +63,15 @@ public abstract class Problem {
             this.ACTUAL_NUM_PARAMS++;
         }
     }
+    
+    /**
+     * Método que verifica se existe um parametro na estrutura
+     * @param param Chave que identifica o parametro a ser verificado
+     * @return True - Existe / False - Não existe
+     */
+    public boolean containsParam(String param){
+        return this.Parms.containsKey(param);
+    }
 
     /**
      * Método que retorna o número de parametros adicionados ao problema
