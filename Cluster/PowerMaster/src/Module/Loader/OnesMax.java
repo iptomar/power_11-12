@@ -136,7 +136,7 @@ public class OnesMax extends Problem {
      */
     @Override
     public Solver getNewSolver() {
-        return new Solver(popSize, alelloSize, new genetics.OnesMax(), Iterations, bestFitness, new GeneticEvents(PowerMaster.INTERVAL_PART));
+        return new Solver(popSize, alelloSize, new genetics.OnesMax(), Iterations, bestFitness, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
     }
 
     public boolean getStatus() {

@@ -5,7 +5,10 @@
 package powermaster;
 
 import Module.Aplication;
+import Module.DataBase.Database;
+import Module.DataBase.Operations;
 import genetics.Population;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONException;
@@ -19,10 +22,14 @@ public class GeneticEvents implements EventsSolver {
 
     int Interval = 100;
     int nextInterval;
-
-    public GeneticEvents(int interval) {
+    int idClient;
+    int idProblem;
+   
+    public GeneticEvents(int interval,int idClient, int idProblem) {
         this.Interval = interval;
         this.nextInterval = Interval;
+        this.idClient = idClient;
+        this.idProblem = idProblem;
     }
 
     /*@Override
@@ -41,6 +48,21 @@ public class GeneticEvents implements EventsSolver {
             if (i == nextInterval) {
                 int best = pltn.getBestFitness();
                 Aplication.nodeJS.Emit("event", "" + i, "" + pltn.getBestFitness());
+                
+               
+                // Testes
+                try {
+
+                 Operations op = new Operations();
+                 op
+                
+                    //db.ExecuteNonQuery("INSERT INTO teste VALUES ("+ i + ","+ best +")");
+                } catch (Exception e) {
+
+                   
+                }
+                
+                
                 System.out.println(i + "-" + best);
                 nextInterval += Interval;
             }
