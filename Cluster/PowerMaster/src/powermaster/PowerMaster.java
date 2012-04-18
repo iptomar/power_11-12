@@ -54,17 +54,19 @@ public class PowerMaster {
 
         
         //Exemplo de um loader para OnesMax
-        /*Problem p = null;
+        Problem p = null;
         try {
 
 
-            String resultado = WebFileDownloader.Download(new URL("File:C:\\Users\\Bruno\\Desktop\\load2.txt"));
+            //String resultado = WebFileDownloader.Download(new URL("File:C:\\Users\\Bruno\\Desktop\\load2.txt"));
+                        String resultado = WebFileDownloader.Download(new URL("http://code.dei.estt.ipt.pt:81/loader/load4.txt"));
+
             p = Loader.Load(resultado);
         } catch (IOException ex) {
             Logger.getLogger(PowerMaster.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        System.out.println(p.getParms(OnesMax.PARAM_ITERATIONS));
-        Solver s = p.getNewSolver();*/
+//        System.out.println(p.getParms(OnesMax.PARAM_ITERATIONS));
+//        Solver s = p.getNewSolver();
     }
 }
