@@ -51,10 +51,14 @@ public class GeneticEvents implements EventsSolver {
                
                 // Testes
                 try {
+
                   Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD","code.dei.estt.ipt.pt");
                     db.ExecuteInsertIteration(Thread.currentThread().getName().toString(), i, idClient, idProblem, pltn.getBestFitness(), 0, 0, "", 0, 0);
-                } catch (Exception ex) {
-                    Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+                
+                    //db.ExecuteNonQuery("INSERT INTO teste VALUES ("+ i + ","+ best +")");
+                } catch (Exception e) {
+
+                   
                 }
                 
                 

@@ -88,6 +88,7 @@ public class Database extends AbstractAplication {
         return count;
     }
     
+
     
     public boolean ExecuteInsertIteration(String ThreadID, int itera, int idClient, int idProblem, double best, double average, int numBest, String attributes, double deviation, int type) throws SQLException{
         if(this.AplicationStatus){
@@ -95,6 +96,7 @@ public class Database extends AbstractAplication {
         }
         return false;
     }
+
     /**
      * Método para executar uma query sem retorno no servidor MySQL
      * @param cmd Comando a ser executado no MySQL
