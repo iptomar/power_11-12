@@ -7,6 +7,9 @@ package powermaster;
 
 import genetics.OnesMax;
 import genetics.Solver;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import utils.exceptions.SolverException;
 
 /**
  *
@@ -31,7 +34,11 @@ public class SolverThread extends Thread{
     public void run(){
             //Solver __newSolver = new Solver(1000, 100, new OnesMax(), 100000, 99, new GeneticEvents(PowerMaster.INTERVAL_PART));
             Solver __newSolver = new Solver(pop, alello, new OnesMax(), itera, best, new GeneticEvents(PowerMaster.INTERVAL_PART));
-            __newSolver.run();
+            try {
+                __newSolver.run();
+            } catch (SolverException ex) {
+                System.out.println("Solver Exception");
+            }
          
     }
 }
