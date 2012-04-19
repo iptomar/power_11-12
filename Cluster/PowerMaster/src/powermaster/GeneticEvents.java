@@ -83,22 +83,22 @@ public class GeneticEvents implements EventsSolver {
 
     @Override
     public void EventStartSolver() {
-        try {
+        //try {
             System.out.println("Sovler - START");
-            Aplication.nodeJS.Emit("startrun", "1", "[[");
-        } catch (Exception ex) {
+            //Aplication.nodeJS.Emit("startrun", "1", "[[");
+        //} catch (Exception ex) {
             //Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //}
     }
 
     @Override
     public void EventIteraction(int i, Population pltn) {
-        System.out.println("Iteration:"+i);
+        System.out.println("Genetic Event Iteration:"+i+"\n");
     }
 
     @Override
     public void EventFinishSolver(int i, Population pltn) {
+        System.out.println("Genetic Event Iteration:"+i+"\n");
         System.out.println("Sovler - END");
-        System.out.println("Iteration:"+i);
     }
 }

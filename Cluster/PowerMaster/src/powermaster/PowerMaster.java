@@ -55,7 +55,7 @@ public class PowerMaster {
         // Desligar o debug do sockets em IOConnection
         //IOConnection.loggerDebug = false;
 
-        
+
         //Exemplo de um loader para OnesMax
         Problem p = null;
         try {
@@ -65,30 +65,37 @@ public class PowerMaster {
             Logger.getLogger(PowerMaster.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        Solver s = p.getNewSolver();
+        
         try {
-            s.run();
-        } catch (SolverException ex) {
-            Logger.getLogger(PowerMaster.class.getName()).log(Level.SEVERE, null, ex);
-        }            
-            
-            
-            
-            
-    //        System.out.println(p.getParms(OnesMax.PARAM_ITERATIONS));
-    //        
-    //        //Solver s = p.getNewSolver();
-    //        
-    //        arrayThread = new SolverThread[NUM_THREADS];
-    //        AtomicInteger numThreads = new AtomicInteger(NUM_THREADS);
-    //        
-    //        for (int i = 0; i < arrayThread.length; i++) {
-    //            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
-    //            arrayThread[i].start();
-    //        }
-    //        
-    //        async.start();
-    //        async.start();
+            Object s = p.getNewSolver();
+            if(s==null){
+                    KnapSack problem = (KnapSack)p;
+                    SolverKnapSack exe = problem.getNewKnapSolver();
+                    exe.run();
+            }else{
+                Solver exe = p.getNewSolver();
+                exe.run();
+            }
+        } catch (Exception e) {
+
+        }
+
+
+
+        //        System.out.println(p.getParms(OnesMax.PARAM_ITERATIONS));
+        //        
+        //        //Solver s = p.getNewSolver();
+        //        
+        //        arrayThread = new SolverThread[NUM_THREADS];
+        //        AtomicInteger numThreads = new AtomicInteger(NUM_THREADS);
+        //        
+        //        for (int i = 0; i < arrayThread.length; i++) {
+        //            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
+        //            arrayThread[i].start();
+        //        }
+        //        
+        //        async.start();
+        //        async.start();
 
     }
 }

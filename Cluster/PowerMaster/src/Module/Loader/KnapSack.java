@@ -11,7 +11,6 @@ import powermaster.GeneticEvents;
 import powermaster.PowerMaster;
 import utils.Item;
 import utils.Mochila;
-
 /**
  *
  * @author Bruno Oliveira nº 11127 IPT-ESTT
@@ -104,7 +103,7 @@ public class KnapSack extends Problem {
                 this.addParam(KnapSack.PARAM_ITERATIONS, this.Iterations);
                 //registar parametros obrigatório
                 this.PARAM_ADDED++;
-                System.out.println(KnapSack.PARAM_ITERATIONS + "+:" + this.PARAM_ITERATIONS);
+                System.out.println(KnapSack.PARAM_ITERATIONS + "+:" + this.Iterations);
                 continue;
             }
             //parametro 2
@@ -178,14 +177,14 @@ public class KnapSack extends Problem {
                     //Ler o novo item
                     String[] item = this.data[line].split(";");
                     //adicionar o novo item
-                    int a =Integer.parseInt(item[0]);
-                    int b = Integer.parseInt(item[1]);
-                    System.out.println(a + "-" +b );
-                    values.add(new Item(a, b,this.penalty));
+                    int peso =Integer.parseInt(item[0]);
+                    int valor = Integer.parseInt(item[1]);
+                    System.out.println(peso+ "-" +valor);
+                    values.add(new Item(peso, valor,this.penalty));
                     //passar para a proxima linha
                     line++;
                 }
-                mochila = new Mochila(this.maxWeight, values, false);
+                mochila = new Mochila(this.maxWeight, values, this.penalty);
                 System.out.println("------DataEnd------");
                 return true;
             }
@@ -201,12 +200,13 @@ public class KnapSack extends Problem {
     @Override
     public Solver getNewSolver() {
         //return new SolverKnapSack(popSize, new genetics.KnapSack(mochila), Iterations, bestFitness,mochila, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
-        return new Solver(popSize, 100, new genetics.KnapSack(mochila), Iterations, bestFitness, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
-        //return null;
+        //return new Solver(popSize, 100, new genetics.KnapSack(mochila), Iterations, bestFitness, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
+        return null;
     }
 
     public SolverKnapSack getNewKnapSolver() {
-        return new SolverKnapSack(popSize, new genetics.KnapSack(mochila), Iterations, bestFitness,mochila, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
+        //return new SolverKnapSack(popSize, new genetics.KnapSack(), Iterations, bestFitness,mochila, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
+        return new SolverKnapSack(mochila, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
     }
 
     public boolean getStatus() {

@@ -78,7 +78,7 @@ public class OnesMax extends Problem {
                 this.addParam(OnesMax.PARAM_ITERATIONS, this.Iterations);
                 //registar parametros obrigatório
                 this.PARAM_ADDED++;
-                System.out.println(OnesMax.PARAM_ITERATIONS+"+:"+this.PARAM_ITERATIONS);
+                System.out.println(OnesMax.PARAM_ITERATIONS+"+:"+this.Iterations);
                 continue;
             }
             //parametro 2
