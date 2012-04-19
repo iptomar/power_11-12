@@ -19,7 +19,8 @@ public abstract class Problem {
      */
     private final int NUM_PARAMS;
     /**
-     * Variável que indica o número de parametros existentes actualmente no problema
+     * Variável que indica o número de parametros existentes actualmente no
+     * problema
      */
     private int ACTUAL_NUM_PARAMS;
     /**
@@ -48,12 +49,14 @@ public abstract class Problem {
 
     /**
      * Método que permite obter uma nova instacia do objecto solver
-     * @return 
+     *
+     * @return
      */
     public abstract Solver getNewSolver();
 
     /**
      * Método para adicionar parametros ao objecto Problem
+     *
      * @param param Identificado do parametro (String)
      * @param data Data do parametro (Objecto)
      */
@@ -65,8 +68,19 @@ public abstract class Problem {
     }
 
     /**
+     * Método que verifica se existe um parametro na estrutura
+     *
+     * @param param Chave que identifica o parametro a ser verificado
+     * @return True - Existe / False - Não existe
+     */
+    public boolean containsParam(String param) {
+        return this.Parms.containsKey(param);
+    }
+
+    /**
      * Método que retorna o número de parametros adicionados ao problema
-     * @return 
+     *
+     * @return
      */
     public int get_ACTUAL_NUM_PARAMS() {
         return ACTUAL_NUM_PARAMS;
@@ -74,11 +88,29 @@ public abstract class Problem {
 
     /**
      * Método que permite procurar um parametro por a sua chave
+     *
      * @param key Chave de pesquisa
-     * @return Retorno do obejcto encontrado, caso não seja encontrado este método retorna null
+     * @return Retorno do obejcto encontrado, caso não seja encontrado este
+     * método retorna null
      */
     public Object getParms(String key) {
         return Parms.get(key);
+    }
+
+    public static Boolean VerInt(String[] linha) {
+        Boolean res = false;
+        for (int i = 1; i < linha.length; i++) {
+            try {
+                Integer.parseInt(linha[i]);
+            } catch (Exception e) {
+                System.out.println("Caracter encontrado: " + linha[i] + " erro: " + e);
+                res = false;
+                return res;
+            }
+            res = true;
+        }
+
+        return res;
     }
 
     public int getProblemID() {

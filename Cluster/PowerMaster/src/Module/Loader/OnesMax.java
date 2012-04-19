@@ -38,7 +38,9 @@ public class OnesMax extends Problem {
     /**
      * Número de parametros que são necessário para que o problema OneMax seja corrido
      */
-    private static int PARAM_COUNT = 4;
+    private static int PARAM_REQUIRED = 4;//Número de parametros obrigatórios
+    private int PARAM_ADDED = 0;//Número de parametros adicionados obrigatórios
+    private static int PARAM_COUNT = 4;//Número de parametros existentes no problema
     /**
      * Referência para todas as linhas existentes no documento
      */
@@ -53,7 +55,7 @@ public class OnesMax extends Problem {
      * @param data Informação do problema a ser carregado
      */
     public OnesMax(String data[]) {
-        super(OnesMax.ProblemName, PARAM_COUNT);
+        super(OnesMax.ProblemName, PARAM_REQUIRED);
         this.data = data;
         this.loadStatus = Load();
     }
@@ -67,35 +69,56 @@ public class OnesMax extends Problem {
             String[] param = parmsData[i].split("=");
             //Verificação de parametros
             //parametro 1
-            if (param[0].equals(OnesMax.PARAM_ITERATIONS)) {
+            Boolean verInt=Problem.VerInt(param);
+            
+           if(verInt){
+            if (param[0].equals(OnesMax.PARAM_ITERATIONS) && !this.containsParam(OnesMax.PARAM_ITERATIONS)) {
                 //carregar o parametro para um dicionario de parametros
                 this.Iterations = Integer.parseInt(param[1]);
                 this.addParam(OnesMax.PARAM_ITERATIONS, this.Iterations);
+                //registar parametros obrigatório
+                this.PARAM_ADDED++;
+                System.out.println(OnesMax.PARAM_ITERATIONS+"+:"+this.PARAM_ITERATIONS);
                 continue;
             }
             //parametro 2
-            if (param[0].equals(OnesMax.PARAM_POPULATION_SIZE)) {
+            if (param[0].equals(OnesMax.PARAM_POPULATION_SIZE) && !this.containsParam(OnesMax.PARAM_POPULATION_SIZE)) {
                 this.popSize = Integer.parseInt(param[1]);
                 this.addParam(OnesMax.PARAM_POPULATION_SIZE, this.popSize);
+                //registar parametros obrigatório
+                this.PARAM_ADDED++;               
+                System.out.println(OnesMax.PARAM_POPULATION_SIZE+"+:"+this.popSize);
                 continue;
             }
             //parametro 3
-            if (param[0].equals(OnesMax.PARAM_ALELLO_SIZE)) {
+            if (param[0].equals(OnesMax.PARAM_ALELLO_SIZE) && !this.containsParam(OnesMax.PARAM_ALELLO_SIZE)) {
                 this.alelloSize = Integer.parseInt(param[1]);
                 this.addParam(OnesMax.PARAM_ALELLO_SIZE, this.alelloSize);
+                //registar parametros obrigatório
+                this.PARAM_ADDED++;              
+                System.out.println(OnesMax.PARAM_ALELLO_SIZE+"+:"+this.alelloSize);
                 continue;
             }
             //parametro 4
-            if (param[0].equals(OnesMax.PARAM_BEST_FITNESS)) {
+            if (param[0].equals(OnesMax.PARAM_BEST_FITNESS) && !this.containsParam(OnesMax.PARAM_BEST_FITNESS)) {
                 this.bestFitness = Integer.parseInt(param[1]);
                 this.addParam(OnesMax.PARAM_BEST_FITNESS, this.bestFitness);
+                //registar parametros obrigatório
+                this.PARAM_ADDED++;     
+                System.out.println(OnesMax.PARAM_ALELLO_SIZE+"+:"+this.bestFitness);
                 continue;
             }
+          }else{
+               return false;
+           }
         }
+       
         //Verificar se todos os parametros foram carregados
-        if (this.get_ACTUAL_NUM_PARAMS() == OnesMax.PARAM_COUNT) {
+        if (this.PARAM_ADDED == OnesMax.PARAM_REQUIRED) {
             //Ler dados (restantes Linhas)
             //Neste caso não existe a necessidade de carregar parametros
+            
+            System.out.println("#### NO DATA ####");
             
             //Ler linha 2 para ver se começa com <DATASTART>
             //LER TODOS os valores por LINHA (com um while)
@@ -113,7 +136,7 @@ public class OnesMax extends Problem {
      */
     @Override
     public Solver getNewSolver() {
-        return new Solver(popSize, alelloSize, new genetics.OnesMax(), Iterations, bestFitness, new GeneticEvents(PowerMaster.INTERVAL_PART));
+        return new Solver(popSize, alelloSize, new genetics.OnesMax(), Iterations, bestFitness, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
     }
 
     public boolean getStatus() {

@@ -59,9 +59,9 @@ public class Aplication {
          // --------------------------------------------------        
         
         System.out.println("Databse Module - Offline");
-        /*System.out.println("Start Database Connection...");
-        db = new Database("root", "iptpsi2012ipt", "127.0.0.1");
-        //db = new Database("optima", "optimapsi", "192.168.10.251");
+        System.out.println("Start Database Connection...");
+        db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt");
+
         if (db.getAplicationStatus()) {
             System.out.println(db.AplicationName+" - OK");
             AplicationStatus.put(db.AplicationName, true);
@@ -69,7 +69,7 @@ public class Aplication {
             db = null;
             System.out.println(db.AplicationName+" - Not OK!!!");
             return false;
-        }*/
+        }
          // --------------------------------------------------
 
          // --------------------------------------------------

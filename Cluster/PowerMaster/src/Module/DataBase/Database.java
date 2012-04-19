@@ -3,6 +3,7 @@ package Module.DataBase;
 import Module.AbstractAplication;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -43,6 +44,9 @@ public class Database extends AbstractAplication {
      * @param password Password do utilizador do servidor de MySQL
      * @param address  Endereço publico do servidor de MySQL
      */
+    
+    public Database(){}
+    
     public Database(String user, String password, String address){
         //Invocar o constutor da classe abstracta
         super("Database Module");
@@ -75,6 +79,29 @@ public class Database extends AbstractAplication {
             Command = Connection.createStatement();
     }
     
+    
+    public int ExecuteCountQuery(int period, int idClient, int idProblem) throws SQLException{
+        int count = 0;
+        if(this.AplicationStatus){
+            ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='"+ period +"' AND idClient='"+idClient + "' AND idProblem='"+ idProblem + "';");
+            rs.last();
+            count = rs.getRow();
+        }
+        return count;
+    }
+    
+    public boolean ExecuteMedia(int period, int idClient, int idProblem) throws SQLException{
+        boolean erro = false;
+        if(this.AplicationStatus){
+            ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, AVG(numBest) AS numBest FROM tblIterations WHERE itera='"+ period +"' AND idClient='"+idClient + "' AND idProblem='"+ idProblem + "';");
+            rs.first();
+            
+            
+            erro = this.ExecuteNonQuery("INSERT INTO tblResult VALUES "+period+","+idClient+","+idProblem+","+rs.getString("mediaAverage")+","+rs.getString("deviation")+","+rs.getString("best")+","+rs.getString("numBest")+"");
+        }
+        return erro;
+    }
+   
     /**
      * Método para executar uma query sem retorno no servidor MySQL
      * @param cmd Comando a ser executado no MySQL
