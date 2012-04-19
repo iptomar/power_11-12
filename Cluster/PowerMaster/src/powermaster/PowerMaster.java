@@ -9,14 +9,15 @@ import Module.Loader.KnapSack;
 import Module.Loader.Loader;
 import Module.Loader.Problem;
 import Module.WebHTTP.WebFileDownloader;
+import NodeJS.Statistics.AsyncStats;
 import genetics.Solver;
 import genetics.SolverKnapSack;
 import io.socket.IOConnection;
 import java.io.IOException;
 import java.net.URL;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.exceptions.SolverException;
 
 /**
  *
@@ -65,37 +66,30 @@ public class PowerMaster {
             Logger.getLogger(PowerMaster.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
+
         try {
             Object s = p.getNewSolver();
-            if(s==null){
-                    KnapSack problem = (KnapSack)p;
-                    SolverKnapSack exe = problem.getNewKnapSolver();
-                    exe.run();
-            }else{
+            if (s == null) {
+                KnapSack problem = (KnapSack) p;
+                SolverKnapSack exe = problem.getNewKnapSolver();
+                exe.run();
+            } else {
                 Solver exe = p.getNewSolver();
                 exe.run();
             }
         } catch (Exception e) {
-
         }
 
-
-
-        //        System.out.println(p.getParms(OnesMax.PARAM_ITERATIONS));
-        //        
-        //        //Solver s = p.getNewSolver();
-        //        
-        //        arrayThread = new SolverThread[NUM_THREADS];
-        //        AtomicInteger numThreads = new AtomicInteger(NUM_THREADS);
-        //        
-        //        for (int i = 0; i < arrayThread.length; i++) {
-        //            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
-        //            arrayThread[i].start();
-        //        }
-        //        
-        //        async.start();
-        //        async.start();
+//        arrayThread = new SolverThread[NUM_THREADS];
+//        AtomicInteger numThreads = new AtomicInteger(NUM_THREADS);
+//        
+//        for (int i = 0; i < arrayThread.length; i++) {
+//            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
+//            arrayThread[i].start();
+//        }
+//        
+//        AsyncStats async = new AsyncStats(numThreads,INTERVAL_PART,p.getClientID(),p.getProblemID());
+//        async.start();
 
     }
 }

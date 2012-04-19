@@ -4,11 +4,8 @@
  */
 package powermaster;
 
-import Module.Aplication;
+import Module.DataBase.Operations;
 import genetics.Population;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.JSONException;
 import utils.EventsSolver;
 
 /**
@@ -93,7 +90,10 @@ public class GeneticEvents implements EventsSolver {
 
     @Override
     public void EventIteraction(int i, Population pltn) {
-        System.out.println("Genetic Event Iteration:"+i+"\n");
+        Operations op = new Operations();
+        
+        op.InserirIteracoes(Thread.currentThread().getName().toString(),i,this.idClient, this.idProblem, pltn.getBestFiteness(),pltn.getMediaFitness(),pltn.getNumBestFitness(),pltn.getBestIndString(),pltn.getDesvioPadrao(),1);
+       
     }
 
     @Override
