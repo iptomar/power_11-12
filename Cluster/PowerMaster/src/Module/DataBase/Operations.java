@@ -11,22 +11,15 @@ package Module.DataBase;
 public class Operations {
 
     public Operations(){}
+
     
-    
-    public boolean InserirIteracoes(String threadId,String itera,String idClient,String idProblem,String best,String average,String numBest,String attributes,String deviation,String type){
+    public boolean InserirIteracoes(String threadId,int itera,int idClient,int idProblem,double best,double average,int numBest,String attributes,double deviation,int type){
         boolean inserir =false;
         try {
-            String[] parametros = new String[10];
+            String[] parametros = new String[2];
             parametros[0] = threadId;
-            parametros[1] = itera;
-            parametros[2] = idClient;
-            parametros[3] = idProblem;
-            parametros[4] = best;
-            parametros[5] = average;
-            parametros[6] = numBest;
-            parametros[7] = attributes;
-            parametros[8] = deviation;
-            parametros[9] = type;
+            parametros[1] = attributes;
+  
             //VERIFICA SE OS PARAMETROS SAO INTEIROS
             if(VerInt(parametros)){
                 
@@ -47,20 +40,12 @@ public class Operations {
         }
         return inserir;
     }
-    
-    public boolean InserirResult(String itera,String idClient,String idProblem,String globalAverage,String globalDeviation,String globalBest,String globalNumBest){
+
+    public boolean InserirResult(int itera,int idClient,int idProblem,double globalAverage,double globalDeviation,double globalBest,int globalNumBest){
         boolean inserir =false;
         try {
-            String[] parametros = new String[7];
-            parametros[0] = itera;
-            parametros[1] = idClient;
-            parametros[2] = idProblem;
-            parametros[3] = globalAverage;
-            parametros[4] = globalDeviation;
-            parametros[5] = globalBest;
-            parametros[6] = globalNumBest;
              //VERIFICA SE OS PARAMETROS SAO INTEIROS
-            if(VerInt(parametros)){
+     
                 Database bd = new Database();
                 //INSERE NA BD E SE NAO INSERIR DA FALSE
                 if(bd.ExecuteNonQuery("INSERT INTO tblResult VALUES "+itera+","+idClient+","+idProblem+","+globalAverage+","+globalDeviation+","+globalBest+","+globalNumBest+"")){
@@ -69,11 +54,7 @@ public class Operations {
                     System.out.println("ERRO A INSERIR NA BD");
                     inserir=false;
                 }
-            
-           
-            }else{
-                return false;
-            }
+
         } catch (Exception e) {
             System.out.println("ERRO: "+ e);
             inserir=false;
@@ -99,6 +80,7 @@ public class Operations {
         }
         return res;
     }
+
     
     
   

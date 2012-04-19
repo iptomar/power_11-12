@@ -96,11 +96,14 @@ public class GeneticEvents implements EventsSolver {
 
     @Override
     public void EventIteraction(int i, Population pltn) {
+        Operations op = new Operations();
         
+        op.InserirIteracoes(Thread.currentThread().getName().toString(),i,this.idClient, this.idProblem, pltn.getBestFiteness(),pltn.getMediaFitness(),pltn.getNumBestFitness(),pltn.getBestIndString(),pltn.getDesvioPadrao(),1);
+       
     }
 
     @Override
     public void EventFinishSolver(int i, Population pltn) {
-        ;
+        
     }
 }

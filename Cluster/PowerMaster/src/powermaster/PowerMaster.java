@@ -77,7 +77,7 @@ public class PowerMaster {
             arrayThread[i].start();
         }
         
-        AsyncStats async = new AsyncStats(numThreads,100);
+        AsyncStats async = new AsyncStats(numThreads,INTERVAL_PART,p.getClientID(),p.getProblemID());
         async.start();
     }
 }
