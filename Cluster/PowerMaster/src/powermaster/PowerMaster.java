@@ -5,18 +5,18 @@
 package powermaster;
 
 import Module.Aplication;
+import Module.Loader.KnapSack;
 import Module.Loader.Loader;
-import Module.Loader.OnesMax;
 import Module.Loader.Problem;
 import Module.WebHTTP.WebFileDownloader;
-import NodeJS.Statistics.AsyncStats;
 import genetics.Solver;
+import genetics.SolverKnapSack;
 import io.socket.IOConnection;
 import java.io.IOException;
 import java.net.URL;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.exceptions.SolverException;
 
 /**
  *
@@ -33,7 +33,7 @@ public class PowerMaster {
      */
     public static void main(String[] args) {
         //Inicialização de todos os módulos do PowerMaster
-        Aplication app = new Aplication();
+        //Aplication app = new Aplication();
 
         try {
             if (args[0].equals("false")) {
@@ -59,25 +59,36 @@ public class PowerMaster {
         //Exemplo de um loader para OnesMax
         Problem p = null;
         try {
-            String resultado = WebFileDownloader.Download(new URL("http://code.dei.estt.ipt.pt:81/loader/load1.txt"));
+            String resultado = WebFileDownloader.Download(new URL("http://code.dei.estt.ipt.pt:81/loader/load4.txt"));
             p = Loader.Load(resultado);
         } catch (IOException ex) {
             Logger.getLogger(PowerMaster.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        System.out.println(p.getParms(OnesMax.PARAM_ITERATIONS));
-        
-        //Solver s = p.getNewSolver();
-        
-        arrayThread = new SolverThread[NUM_THREADS];
-        AtomicInteger numThreads = new AtomicInteger(NUM_THREADS);
-        
-        for (int i = 0; i < arrayThread.length; i++) {
-            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
-            arrayThread[i].start();
-        }
-        
-        AsyncStats async = new AsyncStats(numThreads,100);
-        async.start();
+        Solver s = p.getNewSolver();
+        try {
+            s.run();
+        } catch (SolverException ex) {
+            Logger.getLogger(PowerMaster.class.getName()).log(Level.SEVERE, null, ex);
+        }            
+            
+            
+            
+            
+    //        System.out.println(p.getParms(OnesMax.PARAM_ITERATIONS));
+    //        
+    //        //Solver s = p.getNewSolver();
+    //        
+    //        arrayThread = new SolverThread[NUM_THREADS];
+    //        AtomicInteger numThreads = new AtomicInteger(NUM_THREADS);
+    //        
+    //        for (int i = 0; i < arrayThread.length; i++) {
+    //            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
+    //            arrayThread[i].start();
+    //        }
+    //        
+    //        async.start();
+    //        async.start();
+
     }
 }

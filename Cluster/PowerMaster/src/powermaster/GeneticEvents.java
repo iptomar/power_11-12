@@ -5,10 +5,7 @@
 package powermaster;
 
 import Module.Aplication;
-import Module.DataBase.Database;
-import Module.DataBase.Operations;
 import genetics.Population;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONException;
@@ -89,18 +86,19 @@ public class GeneticEvents implements EventsSolver {
         try {
             System.out.println("Sovler - START");
             Aplication.nodeJS.Emit("startrun", "1", "[[");
-        } catch (JSONException ex) {
-            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            //Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
     public void EventIteraction(int i, Population pltn) {
-        
+        System.out.println("Iteration:"+i);
     }
 
     @Override
     public void EventFinishSolver(int i, Population pltn) {
-        ;
+        System.out.println("Sovler - END");
+        System.out.println("Iteration:"+i);
     }
 }
