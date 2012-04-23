@@ -21,10 +21,10 @@ public class Loader {
         String[] primeiraLinha = linhas[0].split(";");
         //Verificação do tipo de problema (Linha 1)
        
-        if (primeiraLinha[0].equals(OnesMax.ProblemName) && Problem.VerInt(primeiraLinha)) {
+        if (primeiraLinha[0].equals(pOnesMax.ProblemName) && Problem.VerInt(primeiraLinha)) {
             System.out.println("##### New Ones Max Problem #####");
             //Problema do tipo OnesMax
-            OnesMax oneMax = new OnesMax(linhas);
+            pOnesMax oneMax = new pOnesMax(linhas);
             //Verificar se o objecto foi carregado com sucesso com a informação passada
             if(oneMax.getStatus()){
                 //Atribnuição de Identificadores globais
@@ -35,10 +35,10 @@ public class Loader {
             }
             System.out.println("##### OnesMax NOT LOADED #####");
         }
-        if (primeiraLinha[0].equals(KnapSack.ProblemName) && Problem.VerInt(primeiraLinha)) {
+        if (primeiraLinha[0].equals(pKnapSack.ProblemName) && Problem.VerInt(primeiraLinha)) {
             System.out.println("##### New KnapSack Problem #####");
             //Problema do tipo OnesMax
-            KnapSack knapSack = new KnapSack(linhas);
+            pKnapSack knapSack = new pKnapSack(linhas);
             //Verificar se o objecto foi carregado com sucesso com a informação passada
             if(knapSack.getStatus()){
                 //Atribnuição de Identificadores globais

@@ -5,7 +5,7 @@
 package powermaster;
 
 import Module.Aplication;
-import Module.Loader.KnapSack;
+import Module.Loader.pKnapSack;
 import Module.Loader.Loader;
 import Module.Loader.Problem;
 import Module.WebHTTP.WebFileDownloader;
