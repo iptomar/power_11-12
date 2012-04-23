@@ -5,12 +5,10 @@
 package powermaster;
 
 
-import genetics.OnesMax;
 import genetics.Solver;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.exceptions.SolverException;
 
 /**
  *
@@ -34,7 +32,7 @@ AtomicInteger numThreads;
             
             numThreads.getAndDecrement();
             System.out.println("Atomic numThreads: " + numThreads.toString());
-        } catch (SolverException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(SolverThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

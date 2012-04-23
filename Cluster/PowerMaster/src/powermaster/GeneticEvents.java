@@ -4,9 +4,14 @@
  */
 package powermaster;
 
+import Module.Aplication;
 import Module.DataBase.Operations;
 import genetics.Population;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONException;
 import utils.EventsSolver;
+import utils.PopulationUtils;
 
 /**
  *
@@ -28,27 +33,24 @@ public class GeneticEvents implements EventsSolver {
 
     /*@Override
     public void EventStartSolver() {
-        try {
+        //try {
             System.out.println("Sovler - START");
-            Aplication.nodeJS.Emit("startrun", "1", "[[");
-        } catch (JSONException ex) {
-            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            //Aplication.nodeJS.Emit("startrun", "1", "[[");
+        //} catch (JSONException ex) {
+            //Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+        //}
     }
 
     @Override
     public void EventIteraction(int i, Population pltn) {
-        try {
+        //try {
             if (i == nextInterval) {
                 int best = pltn.getBestFitness();
-                Aplication.nodeJS.Emit("event", "" + i, "" + pltn.getBestFitness());
+                //Aplication.nodeJS.Emit("event", "" + i, "" + pltn.getBestFitness());
                 
                
                 // Testes
                 try {
-
-                 Operations op = new Operations();
-                 op
                 
                     //db.ExecuteNonQuery("INSERT INTO teste VALUES ("+ i + ","+ best +")");
                 } catch (Exception e) {
@@ -60,22 +62,22 @@ public class GeneticEvents implements EventsSolver {
                 System.out.println(i + "-" + best);
                 nextInterval += Interval;
             }
-        } catch (JSONException ex) {
-            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //} catch (JSONException ex) {
+            //Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+        //}
     }
 
     @Override
     public void EventFinishSolver(Population pltn) {
-        try {
+        //try {
             int best = pltn.getBestFitness();
-            Aplication.nodeJS.Emit("event", "" + this.nextInterval, "" + pltn.getBestFitness());
+            //Aplication.nodeJS.Emit("event", "" + this.nextInterval, "" + pltn.getBestFitness());
             System.out.println(this.nextInterval + "-" + best);
-            Aplication.nodeJS.Emit("startrun", "1", "]]");
+            //Aplication.nodeJS.Emit("startrun", "1", "]]");
             System.out.println("Sovler - END");
-        } catch (JSONException ex) {
-            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //} catch (JSONException ex) {
+            //Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+        //}
     }*/
 
     @Override
@@ -90,9 +92,11 @@ public class GeneticEvents implements EventsSolver {
 
     @Override
     public void EventIteraction(int i, Population pltn) {
-        Operations op = new Operations();
+        PopulationUtils.getBestFitness(pltn);
+        PopulationUtils.getNumberIndividualsWithBestFitness(pltn);
+        PopulationUtils.getHallOfFame(pltn, 10);
         
-        op.InserirIteracoes(Thread.currentThread().getName().toString(),i,this.idClient, this.idProblem, pltn.getBestFiteness(),pltn.getMediaFitness(),pltn.getNumBestFitness(),pltn.getBestIndString(),pltn.getDesvioPadrao(),1);
+        //op.InserirIteracoes(Thread.currentThread().getName().toString(),i,this.idClient, this.idProblem, pltn.getBestFiteness(),pltn.getMediaFitness(),pltn.getNumBestFitness(),pltn.getBestIndString(),pltn.getDesvioPadrao(),1);
        
     }
 

@@ -9,13 +9,10 @@ import Module.Loader.KnapSack;
 import Module.Loader.Loader;
 import Module.Loader.Problem;
 import Module.WebHTTP.WebFileDownloader;
-import NodeJS.Statistics.AsyncStats;
 import genetics.Solver;
-import genetics.SolverKnapSack;
 import io.socket.IOConnection;
 import java.io.IOException;
 import java.net.URL;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,7 +57,7 @@ public class PowerMaster {
         //Exemplo de um loader para OnesMax
         Problem p = null;
         try {
-            String resultado = WebFileDownloader.Download(new URL("http://code.dei.estt.ipt.pt:81/loader/load4.txt"));
+            String resultado = WebFileDownloader.Download(new URL("http://code.dei.estt.ipt.pt:81/loader/load1.txt"));
             p = Loader.Load(resultado);
         } catch (IOException ex) {
             Logger.getLogger(PowerMaster.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,16 +65,10 @@ public class PowerMaster {
 
 
         try {
-            Object s = p.getNewSolver();
-            if (s == null) {
-                KnapSack problem = (KnapSack) p;
-                SolverKnapSack exe = problem.getNewKnapSolver();
-                exe.run();
-            } else {
-                Solver exe = p.getNewSolver();
-                exe.run();
-            }
+            Solver exe = p.getNewSolver();
+            exe.run();
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
 //        arrayThread = new SolverThread[NUM_THREADS];

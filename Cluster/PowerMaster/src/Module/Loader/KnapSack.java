@@ -5,12 +5,8 @@
 package Module.Loader;
 
 import genetics.Solver;
-import genetics.SolverKnapSack;
 import java.util.ArrayList;
 import powermaster.GeneticEvents;
-import powermaster.PowerMaster;
-import utils.Item;
-import utils.Mochila;
 /**
  *
  * @author Bruno Oliveira nº 11127 IPT-ESTT
@@ -75,7 +71,7 @@ public class KnapSack extends Problem {
     /**
      * Estrutura de dados do problema
      */
-    private Mochila mochila;
+    //private Mochila mochila;
 
     /**
      * Construtor do problema OnesMax
@@ -170,7 +166,7 @@ public class KnapSack extends Problem {
             if (this.data[2].equals("<DataStart>")) {
 
                 int line = 3;
-                ArrayList<Item> values = new ArrayList<Item>();
+                //ArrayList<Item> values = new ArrayList<Item>();
                 System.out.println("-----DataStart-----");
                 //Enquanto for diferente que a tag de terminação de ficheiro vai adicionado
                 while (!this.data[line].trim().equals("<DataEnd>")) {
@@ -180,11 +176,11 @@ public class KnapSack extends Problem {
                     int peso =Integer.parseInt(item[0]);
                     int valor = Integer.parseInt(item[1]);
                     System.out.println(peso+ "-" +valor);
-                    values.add(new Item(peso, valor,this.penalty));
+                    //values.add(new Item(peso, valor,this.penalty));
                     //passar para a proxima linha
                     line++;
                 }
-                mochila = new Mochila(this.maxWeight, values, this.penalty);
+                //mochila = new Mochila(this.maxWeight, values, this.penalty);
                 System.out.println("------DataEnd------");
                 return true;
             }
@@ -202,11 +198,6 @@ public class KnapSack extends Problem {
         //return new SolverKnapSack(popSize, new genetics.KnapSack(mochila), Iterations, bestFitness,mochila, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
         //return new Solver(popSize, 100, new genetics.KnapSack(mochila), Iterations, bestFitness, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
         return null;
-    }
-
-    public SolverKnapSack getNewKnapSolver() {
-        //return new SolverKnapSack(popSize, new genetics.KnapSack(), Iterations, bestFitness,mochila, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
-        return new SolverKnapSack(mochila, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
     }
 
     public boolean getStatus() {
