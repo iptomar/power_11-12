@@ -95,8 +95,7 @@ public class Database extends AbstractAplication {
         if(this.AplicationStatus){
             ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, AVG(numBest) AS numBest FROM tblIterations WHERE itera='"+ period +"' AND idClient='"+idClient + "' AND idProblem='"+ idProblem + "';");
             rs.first();
-            
-            
+           
             erro = this.ExecuteNonQuery("INSERT INTO tblResult VALUES "+period+","+idClient+","+idProblem+","+rs.getString("mediaAverage")+","+rs.getString("deviation")+","+rs.getString("best")+","+rs.getString("numBest")+"");
         }
         return erro;
