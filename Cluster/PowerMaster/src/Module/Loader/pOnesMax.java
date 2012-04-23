@@ -23,7 +23,7 @@ import utils.exceptions.SonsInicialitazionException;
  *
  * @author Bruno Oliveira nº 11127 IPT-ESTT
  */
-public class OnesMax extends Problem {
+public class pOnesMax extends Problem {
 
     public static final String ProblemName = "OneMax";
     /**
@@ -65,8 +65,8 @@ public class OnesMax extends Problem {
      * Construtor do problema OnesMax
      * @param data Informação do problema a ser carregado
      */
-    public OnesMax(String data[]) {
-        super(OnesMax.ProblemName, PARAM_REQUIRED);
+    public pOnesMax(String data[]) {
+        super(pOnesMax.ProblemName, PARAM_REQUIRED);
         this.data = data;
         this.loadStatus = Load();
     }
@@ -83,40 +83,40 @@ public class OnesMax extends Problem {
             Boolean verInt = Problem.VerInt(param);
 
             if (verInt) {
-                if (param[0].equals(OnesMax.PARAM_ITERATIONS) && !this.containsParam(OnesMax.PARAM_ITERATIONS)) {
+                if (param[0].equals(pOnesMax.PARAM_ITERATIONS) && !this.containsParam(pOnesMax.PARAM_ITERATIONS)) {
                     //carregar o parametro para um dicionario de parametros
                     this.Iterations = Integer.parseInt(param[1]);
-                    this.addParam(OnesMax.PARAM_ITERATIONS, this.Iterations);
+                    this.addParam(pOnesMax.PARAM_ITERATIONS, this.Iterations);
                     //registar parametros obrigatório
                     this.PARAM_ADDED++;
-                    System.out.println(OnesMax.PARAM_ITERATIONS + "+:" + this.Iterations);
+                    System.out.println(pOnesMax.PARAM_ITERATIONS + "+:" + this.Iterations);
                     continue;
                 }
                 //parametro 2
-                if (param[0].equals(OnesMax.PARAM_POPULATION_SIZE) && !this.containsParam(OnesMax.PARAM_POPULATION_SIZE)) {
+                if (param[0].equals(pOnesMax.PARAM_POPULATION_SIZE) && !this.containsParam(pOnesMax.PARAM_POPULATION_SIZE)) {
                     this.popSize = Integer.parseInt(param[1]);
-                    this.addParam(OnesMax.PARAM_POPULATION_SIZE, this.popSize);
+                    this.addParam(pOnesMax.PARAM_POPULATION_SIZE, this.popSize);
                     //registar parametros obrigatório
                     this.PARAM_ADDED++;
-                    System.out.println(OnesMax.PARAM_POPULATION_SIZE + "+:" + this.popSize);
+                    System.out.println(pOnesMax.PARAM_POPULATION_SIZE + "+:" + this.popSize);
                     continue;
                 }
                 //parametro 3
-                if (param[0].equals(OnesMax.PARAM_ALELLO_SIZE) && !this.containsParam(OnesMax.PARAM_ALELLO_SIZE)) {
+                if (param[0].equals(pOnesMax.PARAM_ALELLO_SIZE) && !this.containsParam(pOnesMax.PARAM_ALELLO_SIZE)) {
                     this.alelloSize = Integer.parseInt(param[1]);
-                    this.addParam(OnesMax.PARAM_ALELLO_SIZE, this.alelloSize);
+                    this.addParam(pOnesMax.PARAM_ALELLO_SIZE, this.alelloSize);
                     //registar parametros obrigatório
                     this.PARAM_ADDED++;
-                    System.out.println(OnesMax.PARAM_ALELLO_SIZE + "+:" + this.alelloSize);
+                    System.out.println(pOnesMax.PARAM_ALELLO_SIZE + "+:" + this.alelloSize);
                     continue;
                 }
                 //parametro 4
-                if (param[0].equals(OnesMax.PARAM_BEST_FITNESS) && !this.containsParam(OnesMax.PARAM_BEST_FITNESS)) {
+                if (param[0].equals(pOnesMax.PARAM_BEST_FITNESS) && !this.containsParam(pOnesMax.PARAM_BEST_FITNESS)) {
                     this.bestFitness = Integer.parseInt(param[1]);
-                    this.addParam(OnesMax.PARAM_BEST_FITNESS, this.bestFitness);
+                    this.addParam(pOnesMax.PARAM_BEST_FITNESS, this.bestFitness);
                     //registar parametros obrigatório
                     this.PARAM_ADDED++;
-                    System.out.println(OnesMax.PARAM_ALELLO_SIZE + "+:" + this.bestFitness);
+                    System.out.println(pOnesMax.PARAM_ALELLO_SIZE + "+:" + this.bestFitness);
                     continue;
                 }
             } else {
@@ -125,7 +125,7 @@ public class OnesMax extends Problem {
         }
 
         //Verificar se todos os parametros foram carregados
-        if (this.PARAM_ADDED == OnesMax.PARAM_REQUIRED) {
+        if (this.PARAM_ADDED == pOnesMax.PARAM_REQUIRED) {
             //Ler dados (restantes Linhas)
             //Neste caso não existe a necessidade de carregar parametros
 
@@ -151,9 +151,9 @@ public class OnesMax extends Problem {
         // Operadores
         ArrayList<Operator> __operators = new ArrayList<Operator>();
         //__operators.add(new SUS(70)); 
-        __operators.add(new Tournament(70, 2));
-        __operators.add(new Crossover());
-        __operators.add(new Flipbit(0.01));
+        __operators.add(new operators.selections.Tournament(70, 2));       
+        __operators.add(new operators.recombinations.Crossover());
+        __operators.add(new operators.mutation.Flipbit(0.01));
         __operators.add(new operators.replacements.Tournament(100, 2));
 
         /*int __sizePopulation = this.popSize; 

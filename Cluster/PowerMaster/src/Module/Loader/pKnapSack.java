@@ -11,7 +11,7 @@ import powermaster.GeneticEvents;
  *
  * @author Bruno Oliveira nº 11127 IPT-ESTT
  */
-public class KnapSack extends Problem {
+public class pKnapSack extends Problem {
 
     public static final String ProblemName = "KnapSack";
     /**
@@ -77,8 +77,8 @@ public class KnapSack extends Problem {
      * Construtor do problema OnesMax
      * @param data Informação do problema a ser carregado
      */
-    public KnapSack(String data[]) {
-        super(KnapSack.ProblemName, PARAM_COUNT);
+    public pKnapSack(String data[]) {
+        super(pKnapSack.ProblemName, PARAM_COUNT);
         this.data = data;
         this.loadStatus = Load();
     }
@@ -93,74 +93,74 @@ public class KnapSack extends Problem {
             String[] param = parmsData[i].split("=");
             //Verificação de parametros
             //parametro 1 (Obrigatório)
-            if (param[0].equals(KnapSack.PARAM_ITERATIONS) && !this.containsParam(KnapSack.PARAM_ITERATIONS)) {
+            if (param[0].equals(pKnapSack.PARAM_ITERATIONS) && !this.containsParam(pKnapSack.PARAM_ITERATIONS)) {
                 //carregar o parametro para um dicionario de parametros
                 this.Iterations = Integer.parseInt(param[1]);
-                this.addParam(KnapSack.PARAM_ITERATIONS, this.Iterations);
+                this.addParam(pKnapSack.PARAM_ITERATIONS, this.Iterations);
                 //registar parametros obrigatório
                 this.PARAM_ADDED++;
-                System.out.println(KnapSack.PARAM_ITERATIONS + "+:" + this.Iterations);
+                System.out.println(pKnapSack.PARAM_ITERATIONS + "+:" + this.Iterations);
                 continue;
             }
             //parametro 2
-            if (param[0].equals(KnapSack.PARAM_POPULATION_SIZE) && !this.containsParam(KnapSack.PARAM_POPULATION_SIZE)) {
+            if (param[0].equals(pKnapSack.PARAM_POPULATION_SIZE) && !this.containsParam(pKnapSack.PARAM_POPULATION_SIZE)) {
                 this.popSize = Integer.parseInt(param[1]);
-                this.addParam(KnapSack.PARAM_POPULATION_SIZE, this.popSize);
+                this.addParam(pKnapSack.PARAM_POPULATION_SIZE, this.popSize);
                 //registar parametros obrigatório
                 this.PARAM_ADDED++;
-                System.out.println(KnapSack.PARAM_POPULATION_SIZE + "+:" + this.popSize);
+                System.out.println(pKnapSack.PARAM_POPULATION_SIZE + "+:" + this.popSize);
                 continue;
             }
             //parametro 3
-            if (param[0].equals(KnapSack.PARAM_BEST_FITNESS) && !this.containsParam(KnapSack.PARAM_BEST_FITNESS)) {
+            if (param[0].equals(pKnapSack.PARAM_BEST_FITNESS) && !this.containsParam(pKnapSack.PARAM_BEST_FITNESS)) {
                 this.bestFitness = Integer.parseInt(param[1]);
-                this.addParam(KnapSack.PARAM_BEST_FITNESS, this.bestFitness);
+                this.addParam(pKnapSack.PARAM_BEST_FITNESS, this.bestFitness);
                 //registar parametros obrigatório
                 this.PARAM_ADDED++;
-                System.out.println(KnapSack.PARAM_BEST_FITNESS + "+:" + this.bestFitness);
+                System.out.println(pKnapSack.PARAM_BEST_FITNESS + "+:" + this.bestFitness);
                 continue;
             }
             //parametro 4
-            if (param[0].equals(KnapSack.PARAM_MAX_WEIGHT) && !this.containsParam(KnapSack.PARAM_MAX_WEIGHT)) {
+            if (param[0].equals(pKnapSack.PARAM_MAX_WEIGHT) && !this.containsParam(pKnapSack.PARAM_MAX_WEIGHT)) {
                 this.maxWeight = Integer.parseInt(param[1]);
-                this.addParam(KnapSack.PARAM_MAX_WEIGHT, this.maxWeight);
+                this.addParam(pKnapSack.PARAM_MAX_WEIGHT, this.maxWeight);
                 //registar parametros obrigatório
                 this.PARAM_ADDED++;
-                System.out.println(KnapSack.PARAM_MAX_WEIGHT + "+:" + this.maxWeight);
+                System.out.println(pKnapSack.PARAM_MAX_WEIGHT + "+:" + this.maxWeight);
                 continue;
             }
             //parametro 5
-            if (param[0].equals(KnapSack.PARAM_MAX_ITEM_WEIGHT) && !this.containsParam(KnapSack.PARAM_MAX_ITEM_WEIGHT)) {
+            if (param[0].equals(pKnapSack.PARAM_MAX_ITEM_WEIGHT) && !this.containsParam(pKnapSack.PARAM_MAX_ITEM_WEIGHT)) {
                 this.maxItemWeight = Integer.parseInt(param[1]);
-                this.addParam(KnapSack.PARAM_MAX_ITEM_WEIGHT, this.maxItemWeight);
-                System.out.println(KnapSack.PARAM_MAX_ITEM_WEIGHT + ":" + this.maxItemWeight);
+                this.addParam(pKnapSack.PARAM_MAX_ITEM_WEIGHT, this.maxItemWeight);
+                System.out.println(pKnapSack.PARAM_MAX_ITEM_WEIGHT + ":" + this.maxItemWeight);
                 continue;
             }
             //parametro 6
-            if (param[0].equals(KnapSack.PARAM_MAX_ITEM_VALUE) && !this.containsParam(KnapSack.PARAM_MAX_ITEM_VALUE)) {
+            if (param[0].equals(pKnapSack.PARAM_MAX_ITEM_VALUE) && !this.containsParam(pKnapSack.PARAM_MAX_ITEM_VALUE)) {
                 this.maxItemValue = Integer.parseInt(param[1]);
-                this.addParam(KnapSack.PARAM_MAX_ITEM_VALUE, this.maxItemValue);
-                System.out.println(KnapSack.PARAM_MAX_ITEM_VALUE + ":" + this.maxItemValue);
+                this.addParam(pKnapSack.PARAM_MAX_ITEM_VALUE, this.maxItemValue);
+                System.out.println(pKnapSack.PARAM_MAX_ITEM_VALUE + ":" + this.maxItemValue);
                 continue;
             }
             //parametro 7
-            if (param[0].equals(KnapSack.PARAM_NUM_ITEMS) && !this.containsParam(KnapSack.PARAM_NUM_ITEMS)) {
+            if (param[0].equals(pKnapSack.PARAM_NUM_ITEMS) && !this.containsParam(pKnapSack.PARAM_NUM_ITEMS)) {
                 this.numItems = Integer.parseInt(param[1]);
-                this.addParam(KnapSack.PARAM_NUM_ITEMS, this.numItems);
-                System.out.println(KnapSack.PARAM_NUM_ITEMS + ":" + this.numItems);
+                this.addParam(pKnapSack.PARAM_NUM_ITEMS, this.numItems);
+                System.out.println(pKnapSack.PARAM_NUM_ITEMS + ":" + this.numItems);
                 continue;
             }
             //parametro 8
-            if (param[0].equals(KnapSack.PARAM_PENALTY) && !this.containsParam(KnapSack.PARAM_PENALTY)) {
+            if (param[0].equals(pKnapSack.PARAM_PENALTY) && !this.containsParam(pKnapSack.PARAM_PENALTY)) {
                 this.penalty = Boolean.parseBoolean(param[1]);
-                this.addParam(KnapSack.PARAM_PENALTY, this.penalty);
+                this.addParam(pKnapSack.PARAM_PENALTY, this.penalty);
                 this.PARAM_ADDED++;
-                System.out.println(KnapSack.PARAM_PENALTY + "+:" + this.penalty);
+                System.out.println(pKnapSack.PARAM_PENALTY + "+:" + this.penalty);
                 continue;
             }
         }
         //Verificar se todos os parametros foram carregados
-        if (this.PARAM_ADDED >= KnapSack.PARAM_REQUIRED) {
+        if (this.PARAM_ADDED >= pKnapSack.PARAM_REQUIRED) {
 
             //Verificar se na linha 2 do documento existe a tag de inicio de dados
             if (this.data[2].equals("<DataStart>")) {

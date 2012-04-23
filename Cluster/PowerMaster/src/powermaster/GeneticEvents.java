@@ -4,12 +4,8 @@
  */
 package powermaster;
 
-import Module.Aplication;
-import Module.DataBase.Operations;
 import genetics.Population;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.JSONException;
+import statistics.Statistics;
 import utils.EventsSolver;
 import utils.PopulationUtils;
 
@@ -92,9 +88,19 @@ public class GeneticEvents implements EventsSolver {
 
     @Override
     public void EventIteraction(int i, Population pltn) {
-        PopulationUtils.getBestFitness(pltn);
-        PopulationUtils.getNumberIndividualsWithBestFitness(pltn);
-        PopulationUtils.getHallOfFame(pltn, 10);
+                // de 10 em 10 vai mostrar estatistica
+                if( (i % 10) == 0){
+                    
+                    Statistics __statistics = new Statistics(pltn);
+                    
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("Iteração:" + i);
+                    System.out.println("Variância: " + __statistics.getVariancia().doubleValue());
+                    System.out.println("Média:" + __statistics.getMedia().doubleValue());
+                    System.out.println("Desvio Padrão: " + __statistics.getDesvioPadrao().doubleValue());
+                    System.out.println("--------------------------------------------------");
+                    System.out.println("");
+                }
         
         //op.InserirIteracoes(Thread.currentThread().getName().toString(),i,this.idClient, this.idProblem, pltn.getBestFiteness(),pltn.getMediaFitness(),pltn.getNumBestFitness(),pltn.getBestIndString(),pltn.getDesvioPadrao(),1);
        
@@ -102,7 +108,20 @@ public class GeneticEvents implements EventsSolver {
 
     @Override
     public void EventFinishSolver(int i, Population pltn) {
-        System.out.println("Genetic Event Iteration:"+i+"\n");
-        System.out.println("Sovler - END");
-    }
+                Statistics __statistics = new Statistics(pltn);
+                
+                System.out.println("Solver Terminou");
+                System.out.println("--------------------------------------------------");
+                System.out.println("Total Iteração:" + i);
+                System.out.println("Variância: " + __statistics.getVariancia().doubleValue());
+                System.out.println("Média:" + __statistics.getMedia().doubleValue());
+                System.out.println("Desvio Padrão: " + __statistics.getDesvioPadrao().doubleValue());
+                System.out.println("--------------------------------------------------");
+                System.out.println("");
+                
+                System.out.println("Hall of Fame - Top 5");
+                System.out.println("--------------------------------------------------");
+                System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
+            }
+    
 }
