@@ -95,9 +95,9 @@ public class GeneticEvents implements EventsSolver {
                     
                     System.out.println("--------------------------------------------------");
                     System.out.println("Iteração:" + i);
-                    System.out.println("Variância: " + __statistics.getVariancia().doubleValue());
-                    System.out.println("Média:" + __statistics.getMedia().doubleValue());
-                    System.out.println("Desvio Padrão: " + __statistics.getDesvioPadrao().doubleValue());
+                    System.out.println("Variância: " + __statistics.getVarianciaPopulation().doubleValue());
+                    System.out.println("Média:" + __statistics.getMediaFitnessPopulation().doubleValue());
+                    System.out.println("Desvio Padrão: " + __statistics.getDesvioPadraoPopulation().doubleValue());
                     System.out.println("--------------------------------------------------");
                     System.out.println("");
                 }
@@ -113,9 +113,9 @@ public class GeneticEvents implements EventsSolver {
                 System.out.println("Solver Terminou");
                 System.out.println("--------------------------------------------------");
                 System.out.println("Total Iteração:" + i);
-                System.out.println("Variância: " + __statistics.getVariancia().doubleValue());
-                System.out.println("Média:" + __statistics.getMedia().doubleValue());
-                System.out.println("Desvio Padrão: " + __statistics.getDesvioPadrao().doubleValue());
+                System.out.println("Variância: " + __statistics.getVarianciaPopulation().doubleValue());
+                System.out.println("Média:" + __statistics.getMediaFitnessPopulation().doubleValue());
+                System.out.println("Desvio Padrão: " + __statistics.getDesvioPadraoPopulation().doubleValue());
                 System.out.println("--------------------------------------------------");
                 System.out.println("");
                 
