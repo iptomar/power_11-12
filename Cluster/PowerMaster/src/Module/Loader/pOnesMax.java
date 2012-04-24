@@ -7,10 +7,6 @@ package Module.Loader;
 import genetics.Individual;
 import genetics.Solver;
 import genetics.StopCriterion;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import operators.Operator;
 import org.json.JSONException;
 import org.json.JSONObject;
 import powermaster.GeneticEvents;
@@ -67,6 +63,7 @@ public class pOnesMax extends Problem {
 
     private boolean Load() throws Exception {
         try {
+            System.out.println("----Params Data-----");
             if (!this.containsParam(pOnesMax.PARAM_ITERATIONS)) {
                 //carregar o parametro para um dicionario de parametros
                 this.Iterations = this.data.getInt(pOnesMax.PARAM_ITERATIONS);
@@ -151,14 +148,6 @@ public class pOnesMax extends Problem {
         Individual __prototypeIndividual = new genetics.algorithms.OnesMax();
         int __iteractions = this.Iterations;
         double __bestFitness = (double) this.bestFitness;
-
-//        int __sizePopulation = 100;
-//        int __sizeAllelo = 100;
-//        Individual __prototypeIndividual = new genetics.algorithms.OnesMax();
-//
-//        int __iteractions = 10000;
-//        Double __bestFitness = 100.0;
-
 
         StopCriterion __stopCriterion = new StopCriterion(__iteractions, __bestFitness);
 

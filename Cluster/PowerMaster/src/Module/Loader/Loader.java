@@ -31,20 +31,20 @@ public class Loader {
             }
             System.out.println("##### OnesMax NOT LOADED #####");
         }
-//        if (primeiraLinha[0].equals(pKnapSack.ProblemName) && Problem.VerInt(primeiraLinha)) {
-//            System.out.println("##### New KnapSack Problem #####");
-//            //Problema do tipo OnesMax
-//            pKnapSack knapSack = new pKnapSack(linhas);
-//            //Verificar se o objecto foi carregado com sucesso com a informação passada
-//            if(knapSack.getStatus()){
-//                //Atribnuição de Identificadores globais
-//                knapSack.setProblemID(Integer.parseInt(primeiraLinha[1]));
-//                knapSack.setClientID(Integer.parseInt(primeiraLinha[2]));
-//                System.out.println("##### KnapSack Problem Ok #####");
-//                return (Problem)knapSack;
-//            }
-//            System.out.println("##### KnapSack NOT LOADED #####");
-//        }        
+        if (data.getString("type").equals(pKnapSack.ProblemName)) {
+            System.out.println("##### New KnapSack Problem #####");
+            //Problema do tipo OnesMax
+            pKnapSack knapSack = new pKnapSack(data);
+            //Verificar se o objecto foi carregado com sucesso com a informação passada
+            if(knapSack.getStatus()){
+                //Atribnuição de Identificadores globais
+                knapSack.setProblemID(data.getInt("client"));
+                knapSack.setClientID(data.getInt("id"));
+                System.out.println("##### KnapSack Problem Ok #####");
+                return (Problem)knapSack;
+            }
+            System.out.println("##### KnapSack NOT LOADED #####");
+        }        
         
         return null;
     }
