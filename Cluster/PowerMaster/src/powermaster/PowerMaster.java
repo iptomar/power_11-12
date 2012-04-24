@@ -66,7 +66,7 @@ public class PowerMaster {
         
         Problem p = null;
         try {
-            p = Loader.Load("{type:\"OneMax\",id:1,client:1,selection:[\"tournament\",20,30],mutation:[\"flipbit\",0.01],recombination:[\"crossover\"],replacement:[\"tournament\",20,30],iterations:1000,pop:10000,alello:100,best:80.0,lenght:1000,data:[[x,y],[y,z],[b,a]]}");
+            p = Loader.Load("{type:\"OneMax\",id:20,client:20,selection:[\"sus\",100],mutation:[\"flipbit\",0.01],recombination:[\"crossover\"],replacement:[\"tournament\",20,30],iterations:10000,pop:1000,alello:100,best:99.0,lenght:1000,data:[[x,y],[y,z],[b,a]]}");
         } catch (Exception ex) {
             Logger.getLogger(PowerMaster.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -81,7 +81,7 @@ public class PowerMaster {
             arrayThread[i].setName(""+i);
         }
 
-        AsyncStats async = new AsyncStats(numThreads, INTERVAL_PART, 1, 1);
+        AsyncStats async = new AsyncStats(numThreads, INTERVAL_PART, p.getClientID(), p.getProblemID());
         async.start();
 
     }

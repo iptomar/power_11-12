@@ -93,15 +93,15 @@ public class GeneticEvents implements EventsSolver {
         Statistics statistics = new Statistics(pltn);
        
         
-//        if ((i % 10) == 0) {
-//            System.out.println("--------------------------------------------------");
-//            System.out.println("Iteração:" + i);
-//            System.out.println("Variância: " + statistics.getVarianciaPopulation().doubleValue());
-//            System.out.println("Média:" + statistics.getMediaFitnessPopulation().doubleValue());
-//            System.out.println("Desvio Padrão: " + statistics.getDesvioPadraoPopulation().doubleValue());
-//            System.out.println("--------------------------------------------------");
-//            System.out.println("");
-//        }
+        if ((i % 10) == 0) {
+            System.out.println("--------------------------------------------------");
+            System.out.println("Iteração:" + i);
+            System.out.println("Variância: " + statistics.getVarianciaPopulation().doubleValue());
+            System.out.println("Média:" + statistics.getMediaFitnessPopulation().doubleValue());
+            System.out.println("Desvio Padrão: " + statistics.getDesvioPadraoPopulation().doubleValue());
+            System.out.println("--------------------------------------------------");
+            System.out.println("");
+        }
         
               boolean ze = Operations.InserirIteracoes(Thread.currentThread().getName().toString(), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 1, statistics.getVarianciaPopulation());
     }
@@ -113,17 +113,17 @@ public class GeneticEvents implements EventsSolver {
         Operations.InserirIteracoes(Thread.currentThread().getName().toString(), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 2, statistics.getVarianciaPopulation());
 
        
-//        System.out.println("Solver Terminou");
-//        System.out.println("--------------------------------------------------");
-//        System.out.println("Total Iteração:" + i);
-//        System.out.println("Variância: " + statistics.getVarianciaPopulation().doubleValue());
-//        System.out.println("Média:" + statistics.getMediaFitnessPopulation().doubleValue());
-//        System.out.println("Desvio Padrão: " + statistics.getDesvioPadraoPopulation().doubleValue());
-//        System.out.println("--------------------------------------------------");
-//        System.out.println("");
-//
-//        System.out.println("Hall of Fame - Top 5");
-//        System.out.println("--------------------------------------------------");
-//        System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
+        System.out.println("Solver Terminou");
+        System.out.println("--------------------------------------------------");
+        System.out.println("Total Iteração:" + i);
+        System.out.println("Variância: " + statistics.getVarianciaPopulation().doubleValue());
+        System.out.println("Média:" + statistics.getMediaFitnessPopulation().doubleValue());
+        System.out.println("Desvio Padrão: " + statistics.getDesvioPadraoPopulation().doubleValue());
+        System.out.println("--------------------------------------------------");
+        System.out.println("");
+
+        System.out.println("Hall of Fame - Top 5");
+        System.out.println("--------------------------------------------------");
+        System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
     }
 }
