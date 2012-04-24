@@ -31,8 +31,11 @@ public class PowerMaster {
      */
     public static void main(String[] args) {
         //Inicialização de todos os módulos do PowerMaster
-        //Aplication app = new Aplication();
+        Aplication app = new Aplication();
 
+        WorkSocket ws = new WorkSocket(8080);
+        ws.start();
+        
         try {
             if (args[0].equals("false")) {
                 IOConnection.loggerDebug = false;
@@ -55,23 +58,23 @@ public class PowerMaster {
 
 
         //Exemplo de um loader para OnesMax
-        Problem p = null;
-        try {
-            String resultado = WebFileDownloader.Download(new URL("http://code.dei.estt.ipt.pt:81/loader/load1.txt"));
-            p = Loader.Load(resultado);
-            Solver s = p.getNewSolver();
-            //p.LoadOperators("selector=Tournament");
-        } catch (Exception ex) {
-            Logger.getLogger(PowerMaster.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
-        try {
-            Solver exe = p.getNewSolver();
-            exe.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        Problem p = null;
+//        try {
+//            String resultado = WebFileDownloader.Download(new URL("http://code.dei.estt.ipt.pt:81/loader/load1.txt"));
+//            p = Loader.Load(resultado);
+//            Solver s = p.getNewSolver();
+//            //p.LoadOperators("selector=Tournament");
+//        } catch (Exception ex) {
+//            Logger.getLogger(PowerMaster.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//
+//        try {
+//            Solver exe = p.getNewSolver();
+//            exe.run();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 //        arrayThread = new SolverThread[NUM_THREADS];
 //        AtomicInteger numThreads = new AtomicInteger(NUM_THREADS);

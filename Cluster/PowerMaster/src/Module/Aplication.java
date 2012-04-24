@@ -58,10 +58,11 @@ public class Aplication {
          // ---- Módulo base de dados
          // --------------------------------------------------        
         
-        System.out.println("Databse Module - Offline");
+        //System.out.println("Databse Module - Offline");
         System.out.println("Start Database Connection...");
-        db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt");
-
+        //db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt");
+        db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "localhost");
+        
         if (db.getAplicationStatus()) {
             System.out.println(db.AplicationName+" - OK");
             AplicationStatus.put(db.AplicationName, true);
@@ -92,7 +93,7 @@ public class Aplication {
          // --------------------------------------------------
          // ---- Módulo WebSocket (8080)
          // --------------------------------------------------
-        try {
+        /*try {
             webSocket = new WebServer();
             if (webSocket.getAplicationStatus()) {
                 System.out.println("WebSocket Module - OK");
@@ -110,7 +111,7 @@ public class Aplication {
             admin = null;
             webSocket = null;
             return false;
-        }
+        }*/
         // --------------------------------------------------
 
          // --------------------------------------------------
