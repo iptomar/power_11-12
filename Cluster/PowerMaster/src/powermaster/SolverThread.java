@@ -36,4 +36,5 @@ AtomicInteger numThreads;
             Logger.getLogger(SolverThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 }

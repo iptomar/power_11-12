@@ -65,6 +65,7 @@ public class Database extends AbstractAplication {
             ex.printStackTrace();
         }
         
+        Operations op = new Operations(this);
     }
     
     /**
@@ -82,23 +83,19 @@ public class Database extends AbstractAplication {
     
     public int ExecuteCountQuery(int period, int idClient, int idProblem) throws SQLException{
         int count = 0;
-        if(this.AplicationStatus){
-            ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='"+ period +"' AND idClient='"+idClient + "' AND idProblem='"+ idProblem + "';");
+   
+            ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='"+period +"' AND idClient='"+ idClient+"' AND idProblem='"+idProblem+"';");
             rs.last();
+            //System.out.println(rs.getRow());
             count = rs.getRow();
-        }
         return count;
     }
     
     public boolean ExecuteMedia(int period, int idClient, int idProblem) throws SQLException{
         boolean erro = false;
-        if(this.AplicationStatus){
-            ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, AVG(numBest) AS numBest FROM tblIterations WHERE itera='"+ period +"' AND idClient='"+idClient + "' AND idProblem='"+ idProblem + "';");
+            ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, AVG(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='"+ period +"' AND idClient='"+idClient + "' AND idProblem='"+ idProblem + "';");
             rs.first();
-            
-            
-            erro = this.ExecuteNonQuery("INSERT INTO tblResult VALUES "+period+","+idClient+","+idProblem+","+rs.getString("mediaAverage")+","+rs.getString("deviation")+","+rs.getString("best")+","+rs.getString("numBest")+"");
-        }
+            erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES ("+period+","+idClient+","+idProblem+","+rs.getString("mediaAverage").toString()+","+rs.getString("deviation").toString()+","+rs.getString("best").toString()+","+rs.getString("numBest")+","+rs.getString("variance")+")");
         return erro;
     }
    
@@ -111,9 +108,15 @@ public class Database extends AbstractAplication {
     public boolean ExecuteNonQuery(String cmd) throws SQLException{
         //Verificação se o estado do módulo é de activo e pronto a usar
         if(this.AplicationStatus){
-            return this.Command.execute(cmd);
+            try{
+                Command.execute(cmd);
+                return true;
+            }catch(Exception e){
+                System.out.println("ERRO nA BD "+e);
+                return false;
+            }
         }
         return false;
     }
-
+    
 }

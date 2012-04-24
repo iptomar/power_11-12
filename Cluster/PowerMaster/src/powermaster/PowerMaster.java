@@ -5,7 +5,6 @@
 package powermaster;
 
 import Module.Aplication;
-import Module.Loader.pKnapSack;
 import Module.Loader.Loader;
 import Module.Loader.Problem;
 import Module.WebHTTP.WebFileDownloader;
@@ -50,7 +49,7 @@ public class PowerMaster {
         }
 
         //Verificação se está tudo Ok
-        if (Aplication.STATUS) {
+        if (ap.STATUS) {
         }
 
         // Desligar o debug do sockets em IOConnection
