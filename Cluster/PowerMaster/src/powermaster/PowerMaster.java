@@ -59,7 +59,9 @@ public class PowerMaster {
         try {
             String resultado = WebFileDownloader.Download(new URL("http://code.dei.estt.ipt.pt:81/loader/load1.txt"));
             p = Loader.Load(resultado);
-        } catch (IOException ex) {
+            Solver s = p.getNewSolver();
+            //p.LoadOperators("selector=Tournament");
+        } catch (Exception ex) {
             Logger.getLogger(PowerMaster.class.getName()).log(Level.SEVERE, null, ex);
         }
 
