@@ -109,21 +109,21 @@ public class GeneticEvents implements EventsSolver {
     @Override
     public void EventFinishSolver(int i, Population pltn) {
         Statistics statistics = new Statistics(pltn);
-        Database db = new Database();
+        //Database db = new Database();
         Operations.InserirIteracoes(Thread.currentThread().getName().toString(), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 2, statistics.getVarianciaPopulation());
 
        
-        System.out.println("Solver Terminou");
-        System.out.println("--------------------------------------------------");
-        System.out.println("Total Iteração:" + i);
-        System.out.println("Variância: " + statistics.getVarianciaPopulation().doubleValue());
-        System.out.println("Média:" + statistics.getMediaFitnessPopulation().doubleValue());
-        System.out.println("Desvio Padrão: " + statistics.getDesvioPadraoPopulation().doubleValue());
-        System.out.println("--------------------------------------------------");
-        System.out.println("");
+//        System.out.println("Solver Terminou");
+//        System.out.println("--------------------------------------------------");
+//        System.out.println("Total Iteração:" + i);
+//        System.out.println("Variância: " + statistics.getVarianciaPopulation().doubleValue());
+//        System.out.println("Média:" + statistics.getMediaFitnessPopulation().doubleValue());
+//        System.out.println("Desvio Padrão: " + statistics.getDesvioPadraoPopulation().doubleValue());
+//        System.out.println("--------------------------------------------------");
+//        System.out.println("");
 
-        System.out.println("Hall of Fame - Top 5");
-        System.out.println("--------------------------------------------------");
-        System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
+//        System.out.println("Hall of Fame - Top 5");
+//        System.out.println("--------------------------------------------------");
+//        System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
     }
 }

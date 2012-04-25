@@ -22,17 +22,17 @@ import org.json.JSONObject;
  *
  * @author Bruno Oliveira nº 11127 IPT-ESTT
  */
-public class WorkSocket extends Thread {
+public class WorkSocket2 extends Thread {
 
     private int port;
     private ServerSocket ss;
 
-    public WorkSocket(int port) {
+    public WorkSocket2(int port) {
         this.port = port;
         try {
             ss = new ServerSocket(port);
         } catch (IOException ex) {
-            Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WorkSocket2.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -52,19 +52,19 @@ public class WorkSocket extends Thread {
                         Solver s = p.getNewSolver();
                         s.run();
                     } catch (Exception ex) {
-                        Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(WorkSocket2.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
 
             } catch (IOException ex) {
-                Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(WorkSocket2.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
+  /*  public static void main(String[] args) throws InterruptedException {
         WorkSocket ws = new WorkSocket(8080);
         ws.start();
         ws.join();
@@ -78,6 +78,6 @@ public class WorkSocket extends Thread {
 //        } catch (Exception ex) {
 //            Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-    }
+    }*/
 }
 
