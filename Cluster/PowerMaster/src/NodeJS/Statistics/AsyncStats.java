@@ -33,25 +33,27 @@ public class AsyncStats extends Thread {
     @Override
     public void run() {
 
-        Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "127.0.0.1");
+        //Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "127.0.0.1");
+        Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt");
+        
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
             Logger.getLogger(AsyncStats.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         while (true) {
-
-            
             try {
                 int result_count = db.ExecuteCountQuery(period, idClient, idProblem);
                 int numThread = numThreads.get();
-                System.out.println(period +"... Numero de Threads: " + numThread + "  Result count: " + result_count + "    Cliente:"+idClient+ "    Problema:"+idProblem );
-
+               
+                System.out.println("Async|  Period: "+period +"  Threads working: " + numThread + "  Result count: " + result_count + "  Cliente: "+idClient+ "  Problema: "+idProblem );
+               
                 if (result_count > numThread) {
-                    System.out.println("Periodo:" + period + "query_result: " + result_count);
-                    boolean ze = db.ExecuteMedia(period, idClient, idProblem);
-                    period = period + aux;
+                    boolean temp = db.ExecuteMedia(period, idClient, idProblem);
+                    System.out.println("Async Insertion| Iteration:" + period);
                     Aplication.nodeJS.Emit("run",this.period ,this.idClient, this.idProblem);
+                    period = period + aux;
                 }
                 else if (result_count == 0 && numThread == 0) {
                     break;
@@ -62,7 +64,6 @@ public class AsyncStats extends Thread {
                 e.printStackTrace();
                 System.out.println("Error - Sync Class " + e);
             }
-
         }
 
     }
