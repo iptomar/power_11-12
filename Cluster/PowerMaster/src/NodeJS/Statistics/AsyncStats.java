@@ -33,8 +33,8 @@ public class AsyncStats extends Thread {
     @Override
     public void run() {
 
-        //Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "127.0.0.1");
-        Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt");
+        Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "127.0.0.1");
+        //Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt");
         
         try {
             Thread.sleep(2000);
@@ -56,6 +56,7 @@ public class AsyncStats extends Thread {
                     period = period + aux;
                 }
                 else if (result_count == 0 && numThread == 0) {
+                    System.out.println("Async Stop");
                     break;
                 }
 
