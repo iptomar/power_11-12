@@ -56,6 +56,7 @@ public class AsyncStats extends Thread {
                     period = period + aux;
                 }
                 else if (result_count == 0 && numThread == 0) {
+                    Aplication.nodeJS.Emit("end",this.period ,this.idClient, this.idProblem);
                     System.out.println("Async Stop");
                     break;
                 }
