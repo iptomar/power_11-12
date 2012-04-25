@@ -55,13 +55,17 @@ public class pKnapSack extends Problem {
      */
     private int mode;
     public static final String PARAM_MODE_FUNCTION = "mode";
-    
+    /**
+     * Peso da maximo da mochila
+     */
+    private int weight;
+    public static final String PARAM_WEIGHT = "weight";    
     /**
      * Número de parametros que são necessário para que o problema OneMax seja corrido
      */
-    private static int PARAM_REQUIRED = 6;//Número de parametros obrigatórios
+    private static int PARAM_REQUIRED = 8;//Número de parametros obrigatórios
     private int PARAM_ADDED = 0;//Número de parametros adicionados obrigatórios
-    private static int PARAM_COUNT = 6;//Número de parametros existentes no problema
+    private static int PARAM_COUNT = 8;//Número de parametros existentes no problema
     /**
      * Referência para todas as linhas existentes no documento
      */
@@ -143,6 +147,20 @@ public class pKnapSack extends Problem {
                 this.PARAM_ADDED++;
                 System.out.println(pKnapSack.PARAM_MODE_FUNCTION + "+:" + this.mode);
             }        
+            //parametro 8 weight:int
+            try{
+                if (!this.containsParam(pKnapSack.PARAM_WEIGHT)) {
+                    this.weight = this.data.getInt(pKnapSack.PARAM_WEIGHT);
+                    this.addParam(pKnapSack.PARAM_WEIGHT, this.weight);
+                    this.PARAM_ADDED++;
+                    System.out.println(pKnapSack.PARAM_WEIGHT + "+:" + this.weight);
+                }    
+            }catch(Exception e){
+                //Valor estatico da mochila
+                this.weight = 100;
+                this.addParam(pKnapSack.PARAM_WEIGHT, this.weight);
+                this.PARAM_ADDED++;
+            }
         }catch(Exception e){
             this.loadStatus=false;
             e.printStackTrace();
@@ -164,6 +182,7 @@ public class pKnapSack extends Problem {
                     ValorPeso[i][0] = value.getInt(1);
                     ValorPeso[i][1] = value.getInt(0);
                 }
+              
                 
                 //mochila = new Mochila(this.maxWeight, values, this.penalty);
                 System.out.println("------DataEnd------");
@@ -192,18 +211,37 @@ public class pKnapSack extends Problem {
             int __sizeAllelo = this.alelloSize;
            
             
-//            Individual __prototypeIndividual=new genetics.algorithms.KnapSack(3 +" "+10+" 1 2 3 1 2 3", ModeFunction.PENALTY, penalty);
+            String Valores="";
+            String Pesos="";
+            for (int i = 0; i < this.lenght; i++) {
+                    Valores +=""+ValorPeso[i][0];
+                    Pesos +=""+ValorPeso[i][1];
+                    if(i<this.lenght-1){
+                        Valores += " ";
+                        Pesos += " ";
+                    }
+            }
+            this.alelloSize = this.lenght;
+            Individual __prototypeIndividual=new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, penalty);
 
-            Individual __prototypeIndividual=null;
+            //Individual __prototypeIndividual=null;
+//            if(this.mode==0)
+//                return null;
+//            if(this.mode==1)    
+//                __prototypeIndividual = new genetics.algorithms.KnapSack(lenght, this.ValorPeso, ModeFunction.PENALTY, penalty);
+//            if(this.mode==2)    
+//                __prototypeIndividual = new genetics.algorithms.KnapSack(lenght, this.ValorPeso, ModeFunction.PSEUDO_RANDOM, penalty);    
+//            if(this.mode==3)    
+//                __prototypeIndividual = new genetics.algorithms.KnapSack(lenght, this.ValorPeso, ModeFunction.RANDOM, penalty);                  
             
             if(this.mode==0)
                 return null;
             if(this.mode==1)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(lenght, this.ValorPeso, ModeFunction.PENALTY, penalty);
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, penalty);
             if(this.mode==2)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(lenght, this.ValorPeso, ModeFunction.PSEUDO_RANDOM, penalty);    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, penalty);    
             if(this.mode==3)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(lenght, this.ValorPeso, ModeFunction.RANDOM, penalty);                  
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, penalty);              
             
             int __iteractions = this.Iterations;
             double __bestFitness = (double) this.bestFitness;
