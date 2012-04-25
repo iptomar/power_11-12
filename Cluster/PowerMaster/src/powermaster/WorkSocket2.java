@@ -4,19 +4,21 @@
  */
 package powermaster;
 
+import Emulator.EmuladorEcran;
 import Module.Loader.Loader;
 import Module.Loader.Problem;
+import Module.WebHTTP.WebFileDownloader;
+import NodeJS.Statistics.AsyncStats;
 import genetics.Solver;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  *
@@ -26,7 +28,7 @@ public class WorkSocket2 extends Thread {
 
     private int port;
     private ServerSocket ss;
-
+ public static SolverThread[] arrayThread;
     public WorkSocket2(int port) {
         this.port = port;
         try {
@@ -63,6 +65,24 @@ public class WorkSocket2 extends Thread {
 
         }
     }
+public static void IniciarPeloEmulador(String caminho){
+        //Inicialização de todos os módulos do PowerMaster
+        //Aplication app = new Aplication();
+        
+        Problem p = null;
+        try {
+           String  resultado = WebFileDownloader.Download(new URL(caminho));
+           p = Loader.Load(resultado);
+           System.out.println("\n"+resultado);
+           
+            arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
+            AtomicInteger numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
+
+            for (int i = 0; i < arrayThread.length; i++) {
+                arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
+                arrayThread[i].start();
+                arrayThread[i].setName(""+i);
+            }
 
     
     
