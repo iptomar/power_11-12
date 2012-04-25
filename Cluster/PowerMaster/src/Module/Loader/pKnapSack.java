@@ -7,6 +7,7 @@ package Module.Loader;
 import genetics.Individual;
 import genetics.Solver;
 import genetics.StopCriterion;
+import genetics.algorithms.KnapSack;
 import genetics.algorithms.KnapSack.ModeFunction;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -236,12 +237,29 @@ public class pKnapSack extends Problem {
             
             if(this.mode==0)
                 return null;
-            if(this.mode==1)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, penalty);
-            if(this.mode==2)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, penalty);    
-            if(this.mode==3)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, penalty);              
+            //Arranque com Linear
+            if(this.mode==1 && this.penalty==1)    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_LINEAR);
+            if(this.mode==2 && this.penalty==1)    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_LINEAR);    
+            if(this.mode==3 && this.penalty==1)    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_LINEAR);              
+            
+            //Arranque com Quadratic
+            if(this.mode==1 && this.penalty==2)    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_QUADRATIC);
+            if(this.mode==2 && this.penalty==2)    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_QUADRATIC);    
+            if(this.mode==3 && this.penalty==2)    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_QUADRATIC);             
+
+            //Arranque com Quadratic
+            if(this.mode==1 && this.penalty==3)    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_CUBIC);
+            if(this.mode==2 && this.penalty==3)    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_CUBIC);    
+            if(this.mode==3 && this.penalty==3)    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_CUBIC);            
             
             int __iteractions = this.Iterations;
             double __bestFitness = (double) this.bestFitness;
