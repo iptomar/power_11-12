@@ -5,8 +5,11 @@
 package powermaster;
 
 import Module.Aplication;
+import Module.Loader.Loader;
+import Module.Loader.Problem;
 import Module.WebHTTP.WorkSocket;
-import io.socket.IOConnection;
+import NodeJS.Statistics.AsyncStats;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -16,44 +19,40 @@ public class PowerMaster {
 
     public static SolverThread[] arrayThread;
     public static int NUM_THREADS = 5;
-    public static int INTERVAL_PART = 50;
+    public static int INTERVAL_PART = 1;
 
     /**
-     * @param args the command line arguments
+     * 
+     * @param args 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         //Inicialização de todos os módulos do PowerMaster
         Aplication app = new Aplication();
 
-        //System.out.println("ze");
+        System.out.println("PowerMaster Initializing..");
         
-        WorkSocket ws = new WorkSocket(8080);
-        ws.start();
+//        WorkSocket ws = new WorkSocket(8080);
+//        ws.start();
         
-        
-        
-        try {
-            if (args[0].equals("false")) {
-                IOConnection.loggerDebug = false;
-            } else {
-                IOConnection.loggerDebug = true;
-            }
-            INTERVAL_PART = Integer.parseInt(args[1]);
 
-        } catch (Exception e) {
-            IOConnection.loggerDebug = false;
-            INTERVAL_PART = 50;
+        Problem p = null;
+        p = Loader.Load("{type:'OneMax',id:1,client:1,selection:['roulette',100],mutation:['flipbit',0.01],recombination:['crossover'],replacement:['tournament',20,30],iterations:1000,pop:1000,alello:100,best:99,lenght:1000,data:[[x,y],[y,z],[b,a]]}");
+        arrayThread = new SolverThread[NUM_THREADS];
+        AtomicInteger numThreads = new AtomicInteger(NUM_THREADS);
+        
+        for (int i = 0; i < arrayThread.length; i++) {
+            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
+            arrayThread[i].start();
+            arrayThread[i].setName(""+i);
         }
-
-        //Verificação se está tudo Ok
-        if (app.STATUS) {
-        }
-
-        // Desligar o debug do sockets em IOConnection
-        //IOConnection.loggerDebug = false;
+        
+        AsyncStats async = new AsyncStats(numThreads,INTERVAL_PART,p.getClientID(),p.getProblemID());
+        async.start();
+    }
+}
 
 
-        //Exemplo de um loader para OnesMax
+//        Exemplo de um loader para OnesMax
 //        Problem p = null;
 //        try {
 //            String resultado = WebFileDownloader.Download(new URL("http://code.dei.estt.ipt.pt:81/loader/load1.txt"));
@@ -71,17 +70,3 @@ public class PowerMaster {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-
-//        arrayThread = new SolverThread[NUM_THREADS];
-//        AtomicInteger numThreads = new AtomicInteger(NUM_THREADS);
-//        
-//        for (int i = 0; i < arrayThread.length; i++) {
-//            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
-//            arrayThread[i].start();
-//        }
-//        
-//        AsyncStats async = new AsyncStats(numThreads,INTERVAL_PART,p.getClientID(),p.getProblemID());
-//        async.start();
-
-    }
-}

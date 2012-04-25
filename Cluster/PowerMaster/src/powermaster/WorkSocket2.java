@@ -64,7 +64,7 @@ public class WorkSocket2 extends Thread {
         }
     }
 
-  /*  public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         //WorkSocket2 ws = new WorkSocket2(8080);
         //ws.start();
         //ws.join();
@@ -78,6 +78,6 @@ public class WorkSocket2 extends Thread {
         } catch (Exception ex) {
             Logger.getLogger(WorkSocket2.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }*/
+    }
 }
 

@@ -51,18 +51,21 @@ public class WorkSocket extends Thread {
                         p = Loader.Load(data);
 //                        Solver s = p.getNewSolver();
 //                        s.run();
+                        
                         AtomicInteger numThreads = new AtomicInteger(5);
                         SolverThread[] arrayThread = new SolverThread[5];
+                        
+ 
+                        
                         for (int i = 0; i < arrayThread.length; i++) {
                             arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
                             arrayThread[i].start();
                             arrayThread[i].setName("" + i);
-
                         }
+
                         System.out.println("Start Async");
-                        
-                        AsyncStats async = new AsyncStats(numThreads, 1, p.getClientID(), p.getProblemID());
-                        async.start();
+                        AsyncStats async = new AsyncStats(numThreads, 5, p.getClientID(), p.getProblemID());
+                        async.start();  
 
                     } catch (Exception ex) {
                         Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
