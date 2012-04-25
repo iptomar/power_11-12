@@ -4,15 +4,13 @@
  */
 package Module.Administration;
 
-import com.sun.management.OperatingSystemMXBean;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.lang.management.ManagementFactory;
+import Module.Loader.Loader;
+import Module.Loader.Problem;
+import Module.WebHTTP.WebFileDownloader;
+import genetics.Solver;
+import java.io.*;
 import java.net.Socket;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
@@ -55,7 +53,7 @@ public class AdministrationClient extends Thread {
 
             String message = in.readLine();
             cmds = message.split(" ");
-
+            //System.out.println(cmds.toString());
             if ("get".equals(cmds[0])) {
                 if ("-s".equals(cmds[1])) {
 
@@ -96,24 +94,27 @@ public class AdministrationClient extends Thread {
 
                 } else if ("-cpu".equals(cmds[1])) {
 
-                    /*if (recebe_cena.mon.osName().contains("Windows")) {
-
-                    OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
-
-                    // What % CPU load this current JVM is taking, from 0.0-1.0
-                    //System.out.println(osBean.getProcessCpuLoad());
-                    // What % load the overall system is at, from 0.0-1.0
-                    //System.out.println(osBean.getSystemCpuLoad());
-
-                    out.println("CPU Usage: " + (int) (osBean.getSystemCpuLoad() * 100) + "%");
-                    out.flush();
-
-                    } else {*/
+                    /*
+                     * if (recebe_cena.mon.osName().contains("Windows")) {
+                     *
+                     * OperatingSystemMXBean osBean =
+                     * ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+                     *
+                     * // What % CPU load this current JVM is taking, from
+                     * 0.0-1.0 //System.out.println(osBean.getProcessCpuLoad());
+                     * // What % load the overall system is at, from 0.0-1.0
+                     * //System.out.println(osBean.getSystemCpuLoad());
+                     *
+                     * out.println("CPU Usage: " + (int)
+                     * (osBean.getSystemCpuLoad() * 100) + "%"); out.flush();
+                     *
+                     * } else {
+                     */
                     String cois = "";
 
 
                     Process p;
-                    
+
                     //p = Runtime.getRuntime().exec("./cpu");
 
                     try {
@@ -122,7 +123,7 @@ public class AdministrationClient extends Thread {
                         BufferedReader br = new BufferedReader(new InputStreamReader(in));
                         String str;
                         while ((str = br.readLine()) != null) {
-                            cois=str;
+                            cois = str;
                         }
                         in.close();
                     } catch (Exception e) {
@@ -130,14 +131,14 @@ public class AdministrationClient extends Thread {
                     }
 
                     out.println(cois);
-                    
+
                 } else if ("-mem".equals(cmds[1])) {
 
-                    out.println("Memory: " + (Administration.mon.physical().getFreeBytes() / (1024 * 1024)) + "MB / " + (Administration.mon.physical().getTotalBytes() / (1024 * 1024))+"MB");
+                    out.println("Memory: " + (Administration.mon.physical().getFreeBytes() / (1024 * 1024)) + "MB / " + (Administration.mon.physical().getTotalBytes() / (1024 * 1024)) + "MB");
                     out.flush();
-                    
+
                 } else if ("-tasks".equals(cmds[1])) {
-                    
+
                     String cois = "";
                     try {
                         String line;
@@ -154,7 +155,7 @@ public class AdministrationClient extends Thread {
                         }
                         out.println(cois);
                         input.close();
-                        
+
                     } catch (Exception err) {
                         err.printStackTrace();
                     }
@@ -169,20 +170,118 @@ public class AdministrationClient extends Thread {
                 Administration.mon.killProcess(Integer.parseInt(cmds[1]));
                 out.println("You just killed " + cmds[1]);
                 out.flush();
+            } else if ("OneMax".equals(cmds[0])) {
+                String caminho;
+                String URL;
+                Boolean URLSite = true;
+                
+                String PrimeiraLinha;
+                
+                String Nome = cmds[0].toString();
+                String ProblemID = cmds[1].toString();
+                String ClientID = cmds[2].toString();
+                String PopSize = cmds[3].toString();
+                String AlleSize = cmds[4].toString();
+                String ParBestFit = cmds[5].toString();
+                String Itera = cmds[6].toString();
+
+                if (VerInt(ProblemID) && VerInt(ClientID) && VerInt(PopSize) && VerInt(AlleSize) && VerInt(ParBestFit) && VerInt(Itera)) {
+
+                    String NameFile = "OneMax.pc";
+                    if (cmds[7] == "Tournament") {
+                        PrimeiraLinha = "{type:\"" + Nome + "\",id:" + ProblemID + ",client:" + ClientID
+                                + ",selection:[\"" + cmds[7].toString() + "\"," + cmds[8].toString() + ","
+                                + cmds[9].toString() + "],mutation:[\"" + cmds[10].toString() + "\"," + cmds[11].toString()
+                                + "],recombination:[\"" + cmds[12].toString() + "\"],replacement:[\"" + cmds[13].toString()
+                                + "\"," + cmds[14].toString() + "," + cmds[15].toString() + "],iterations:" + Itera + ",pop:"
+                                + PopSize + ",alello:" + AlleSize + ",best:" + ParBestFit
+                                + ",lenght:1000,data:[[x,y],[y,z],[b,a]]}";
+                    } else {
+                        PrimeiraLinha = "{type:\"" + Nome + "\",id:" + ProblemID + ",client:" + ClientID + ",selection:[\""
+                                + cmds[7].toString() + "\"," + cmds[8].toString() + "],mutation:[\"" + cmds[9].toString() + "\","
+                                + cmds[10].toString() + "],recombination:[\"" + cmds[11].toString() + "\"],replacement:[\""
+                                + cmds[12].toString() + "\"," + cmds[13].toString() + "," + cmds[14].toString() + "],iterations:"
+                                + Itera + ",pop:" + PopSize + ",alello:" + AlleSize + ",best:" + ParBestFit
+                                + ",lenght:1000,data:[[x,y],[y,z],[b,a]]}";
+                    }
+                    FileWriter testFile = new FileWriter(NameFile);
+                    File file = new File(NameFile);
+                    BufferedWriter output = new BufferedWriter(testFile);
+                    output.write(PrimeiraLinha);
+                    output.close();
+                    //System.out.println("Your file has been written");
+
+                    caminho = file.getAbsolutePath().toString();
+                    //Text_Caminho.setText("File:" + caminho);
+
+
+                    //EmuladorEcran.TextArea.append("\nA Carregar dados...\n");
+                    //Emulador emu = new Emulador("File:" + caminho);
+//                    if (emu.Carregar()) {
+//                        Carregar.setEnabled(true);
+//                        Executar.setEnabled(true);
+//                    } else {
+//                        Carregar.setEnabled(false);
+//                        Executar.setEnabled(false);
+//                    }
+                    out.println("OK");
+                    out.flush();
+                    RemoteWork("File:"+caminho);
+                } else {
+                    out.println("NOTOK");
+                    out.flush();
+                }
+
+
+
             } else {
                 out.println("Comando não reconhecido");
                 out.flush();
             }
 
             //Administration.txt_consola.append(message+ "\n");
-
+            
 
 
         } catch (Exception ex) {
-            System.out.println(" finish " + client + " job.");
+            System.out.println(ex);
             return;
         }
         //}
 
+    }
+
+    public Boolean VerInt(String valor) {
+        boolean bem = false;
+        try {
+            Integer.parseInt(valor);
+            bem = true;
+        } catch (Exception e) {
+            return false;
+        }
+        return bem;
+    }
+    
+    public static void RemoteWork(String path){
+        //Inicialização de todos os módulos do PowerMaster
+        //Aplication app = new Aplication();
+        
+        Problem p = null;
+        try {
+           String  resultado = WebFileDownloader.Download(new URL(path));
+           p = Loader.Load(resultado);
+           System.out.println("\n"+resultado);
+           Object s = p.getNewSolver();
+            if (s == null) {
+                Solver exe = p.getNewSolver();
+                exe.run();
+            } else {
+                Solver exe = p.getNewSolver();
+                exe.run();
+            }
+        } catch (Exception ex) {
+            System.out.println("Erro no RemoteWork(): "+ex);
+            //EmuladorEcran.Escrever("\n\nERRO: "+ex);
+        }
     }
 }
