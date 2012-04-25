@@ -151,7 +151,7 @@ public class pOnesMax extends Problem {
 
         StopCriterion __stopCriterion = new StopCriterion(__iteractions, __bestFitness);
 
-        Solver solver = new Solver(__sizePopulation, __sizeAllelo, __prototypeIndividual, __stopCriterion, this.getOperators(), new GeneticEvents(PowerMaster.INTERVAL_PART, 1, 1));
+        Solver solver = new Solver(__sizePopulation, __sizeAllelo, __prototypeIndividual, __stopCriterion, this.getOperators(), new GeneticEvents(PowerMaster.INTERVAL_PART, this.getClientID(), this.getProblemID()));
         return solver;
         //return new Solver(__sizePopulation, __sizeAllelo, __prototypeIndividual,__stopCriterion,__operators, new GeneticEvents(PowerMaster.INTERVAL_PART,1,1));
 

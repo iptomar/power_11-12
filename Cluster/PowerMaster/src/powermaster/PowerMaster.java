@@ -5,15 +5,8 @@
 package powermaster;
 
 import Module.Aplication;
-import Module.Loader.Loader;
-import Module.Loader.Problem;
-import Module.WebHTTP.WebFileDownloader;
-import genetics.Solver;
+import Module.WebHTTP.WorkSocket;
 import io.socket.IOConnection;
-import java.io.IOException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -21,8 +14,8 @@ import java.util.logging.Logger;
  */
 public class PowerMaster {
 
-    private static SolverThread[] arrayThread;
-    private static int NUM_THREADS = 5;
+    public static SolverThread[] arrayThread;
+    public static int NUM_THREADS = 5;
     public static int INTERVAL_PART = 50;
 
     /**
@@ -32,8 +25,12 @@ public class PowerMaster {
         //Inicialização de todos os módulos do PowerMaster
         Aplication app = new Aplication();
 
+        System.out.println("ze");
+        
         WorkSocket ws = new WorkSocket(8080);
         ws.start();
+        
+        
         
         try {
             if (args[0].equals("false")) {
@@ -49,7 +46,7 @@ public class PowerMaster {
         }
 
         //Verificação se está tudo Ok
-        if (ap.STATUS) {
+        if (app.STATUS) {
         }
 
         // Desligar o debug do sockets em IOConnection

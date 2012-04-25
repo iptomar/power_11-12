@@ -192,23 +192,25 @@ public class pKnapSack extends Problem {
             int __sizeAllelo = this.alelloSize;
            
             
-            Individual __prototypeIndividual=new genetics.algorithms.KnapSack(3 +" "+10+" 1 2 3 1 2 3", ModeFunction.PENALTY, penalty);
+//            Individual __prototypeIndividual=new genetics.algorithms.KnapSack(3 +" "+10+" 1 2 3 1 2 3", ModeFunction.PENALTY, penalty);
 
-//            if(this.mode==0)
-//                return null;
-//            if(this.mode==1)    
-//                __prototypeIndividual = new genetics.algorithms.KnapSack(lenght, this.ValorPeso, ModeFunction.PENALTY, penalty);
-//            if(this.mode==2)    
-//                __prototypeIndividual = new genetics.algorithms.KnapSack(lenght, this.ValorPeso, ModeFunction.PSEUDO_RANDOM, penalty);    
-//            if(this.mode==3)    
-//                __prototypeIndividual = new genetics.algorithms.KnapSack(lenght, this.ValorPeso, ModeFunction.RANDOM, penalty);                  
+            Individual __prototypeIndividual=null;
+            
+            if(this.mode==0)
+                return null;
+            if(this.mode==1)    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(lenght, this.ValorPeso, ModeFunction.PENALTY, penalty);
+            if(this.mode==2)    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(lenght, this.ValorPeso, ModeFunction.PSEUDO_RANDOM, penalty);    
+            if(this.mode==3)    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(lenght, this.ValorPeso, ModeFunction.RANDOM, penalty);                  
             
             int __iteractions = this.Iterations;
             double __bestFitness = (double) this.bestFitness;
 
             StopCriterion __stopCriterion = new StopCriterion(__iteractions, __bestFitness);        
             
-            Solver solver = new Solver(__sizePopulation, __sizeAllelo, __prototypeIndividual, __stopCriterion, this.getOperators(), new GeneticEvents(PowerMaster.INTERVAL_PART, 1, 1));
+            Solver solver = new Solver(__sizePopulation, __sizeAllelo, __prototypeIndividual, __stopCriterion, this.getOperators(), new GeneticEvents(PowerMaster.INTERVAL_PART, this.getClientID(), this.getProblemID()));
             return solver;
         }else{
             System.out.println("Loader not loaded!?!?! :)");

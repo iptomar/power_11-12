@@ -109,7 +109,7 @@ public class GeneticEvents implements EventsSolver {
     @Override
     public void EventFinishSolver(int i, Population pltn) {
         Statistics statistics = new Statistics(pltn);
-        Database db = new Database();
+        //Database db = new Database();
         Operations.InserirIteracoes(Thread.currentThread().getName().toString(), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 2, statistics.getVarianciaPopulation());
 
        
@@ -121,7 +121,7 @@ public class GeneticEvents implements EventsSolver {
 //        System.out.println("Desvio Padrão: " + statistics.getDesvioPadraoPopulation().doubleValue());
 //        System.out.println("--------------------------------------------------");
 //        System.out.println("");
-//
+
 //        System.out.println("Hall of Fame - Top 5");
 //        System.out.println("--------------------------------------------------");
 //        System.out.println(PopulationUtils.getHallOfFame(pltn, 5));

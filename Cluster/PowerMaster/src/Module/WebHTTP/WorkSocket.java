@@ -3,21 +3,20 @@
  * and open the template in the editor.
  */
 package Module.WebHTTP;
+
 import powermaster.*;
 
 import Module.Loader.Loader;
 import Module.Loader.Problem;
-import genetics.Solver;
+import NodeJS.Statistics.AsyncStats;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  *
@@ -50,8 +49,21 @@ public class WorkSocket extends Thread {
                         //JSONObject obj = new JSONObject(data);
                         Problem p;
                         p = Loader.Load(data);
-                        Solver s = p.getNewSolver();
-                        s.run();
+//                        Solver s = p.getNewSolver();
+//                        s.run();
+                        AtomicInteger numThreads = new AtomicInteger(5);
+                        SolverThread[] arrayThread = new SolverThread[5];
+                        for (int i = 0; i < arrayThread.length; i++) {
+                            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
+                            arrayThread[i].start();
+                            arrayThread[i].setName("" + i);
+
+                        }
+                        System.out.println("Start Async");
+                        
+                        AsyncStats async = new AsyncStats(numThreads, 1, p.getClientID(), p.getProblemID());
+                        async.start();
+
                     } catch (Exception ex) {
                         Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -64,6 +76,4 @@ public class WorkSocket extends Thread {
 
         }
     }
-
 }
-
