@@ -4,7 +4,6 @@
  */
 package powermaster;
 
-
 import genetics.Solver;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -14,27 +13,31 @@ import java.util.logging.Logger;
  *
  * @author Bruno Oliveira nº 11127 IPT-ESTT
  */
-public class SolverThread extends Thread{
-    
-Solver solve;
-AtomicInteger numThreads;
+public class SolverThread extends Thread {
 
+    Solver solver;
+    AtomicInteger numThreads;
+
+    /**
+     * 
+     * @param solve
+     * @param numThreads 
+     * 
+     */
     public SolverThread(Solver solve, AtomicInteger numThreads) {
-           this.solve = solve;
-           this.numThreads = numThreads;
+        this.solver = solve;
+        this.numThreads = numThreads;
     }
-    
-    public void run(){
+
+    public void run() {
         try {
-            //Solver __newSolver = new Solver(1000, 100, new OnesMax(), 100000, 99, new GeneticEvents(PowerMaster.INTERVAL_PART));
-            Solver __newSolver = solve;
+            Solver __newSolver = solver;
             __newSolver.run();
-            
+
             numThreads.getAndDecrement();
             System.out.println("Atomic numThreads: " + numThreads.toString());
         } catch (Exception ex) {
             Logger.getLogger(SolverThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }
