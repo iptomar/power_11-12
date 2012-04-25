@@ -25,7 +25,7 @@ public class PowerMaster {
         //Inicialização de todos os módulos do PowerMaster
         Aplication app = new Aplication();
 
-        System.out.println("ze");
+        //System.out.println("ze");
         
         WorkSocket ws = new WorkSocket(8080);
         ws.start();
