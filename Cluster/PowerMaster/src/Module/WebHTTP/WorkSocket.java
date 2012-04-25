@@ -64,6 +64,7 @@ public class WorkSocket extends Thread {
                         }
 
                         System.out.println("Start Async");
+                        System.out.println("Async:: Client:"+p.getClientID()+" id:"+p.getProblemID());
                         AsyncStats async = new AsyncStats(numThreads, 5, p.getClientID(), p.getProblemID());
                         async.start();  
 

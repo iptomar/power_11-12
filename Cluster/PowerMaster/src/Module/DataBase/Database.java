@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -89,12 +91,21 @@ public class Database extends AbstractAplication {
         return count;
     }
 
-    public boolean ExecuteMedia(int period, int idClient, int idProblem) throws SQLException {
-        boolean erro = false;
-        ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, AVG(best) AS best, AVG(deviation) AS deviation, AVG(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
-        rs.first();
-        erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ")");
-        return erro;
+    public boolean ExecuteMedia(int period, int idClient, int idProblem) throws Exception {
+        try{
+            boolean erro = false;
+            ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, AVG(best) AS best, AVG(deviation) AS deviation, AVG(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
+            rs.first();
+            erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ")");
+            return erro;
+        }catch(SQLException e){
+            try {
+                StartUp();
+                return ExecuteMedia(period,idClient,idProblem);
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
     }
 
     /**
@@ -114,6 +125,12 @@ public class Database extends AbstractAplication {
             } catch (Exception e) {
                 System.out.println("ERRO nA BD " + e);
                 e.printStackTrace();
+                try {
+                    StartUp();
+                    ExecuteNonQuery(cmd);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 return false;
             }
         }

@@ -223,7 +223,7 @@ public class pKnapSack extends Problem {
                     }
             }
             this.alelloSize = this.lenght;
-            Individual __prototypeIndividual=new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, penalty);
+            Individual __prototypeIndividual=new genetics.algorithms.KnapSack(this.alelloSize +" "+this.bestFitness+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, penalty);
 
             //Individual __prototypeIndividual=null;
 //            if(this.mode==0)
@@ -266,6 +266,8 @@ public class pKnapSack extends Problem {
 
             StopCriterion __stopCriterion = new StopCriterion(__iteractions, __bestFitness);        
             
+            
+            System.out.println("\n\nClient: "+this.getClientID() + "| Problem: "+this.getProblemID()+" \n\n");
             Solver solver = new Solver(__sizePopulation, __sizeAllelo, __prototypeIndividual, __stopCriterion, this.getOperators(), new GeneticEvents(PowerMaster.INTERVAL_PART, this.getClientID(), this.getProblemID()));
             return solver;
         }else{

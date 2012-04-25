@@ -9,6 +9,7 @@ import Module.Loader.Loader;
 import Module.Loader.Problem;
 import Module.WebHTTP.WorkSocket;
 import NodeJS.Statistics.AsyncStats;
+import io.socket.IOConnection;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -30,6 +31,8 @@ public class PowerMaster {
         Aplication app = new Aplication();
 
         System.out.println("PowerMaster Initializing..");
+        
+        IOConnection.loggerDebug = true;
         
         WorkSocket ws = new WorkSocket(8080);
         ws.start();

@@ -4,6 +4,7 @@
  */
 package Module.Loader;
 
+import java.util.Random;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +27,8 @@ public class Loader {
                 //Atribnuição de Identificadores globais
                 oneMax.setProblemID(data.getInt("client"));
                 oneMax.setClientID(data.getInt("id"));
+//                oneMax.setProblemID(1000);
+//                oneMax.setClientID(1000);                
                 System.out.println("##### OnesMax Problem Ok #####");
                 return (Problem)oneMax;
             }
@@ -40,6 +43,8 @@ public class Loader {
                 //Atribnuição de Identificadores globais
                 knapSack.setProblemID(data.getInt("client"));
                 knapSack.setClientID(data.getInt("id"));
+//                knapSack.setProblemID(1000);
+//                knapSack.setClientID(1000);
                 System.out.println("##### KnapSack Problem Ok #####");
                 return (Problem)knapSack;
             }
