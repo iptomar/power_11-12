@@ -31,23 +31,23 @@ public class PowerMaster {
 
         System.out.println("PowerMaster Initializing..");
         
-//        WorkSocket ws = new WorkSocket(8080);
-//        ws.start();
+        WorkSocket ws = new WorkSocket(8080);
+        ws.start();
         
 
-        Problem p = null;
-        p = Loader.Load("{type:'OneMax',id:1,client:1,selection:['roulette',100],mutation:['flipbit',0.01],recombination:['crossover'],replacement:['tournament',20,30],iterations:1000,pop:1000,alello:100,best:99,lenght:1000,data:[[x,y],[y,z],[b,a]]}");
-        arrayThread = new SolverThread[NUM_THREADS];
-        AtomicInteger numThreads = new AtomicInteger(NUM_THREADS);
-        
-        for (int i = 0; i < arrayThread.length; i++) {
-            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
-            arrayThread[i].start();
-            arrayThread[i].setName(""+i);
-        }
-        
-        AsyncStats async = new AsyncStats(numThreads,INTERVAL_PART,p.getClientID(),p.getProblemID());
-        async.start();
+//        Problem p = null;
+//        p = Loader.Load("{type:'OneMax',id:1,client:1,selection:['roulette',100],mutation:['flipbit',0.01],recombination:['crossover'],replacement:['tournament',20,30],iterations:1000,pop:1000,alello:100,best:99,lenght:1000,data:[[x,y],[y,z],[b,a]]}");
+//        arrayThread = new SolverThread[NUM_THREADS];
+//        AtomicInteger numThreads = new AtomicInteger(NUM_THREADS);
+//        
+//        for (int i = 0; i < arrayThread.length; i++) {
+//            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
+//            arrayThread[i].start();
+//            arrayThread[i].setName(""+i);
+//        }
+//        
+//        AsyncStats async = new AsyncStats(numThreads,INTERVAL_PART,p.getClientID(),p.getProblemID());
+//        async.start();
     }
 }
 
