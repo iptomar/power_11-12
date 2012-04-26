@@ -47,7 +47,6 @@ namespace PowerComputing
 
         private void Entrar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            
             bool resultado = acesso.Login(tb_email.Text, tb_password.Password);
             
             if (resultado == true)
@@ -61,7 +60,6 @@ namespace PowerComputing
                 System.Media.SoundPlayer player = new System.Media.SoundPlayer("Sounds/access_denied.wav");
                 player.Play();
             }
-            
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
