@@ -65,26 +65,27 @@ public class WorkSocket2 extends Thread {
 
         }
     }
-public static void IniciarPeloEmulador(String caminho){
-        //Inicialização de todos os módulos do PowerMaster
-        //Aplication app = new Aplication();
-        
-        Problem p = null;
-        try {
-           String  resultado = WebFileDownloader.Download(new URL(caminho));
-           p = Loader.Load(resultado);
-           System.out.println("\n"+resultado);
-           
-            arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
-            AtomicInteger numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
-
-            for (int i = 0; i < arrayThread.length; i++) {
-                arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
-                arrayThread[i].start();
-                arrayThread[i].setName(""+i);
-            }
-
-    
+//public static void IniciarPeloEmulador(String caminho){
+//        //Inicialização de todos os módulos do PowerMaster
+//        //Aplication app = new Aplication();
+//        
+//        Problem p = null;
+//        try {
+//           String  resultado = WebFileDownloader.Download(new URL(caminho));
+//           p = Loader.Load(resultado);
+//           System.out.println("\n"+resultado);
+//           
+//            arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
+//            AtomicInteger numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
+//
+//            for (int i = 0; i < arrayThread.length; i++) {
+//                arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
+//                arrayThread[i].start();
+//                arrayThread[i].setName(""+i);
+//            }
+//
+//        }
+//}
     
     public static void main(String[] args) throws InterruptedException {
         //WorkSocket2 ws = new WorkSocket2(8080);

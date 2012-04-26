@@ -64,8 +64,6 @@ public class Database extends AbstractAplication {
             this.AplicationStatus = false;
             ex.printStackTrace();
         }
-
-        Operations op = new Operations(this);
     }
 
     /**
@@ -119,18 +117,20 @@ public class Database extends AbstractAplication {
         if (this.AplicationStatus) {
             try {
                 //System.out.println(cmd);
-
-                Command.execute(cmd);
+                if(!Connection.isClosed()){
+                    Command.execute(cmd);
+                }else{
+                    try {
+                        StartUp();
+                        ExecuteNonQuery(cmd);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+                    }                    
+                }
                 return true;
             } catch (Exception e) {
                 System.out.println("ERRO nA BD " + e);
                 e.printStackTrace();
-                try {
-                    StartUp();
-                    ExecuteNonQuery(cmd);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-                }
                 return false;
             }
         }

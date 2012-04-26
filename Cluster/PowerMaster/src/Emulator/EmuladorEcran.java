@@ -872,13 +872,13 @@ private void ExecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         if (URLSite) {
             TextArea.append("\n\nA EXECUTAR...");
              Executar.setEnabled(true);
-             WorkSocket2.IniciarPeloEmulador(caminho);
+             //WorkSocket2.IniciarPeloEmulador(caminho);
              TextArea.append("\n\nPROBLEMA FINALIZADO");
              Carregar.setEnabled(true);
         }else{
              TextArea.append("\n\nA EXECUTAR...");
              Executar.setEnabled(true);
-             WorkSocket2.IniciarPeloEmulador("File:"+caminho);
+             //WorkSocket2.IniciarPeloEmulador("File:"+caminho);
              TextArea.append("\n\nPROBLEMA FINALIZADO");
              Carregar.setEnabled(true);
         }
