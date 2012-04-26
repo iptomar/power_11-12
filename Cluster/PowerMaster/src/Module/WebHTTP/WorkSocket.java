@@ -69,6 +69,7 @@ public class WorkSocket extends Thread {
                         async.setPriority(Thread.MAX_PRIORITY);
                         async.start();  
                         
+                        async.join();
 
                     } catch (Exception ex) {
                         Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
