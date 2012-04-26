@@ -7,14 +7,18 @@ package Module.Administration;
 import Module.Loader.Loader;
 import Module.Loader.Problem;
 import Module.WebHTTP.WebFileDownloader;
+import NodeJS.Statistics.AsyncStats;
 import genetics.Solver;
 import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import powermaster.PowerMaster;
+import powermaster.SolverThread;
 
 /**
  *
@@ -26,7 +30,7 @@ public class AdministrationClient extends Thread {
     PrintStream out;
     Socket socket;
     String estado;
-
+    public static SolverThread[] arrayThread;
     public AdministrationClient(Socket sock) {
         socket = sock;
         try {
@@ -271,14 +275,19 @@ public class AdministrationClient extends Thread {
            String  resultado = WebFileDownloader.Download(new URL(path));
            p = Loader.Load(resultado);
            System.out.println("\n"+resultado);
-           Object s = p.getNewSolver();
-            if (s == null) {
-                Solver exe = p.getNewSolver();
-                exe.run();
-            } else {
-                Solver exe = p.getNewSolver();
-                exe.run();
+           
+            arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
+            AtomicInteger numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
+
+            for (int i = 0; i < arrayThread.length; i++) {
+                arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
+                arrayThread[i].start();
+                arrayThread[i].setName(""+i);
             }
+
+            AsyncStats async = new AsyncStats(numThreads,PowerMaster.INTERVAL_PART,p.getClientID(),p.getProblemID());
+            async.start();
+
         } catch (Exception ex) {
             System.out.println("Erro no RemoteWork(): "+ex);
             //EmuladorEcran.Escrever("\n\nERRO: "+ex);
