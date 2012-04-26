@@ -24,7 +24,7 @@ public class AsyncStats extends Thread {
 
     public AsyncStats(AtomicInteger numThreads, int period, int idClient, int idProblem) {
         this.numThreads = numThreads;
-        this.period = period;
+        this.period = period-1;
         this.aux = period;
         this.idClient = idClient;
         this.idProblem = idProblem;

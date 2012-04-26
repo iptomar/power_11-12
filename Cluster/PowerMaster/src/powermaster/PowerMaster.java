@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PowerMaster {
 
     public static SolverThread[] arrayThread;
-    public static int NUM_THREADS = 5;
+    public static int NUM_THREADS = 1;
     public static int INTERVAL_PART = 1;
 
     /**
@@ -33,6 +33,9 @@ public class PowerMaster {
         System.out.println("PowerMaster Initializing..");
         
         IOConnection.loggerDebug = true;
+        
+        INTERVAL_PART = Integer.parseInt(args[0]);
+        NUM_THREADS = Integer.parseInt(args[1]);
         
         WorkSocket ws = new WorkSocket(8080);
         ws.start();

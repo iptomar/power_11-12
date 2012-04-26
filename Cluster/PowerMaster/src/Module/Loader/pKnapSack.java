@@ -158,7 +158,7 @@ public class pKnapSack extends Problem {
                 }    
             }catch(Exception e){
                 //Valor estatico da mochila
-                this.weight = 100;
+                this.weight = 1473;
                 this.addParam(pKnapSack.PARAM_WEIGHT, this.weight);
                 this.PARAM_ADDED++;
             }
@@ -242,27 +242,27 @@ public class pKnapSack extends Problem {
                 return null;
             //Arranque com Linear
             if(this.mode==1 && this.penalty==1)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.bestFitness+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_LINEAR);
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_LINEAR);
             if(this.mode==2 && this.penalty==1)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.bestFitness+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_LINEAR);    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_LINEAR);    
             if(this.mode==3 && this.penalty==1)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.bestFitness+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_LINEAR);              
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_LINEAR);              
             
             //Arranque com Quadratic
             if(this.mode==1 && this.penalty==2)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.bestFitness+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_QUADRATIC);
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_QUADRATIC);
             if(this.mode==2 && this.penalty==2)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.bestFitness+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_QUADRATIC);    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_QUADRATIC);    
             if(this.mode==3 && this.penalty==2)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.bestFitness+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_QUADRATIC);             
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_QUADRATIC);             
 
             //Arranque com Quadratic
             if(this.mode==1 && this.penalty==3)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.bestFitness+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_CUBIC);
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_CUBIC);
             if(this.mode==2 && this.penalty==3)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.bestFitness+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_CUBIC);    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_CUBIC);    
             if(this.mode==3 && this.penalty==3)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.bestFitness+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_CUBIC);            
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_CUBIC);            
             
             int __iteractions = this.Iterations;
             double __bestFitness = (double) this.bestFitness;
