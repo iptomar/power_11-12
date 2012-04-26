@@ -4,6 +4,10 @@
  */
 package Module.Loader;
 
+import java.util.Random;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 /**
  *
@@ -12,38 +16,35 @@ package Module.Loader;
 public class Loader {
      static String[] linhas; 
      
-    public static Problem Load(String dataIn) {
-        //remover todos os caracteres estranhos
-        dataIn = dataIn.replace("\r", "");
-        //Obter todas as linhas do documento
-        linhas = dataIn.split("\n");
-        //Leitura da primeira linha para verificar qual o tipo de problema
-        String[] primeiraLinha = linhas[0].split(";");
-        //Verificação do tipo de problema (Linha 1)
-       
-        if (primeiraLinha[0].equals(OnesMax.ProblemName) && Problem.VerInt(primeiraLinha)) {
+    public static Problem Load(String dataIn) throws Exception {
+        JSONObject data = new JSONObject(dataIn);
+        if (data.getString("type").equals(pOnesMax.ProblemName)) {
             System.out.println("##### New Ones Max Problem #####");
             //Problema do tipo OnesMax
-            OnesMax oneMax = new OnesMax(linhas);
+            pOnesMax oneMax = new pOnesMax(data);
             //Verificar se o objecto foi carregado com sucesso com a informação passada
             if(oneMax.getStatus()){
                 //Atribnuição de Identificadores globais
-                oneMax.setProblemID(Integer.parseInt(primeiraLinha[1]));
-                oneMax.setClientID(Integer.parseInt(primeiraLinha[2]));
+                oneMax.setProblemID(data.getInt("client"));
+                oneMax.setClientID(data.getInt("id"));
+//                oneMax.setProblemID(1000);
+//                oneMax.setClientID(1000);                
                 System.out.println("##### OnesMax Problem Ok #####");
                 return (Problem)oneMax;
             }
             System.out.println("##### OnesMax NOT LOADED #####");
         }
-        if (primeiraLinha[0].equals(KnapSack.ProblemName) && Problem.VerInt(primeiraLinha)) {
+        if (data.getString("type").equals(pKnapSack.ProblemName)) {
             System.out.println("##### New KnapSack Problem #####");
             //Problema do tipo OnesMax
-            KnapSack knapSack = new KnapSack(linhas);
+            pKnapSack knapSack = new pKnapSack(data);
             //Verificar se o objecto foi carregado com sucesso com a informação passada
             if(knapSack.getStatus()){
                 //Atribnuição de Identificadores globais
-                knapSack.setProblemID(Integer.parseInt(primeiraLinha[1]));
-                knapSack.setClientID(Integer.parseInt(primeiraLinha[2]));
+                knapSack.setProblemID(data.getInt("client"));
+                knapSack.setClientID(data.getInt("id"));
+//                knapSack.setProblemID(1000);
+//                knapSack.setClientID(1000);
                 System.out.println("##### KnapSack Problem Ok #####");
                 return (Problem)knapSack;
             }
@@ -52,9 +53,5 @@ public class Loader {
         
         return null;
     }
-    
-    
-    
-    
 
 }

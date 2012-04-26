@@ -17,7 +17,7 @@ import org.json.JSONObject;
  *
  * @author Bruno Oliveira nº 11127 IPT-ESTT
  */
-public class NodeEmiter extends AbstractAplication implements IOCallback  {
+public class NodeEmiter extends AbstractAplication implements IOCallback {
 
     /**
      * Objecto do tipo SocketIO
@@ -28,18 +28,18 @@ public class NodeEmiter extends AbstractAplication implements IOCallback  {
      * Este objecto permite enviar informação para um servidor de Node.JS com eventos.
      */
     private SocketIO socket;
-    
+
     /**
      * Construtor do objecto NodeEmiter
      * @throws MalformedURLException Caso existe algum erro será enviado por o contrutor
      */
-    public NodeEmiter() throws MalformedURLException{
+    public NodeEmiter() throws MalformedURLException {
         super("Node.JS Module");
         socket = new SocketIO();
-        socket.connect("http://130.185.82.35:90", this);   
+        socket.connect("http://130.185.82.35:90", this);
         this.AplicationStatus = true;
     }
-    
+
     /**
      * Método que permite enviar um envento para o servidor Node.JS (Versão DEMO)
      * @param event Identificador do evento
@@ -47,12 +47,16 @@ public class NodeEmiter extends AbstractAplication implements IOCallback  {
      * @param bestValue String valor 2 - neste caso é o melhor valor encontrado
      * @throws JSONException 
      */
-    public void Emit(String event, String iteration ,String bestValue) throws JSONException{
+    public void Emit(String event, int iteration, int clientID, int problemID) throws JSONException {
         //Criar o objecto JSON
-        JSONObject x = new JSONObject().put(iteration,bestValue);
+        JSONObject x = new JSONObject();
+        x.put("Itera", "" + iteration);
+        x.put("idClient", "" + clientID);
+        x.put("idProblem", "" + problemID);
         //Enviar o evento para o servidor Node.JS
-        socket.emit(event, x);        
-    }      
+        socket.emit(event, x);
+        System.out.println(x.toString());
+    }
 
     @Override
     public void onDisconnect() {
@@ -83,6 +87,4 @@ public class NodeEmiter extends AbstractAplication implements IOCallback  {
     public void onError(SocketIOException sioe) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    
 }

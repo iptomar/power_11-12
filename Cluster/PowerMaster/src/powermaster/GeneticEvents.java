@@ -4,15 +4,12 @@
  */
 package powermaster;
 
-import Module.Aplication;
 import Module.DataBase.Database;
 import Module.DataBase.Operations;
 import genetics.Population;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.JSONException;
+import statistics.Statistics;
 import utils.EventsSolver;
+import utils.PopulationUtils;
 
 /**
  *
@@ -24,86 +21,66 @@ public class GeneticEvents implements EventsSolver {
     int nextInterval;
     int idClient;
     int idProblem;
-   
-    public GeneticEvents(int interval,int idClient, int idProblem) {
+
+    public GeneticEvents(int interval, int idClient, int idProblem) {
         this.Interval = interval;
         this.nextInterval = Interval;
         this.idClient = idClient;
         this.idProblem = idProblem;
     }
 
-    /*@Override
+    @Override
     public void EventStartSolver() {
-        try {
-            System.out.println("Sovler - START");
-            Aplication.nodeJS.Emit("startrun", "1", "[[");
-        } catch (JSONException ex) {
-            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        System.out.println("Thread["+Thread.currentThread().getName()+"]: Sovler started");
+//        try {
+//            Aplication.nodeJS.Emit("startrun", "1", "[[");
+//        } catch (Exception ex) {
+//            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     @Override
     public void EventIteraction(int i, Population pltn) {
-        try {
-            if (i == nextInterval) {
-                int best = pltn.getBestFitness();
-                Aplication.nodeJS.Emit("event", "" + i, "" + pltn.getBestFitness());
-                
-               
-                // Testes
-                try {
-
-                 Operations op = new Operations();
-                 op
-                
-                    //db.ExecuteNonQuery("INSERT INTO teste VALUES ("+ i + ","+ best +")");
-                } catch (Exception e) {
-
-                   
-                }
-                
-                
-                System.out.println(i + "-" + best);
-                nextInterval += Interval;
-            }
-        } catch (JSONException ex) {
-            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+        // De 10 em 10 vai mostrar estatistica
+        Statistics statistics = new Statistics(pltn);
+        if ((i % 10) == 0) {
+            System.out.println("Thread["+Thread.currentThread().getName()+"]:");
+            System.out.println("--------------------------------------------------");
+            System.out.println("Iteration:" + i);
+            System.out.println("Variance: " + statistics.getVarianciaPopulation().doubleValue());
+            System.out.println("Average:" + statistics.getMediaFitnessPopulation().doubleValue());
+            System.out.println("Deviation: " + statistics.getDesvioPadraoPopulation().doubleValue());
+            System.out.println("");
         }
-    }
 
-    @Override
-    public void EventFinishSolver(Population pltn) {
-        try {
-            int best = pltn.getBestFitness();
-            Aplication.nodeJS.Emit("event", "" + this.nextInterval, "" + pltn.getBestFitness());
-            System.out.println(this.nextInterval + "-" + best);
-            Aplication.nodeJS.Emit("startrun", "1", "]]");
-            System.out.println("Sovler - END");
-        } catch (JSONException ex) {
-            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+        if (i == 0) {
+            boolean aux = Operations.InserirIteracoes(Thread.currentThread().getName().toString(), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 0, statistics.getVarianciaPopulation());
+            System.out.println("Thread["+Thread.currentThread().getName()+"]First Iteration inserted[" + i + "]:" + aux);
+        } else {
+            boolean aux = Operations.InserirIteracoes(Thread.currentThread().getName().toString(), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 1, statistics.getVarianciaPopulation());
+            System.out.println("Thread["+Thread.currentThread().getName()+"]Iteration inserted[" + i + "]:" + aux);
         }
-    }*/
 
-    @Override
-    public void EventStartSolver() {
-        try {
-            System.out.println("Sovler - START");
-            Aplication.nodeJS.Emit("startrun", "1", "[[");
-        } catch (JSONException ex) {
-            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
-    @Override
-    public void EventIteraction(int i, Population pltn) {
-        Operations op = new Operations();
-        
-        op.InserirIteracoes(Thread.currentThread().getName().toString(),i,this.idClient, this.idProblem, pltn.getBestFiteness(),pltn.getMediaFitness(),pltn.getNumBestFitness(),pltn.getBestIndString(),pltn.getDesvioPadrao(),1);
-       
     }
 
     @Override
     public void EventFinishSolver(int i, Population pltn) {
+        Statistics statistics = new Statistics(pltn);
+        boolean aux = Operations.InserirIteracoes(Thread.currentThread().getName().toString(), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 2, statistics.getVarianciaPopulation());
+        System.out.println("Thread["+Thread.currentThread().getName()+"]Last Iteration inserted[" + i + "]:" + aux);
         
+        System.out.println("Thread["+Thread.currentThread().getName()+"]: Solver ended");
+        System.out.println("--------------------------------------------------");
+        System.out.println("Iteration:" + i);
+        System.out.println("Variance: " + statistics.getVarianciaPopulation().doubleValue());
+        System.out.println("Average:" + statistics.getMediaFitnessPopulation().doubleValue());
+        System.out.println("Deviation: " + statistics.getDesvioPadraoPopulation().doubleValue());
+        System.out.println("--------------------------------------------------");
+        System.out.println("");
+
+        System.out.println("Hall of Fame - Top 5");
+        System.out.println("--------------------------------------------------");
+        System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
     }
 }
