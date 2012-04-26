@@ -1,0 +1,36 @@
+﻿<Window x:Class="PowerComputing.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Power Computing" Height="280" Width="500" ResizeMode="CanMinimize" Icon="/PowerComputing;component/Images/power_icon_black.png" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Grid Background="{x:Null}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="199*"/>
+            <RowDefinition Height="26*"/>
+            <RowDefinition Height="16*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.368*"/>
+            <ColumnDefinition Width="0.04*"/>
+            <ColumnDefinition Width="0.141*"/>
+            <ColumnDefinition Width="0.451*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Formulario de login -->
+        <TextBlock Height="15.652" Margin="53.141,0,33.073,52" TextWrapping="Wrap" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" Foreground="White" Text="Ken Jeong"/>
+        <TextBox CharacterCasing="Normal" ClipToBounds="False" FontSize="11" FontStyle="Italic" Foreground="#FF292727" Height="23" HorizontalAlignment="Left" IsReadOnly="False" Margin="0.125,60,0,0" x:Name="tb_email" Text="e-mail" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="239" SelectionBrush="#FF292727" Background="White" Grid.Column="2" Grid.ColumnSpan="2" />
+        <PasswordBox FontSize="11" Height="23" Foreground="#FF292727" HorizontalAlignment="Left" Margin="0.125,89,0,87" x:Name="tb_password" Password="password" VerticalContentAlignment="Center" Width="239" SelectionBrush="#FF292727" Background="White" Grid.Column="2" Grid.ColumnSpan="2" />
+        <Label Content="Esqueceu a sua password?" Cursor="Hand" FontSize="11" Foreground="CadetBlue" Height="29" HorizontalAlignment="Left" Margin="15,116,0,0" x:Name="label1" VerticalAlignment="Top" Width="152" Grid.Column="1" Grid.ColumnSpan="3" />
+        <CheckBox Content="Lembrar o meu e-mail e password" FontSize="11" Foreground="#FF292727" Height="16" HorizontalAlignment="Left" Margin="0.125,149,0,0" x:Name="cb_lembrar" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="2" />
+        <CheckBox Content="Entrar automaticamente" FontSize="11" Foreground="#FF292727" Height="16" HorizontalAlignment="Left" Margin="1,172,0,0" x:Name="cb_entrar_auto" VerticalAlignment="Top" Grid.Column="2" Width="148.206" Grid.ColumnSpan="2" />
+        <TextBlock Margin="0.125,11,61.12,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="29.333" Foreground="#FF292727" Grid.Column="2" Grid.ColumnSpan="2"><Run Language="pt-pt" Text="Iniciar Sessão"/></TextBlock>
+
+        <!-- Avatar do utilizador -->
+        <Border x:Name="boder_avatar" BorderBrush="#FF292727" BorderThickness="8,8,8,22" Margin="38.896,22,25,52">
+            <Image Height="Auto" Name="image1" Stretch="Fill" Width="Auto" Source="/PowerComputing;component/Images/default_avatar.gif" />
+        </Border>
+        <TextBlock Margin="47.141,0,33.073,56" TextWrapping="Wrap" VerticalAlignment="Bottom" Foreground="White" Text="[Nome]" Name="tb_nome" />
+        <Rectangle Grid.Column="2" Fill="White" Stroke="#FF413F3F" Grid.Row="1" Cursor="Hand" StrokeThickness="2" MouseLeftButtonDown="Entrar_MouseLeftButtonDown" />
+        <TextBlock Grid.Column="2" Width="Auto" Height="Auto" TextWrapping="Wrap" Foreground="#FF413F3F" Grid.Row="1" Text="Entrar" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Margin="18,4,18,6" MouseLeftButtonDown="Entrar_MouseLeftButtonDown" />
+        <Image Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left" Margin="12,4,0,4" Name="image2" Stretch="Fill" Width="15" Source="/PowerComputing;component/Images/glyphicons_280_settings.png" Cursor="Hand" MouseLeftButtonDown="image2_MouseLeftButtonDown" Height="15" />
+    </Grid>
+</Window>
