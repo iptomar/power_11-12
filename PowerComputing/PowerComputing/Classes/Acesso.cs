@@ -8,26 +8,6 @@ namespace PowerComputing.Classes
 {
     class Acesso : Conectar
     {
-        public void Registar()
-        {
-            string[] guid = Guid.NewGuid().ToString().Split('-');
-            string salt = "";
-
-            for (int i = 0; i < guid.Length - 2; i++)
-            {
-                salt += guid[i];
-            }
-
-            string inserts = "INSERT INTO logins VALUES (null, 'Marinheiro', 'rmlm1@iol.pt', SHA1(CONCAT('pc#admin','" + salt + "')), '" + salt + "', '1', '1', NOW());";
-            inserts += "INSERT INTO logins VALUES (null, 'Matense', 'matense16@gmail.com', SHA1(CONCAT('pc#admin','" + salt + "')), '" + salt + "', '1', '1', NOW());";
-            inserts += "INSERT INTO logins VALUES (null, 'Kopdicht', 'nunes.francisco766@gmail.com', SHA1(CONCAT('pc#admin','" + salt + "')), '" + salt + "', '1', '1', NOW());";
-
-            Coneccao.Open();
-            Comando.CommandText = inserts;
-            Comando.ExecuteNonQuery();
-            Coneccao.Close();
-        }
-
         public bool Login(string email, string password)
         {
             Comando.Parameters.AddWithValue("@email", email);
