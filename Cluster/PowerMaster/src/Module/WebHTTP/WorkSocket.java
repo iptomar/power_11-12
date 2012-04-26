@@ -52,8 +52,8 @@ public class WorkSocket extends Thread {
 //                        Solver s = p.getNewSolver();
 //                        s.run();
                         
-                        AtomicInteger numThreads = new AtomicInteger(5);
-                        SolverThread[] arrayThread = new SolverThread[5];
+                        AtomicInteger numThreads = new AtomicInteger(25);
+                        SolverThread[] arrayThread = new SolverThread[25];
                         
  
                         
@@ -66,7 +66,9 @@ public class WorkSocket extends Thread {
                         System.out.println("Start Async");
                         System.out.println("Async:: Client:"+p.getClientID()+" id:"+p.getProblemID());
                         AsyncStats async = new AsyncStats(numThreads, 5, p.getClientID(), p.getProblemID());
+                        async.setPriority(Thread.MAX_PRIORITY);
                         async.start();  
+                        
 
                     } catch (Exception ex) {
                         Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);

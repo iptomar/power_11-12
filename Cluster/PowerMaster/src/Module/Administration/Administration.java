@@ -34,9 +34,11 @@ public class Administration extends AbstractAplication{
     private boolean StartUp() throws IOException{
         
         CommandThread chamar_tudo = new CommandThread();
+        chamar_tudo.setPriority(9);
         chamar_tudo.start();
 
         GraphicThread chamar_tudo2 = new GraphicThread();
+        chamar_tudo2.setPriority(9);
         chamar_tudo2.start();
         
         return true;

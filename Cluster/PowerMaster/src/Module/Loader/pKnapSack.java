@@ -270,7 +270,7 @@ public class pKnapSack extends Problem {
             StopCriterion __stopCriterion = new StopCriterion(__iteractions, __bestFitness);        
             
             
-            System.out.println("\n\nClient: "+this.getClientID() + "| Problem: "+this.getProblemID()+" \n\n");
+            //System.out.println("\n\nClient: "+this.getClientID() + "| Problem: "+this.getProblemID()+" \n\n");
             Solver solver = new Solver(__sizePopulation, __sizeAllelo, __prototypeIndividual, __stopCriterion, this.getOperators(), new GeneticEvents(PowerMaster.INTERVAL_PART, this.getClientID(), this.getProblemID()));
             return solver;
         }else{
