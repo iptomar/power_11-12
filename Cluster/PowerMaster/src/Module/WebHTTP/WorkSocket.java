@@ -45,6 +45,27 @@ public class WorkSocket extends Thread {
                 String data;
                 while ((data = br.readLine()) != null) {
                     System.out.println(data);
+                    new pedido(data).start();
+                }
+
+
+            } catch (IOException ex) {
+                Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+    }
+    
+    public class pedido extends Thread{
+    
+        private String data;
+        
+        public pedido(String data){
+            this.data = data;
+        }
+
+        @Override
+        public void run() {
                     try {
                         //JSONObject obj = new JSONObject(data);
                         Problem p;
@@ -74,13 +95,9 @@ public class WorkSocket extends Thread {
                     } catch (Exception ex) {
                         Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
-
-
-            } catch (IOException ex) {
-                Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
         }
+    
+        
+        
     }
 }
