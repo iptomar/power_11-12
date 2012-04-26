@@ -159,6 +159,7 @@ public class pKnapSack extends Problem {
             }catch(Exception e){
                 //Valor estatico da mochila
                 this.weight = 1473;
+                System.out.println("Weight not found! Default value injected - " + this.weight);
                 this.addParam(pKnapSack.PARAM_WEIGHT, this.weight);
                 this.PARAM_ADDED++;
             }
