@@ -41,12 +41,17 @@ public class WorkSocket extends Thread {
         while (true) {
             try {
                 Socket client = ss.accept();
-                BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                String data;
-                while ((data = br.readLine()) != null) {
-                    System.out.println(data);
-                    new pedido(data).start();
-                }
+                client.getInetAddress().getHostAddress();
+                        client.getInetAddress().getHostAddress();
+                                client.getInetAddress().getHostAddress();
+                //if(client.getInetAddress().getHostAddress().equals("")){
+                    BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                    String data;
+                    while ((data = br.readLine()) != null) {
+                        System.out.println(data);
+                        new pedido(data).start();
+                    }
+                //}
 
 
             } catch (IOException ex) {

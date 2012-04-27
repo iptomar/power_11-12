@@ -85,39 +85,48 @@ public abstract class Problem {
             //Selection Loader
             JSONArray selector = data.getJSONArray("selection");
             if(selector.getString(0).equals("tournament")){
+                System.out.println("selector:tournament -"+selector.getInt(1)+","+selector.getInt(2));
                 operators.add( new operators.selections.Tournament(selector.getInt(1), selector.getInt(2)));
             }
             if(selector.getString(0).equals("sus")){
+                System.out.println("selector:sus - "+selector.getInt(1));
                 operators.add( new operators.selections.SUS(selector.getInt(1)));
             }       
             if(selector.getString(0).equals("roulette")){
+                System.out.println("selector:roulette - "+selector.getInt(1));
                 operators.add( new operators.selections.Roulette(selector.getInt(1)));
             } 
             
             //Recombination Loader
             JSONArray recombination = data.getJSONArray("recombination");
             if(recombination.getString(0).equals("crossover")){
+                System.out.println("recombination:crossover");
                 operators.add( new operators.recombinations.Crossover());
             }
             if(recombination.getString(0).equals("uniformcrossover")){
+                System.out.println("recombination:uniformcrossover");
                 operators.add( new  operators.recombinations.UniformCrossover());
             }       
   
             //Mutation Loader
             JSONArray mutation = data.getJSONArray("mutation");
             if(mutation.getString(0).equals("flipbit")){
+                System.out.println("mutation:flipbit - "+mutation.getDouble(1));
                 operators.add( new operators.mutation.Flipbit(mutation.getDouble(1)));
             }
             if(mutation.getString(0).equals("truncation")){
+                System.out.println("mutation:truncation - "+mutation.getDouble(1));
                 operators.add( new  operators.replacements.Truncation(mutation.getInt(1)));
             }              
             
             //Replacements Loader
             JSONArray replacement = data.getJSONArray("replacement");
             if(replacement.getString(0).equals("tournament")){
+                System.out.println("replacement:tournament - "+replacement.getInt(1)+","+replacement.getInt(2));
                 operators.add( new operators.replacements.Tournament(replacement.getInt(1),replacement.getInt(2)));
             }
             if(replacement.getString(0).equals("truncation")){
+                System.out.println("replacement:truncation - "+replacement.getInt(1));
                 operators.add( new  operators.replacements.Truncation(replacement.getInt(1)));
             }           
         }
