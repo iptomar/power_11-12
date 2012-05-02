@@ -81,7 +81,7 @@ public class Database extends AbstractAplication {
     public int ExecuteCountQuery(int period, int idClient, int idProblem) throws SQLException {
         int count = 0;
 
-        System.out.println("---------------------"+idClient +" - " +idProblem);
+//        System.out.println("---------------------"+idClient +" - " +idProblem);
         ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
         rs.last();
         //System.out.println(rs.getRow());
@@ -101,6 +101,7 @@ public class Database extends AbstractAplication {
                 StartUp();
                 return ExecuteMedia(period,idClient,idProblem);
             } catch (Exception ex) {
+                ex.printStackTrace();
                 throw ex;
             }
         }

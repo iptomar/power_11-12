@@ -42,15 +42,13 @@ public class WorkSocket extends Thread {
             try {
                 Socket client = ss.accept();
                 client.getInetAddress().getHostAddress();
-                        client.getInetAddress().getHostAddress();
-                                client.getInetAddress().getHostAddress();
                 //if(client.getInetAddress().getHostAddress().equals("")){
-                    BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                    String data;
-                    while ((data = br.readLine()) != null) {
-                        System.out.println(data);
-                        new pedido(data).start();
-                    }
+                BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                String data;
+                while ((data = br.readLine()) != null) {
+                    System.out.println(data);
+                    new pedido(data).start();
+                }
                 //}
 
 
@@ -60,49 +58,46 @@ public class WorkSocket extends Thread {
 
         }
     }
-    
-    public class pedido extends Thread{
-    
+
+    public class pedido extends Thread {
+
         private String data;
-        
-        public pedido(String data){
+
+        public pedido(String data) {
             this.data = data;
         }
 
         @Override
         public void run() {
-                    try {
-                        //JSONObject obj = new JSONObject(data);
-                        Problem p;
-                        p = Loader.Load(data);
+            try {
+                //JSONObject obj = new JSONObject(data);
+                Problem p;
+                p = Loader.Load(data);
 //                        Solver s = p.getNewSolver();
 //                        s.run();
-                        
-                        AtomicInteger numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
-                        SolverThread[] arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
-                        
- 
-                        
-                        for (int i = 0; i < arrayThread.length; i++) {
-                            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
-                            arrayThread[i].start();
-                            arrayThread[i].setName("" + i);
-                        }
 
-                        System.out.println("Start Async");
-                        System.out.println("Async:: Client:"+p.getClientID()+" id:"+p.getProblemID());
-                        AsyncStats async = new AsyncStats(numThreads, PowerMaster.INTERVAL_PART, p.getClientID(), p.getProblemID());
-                        async.setPriority(Thread.MAX_PRIORITY);
-                        async.start();  
-                        
-                        async.join();
+                AtomicInteger numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
+                SolverThread[] arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
 
-                    } catch (Exception ex) {
-                        Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+
+
+                for (int i = 0; i < arrayThread.length; i++) {
+                    arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
+                    arrayThread[i].start();
+                    arrayThread[i].setName("" + i);
+                }
+
+                System.out.println("Start Async");
+                System.out.println("Async:: Client:" + p.getClientID() + " id:" + p.getProblemID());
+                AsyncStats async = new AsyncStats(numThreads, PowerMaster.INTERVAL_PART, p.getClientID(), p.getProblemID());
+                async.setPriority(Thread.MAX_PRIORITY);
+                async.start();
+
+                async.join();
+
+            } catch (Exception ex) {
+                Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    
-        
-        
     }
 }

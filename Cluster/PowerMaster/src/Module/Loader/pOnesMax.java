@@ -94,7 +94,7 @@ public class pOnesMax extends Problem {
                 this.addParam(pOnesMax.PARAM_BEST_FITNESS, this.bestFitness);
                 //registar parametros obrigatório
                 this.PARAM_ADDED++;
-                System.out.println(pOnesMax.PARAM_ALELLO_SIZE + "+:" + this.bestFitness);
+                System.out.println(pOnesMax.PARAM_BEST_FITNESS + "+:" + this.bestFitness);
             }
         } catch (Exception e) {
             this.loadStatus=false;

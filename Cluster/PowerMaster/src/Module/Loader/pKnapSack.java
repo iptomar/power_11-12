@@ -183,6 +183,7 @@ public class pKnapSack extends Problem {
                     value = values.getJSONArray(i);
                     ValorPeso[i][0] = value.getInt(1);
                     ValorPeso[i][1] = value.getInt(0);
+                    System.out.println("Item "+i+":"+ValorPeso[i][0]+"-"+ValorPeso[i][1]);
                 }
               
                 

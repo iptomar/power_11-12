@@ -32,10 +32,13 @@ public class PowerMaster {
 
         System.out.println("PowerMaster Initializing..");
         
-        IOConnection.loggerDebug = true;
+        IOConnection.loggerDebug = false;
         
-        INTERVAL_PART = Integer.parseInt(args[0]);
-        NUM_THREADS = Integer.parseInt(args[1]);
+//        INTERVAL_PART = Integer.parseInt(args[0]);
+//        NUM_THREADS = Integer.parseInt(args[1]);
+        
+        INTERVAL_PART = 10;
+        NUM_THREADS = 1;        
         
         WorkSocket ws = new WorkSocket(8080);
         ws.start();

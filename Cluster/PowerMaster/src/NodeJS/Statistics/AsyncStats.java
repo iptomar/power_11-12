@@ -37,7 +37,7 @@ public class AsyncStats extends Thread {
         //Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt");
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         } catch (InterruptedException ex) {
             Logger.getLogger(AsyncStats.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -56,12 +56,12 @@ public class AsyncStats extends Thread {
                 }
                 if (result_count >= numThread) {
                     boolean temp = Aplication.db.ExecuteMedia(period, idClient, idProblem);
-                    System.out.println("Async Insertion| Iteration:" + period);
+//                    System.out.println("Async Insertion| Iteration:" + period);
                     Aplication.nodeJS.Emit("run", this.period, this.idClient, this.idProblem);
                     period = period + aux;
                 }
 
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error - Sync Class " + e);

@@ -93,7 +93,7 @@ public class WorkSocket2 extends Thread {
         //ws.start();
         //ws.join();
         
-        new Aplication();
+        //new Aplication();
         
         try {
             //Problem p = Loader.Load("{type:\"OneMax\",id:1001,client:1000,selection:[\"roulette\",100],mutation:[\"flipbit\",0.01],recombination:[\"crossover\"],replacement:[\"tournament\",20,30],iterations:100,pop:1000,alello:100,best:80.0,lenght:1000,data:[[x,y],[y,z],[b,a]]}");

@@ -1,1 +1,1 @@
-{type:"OneMax",id:1,client:1,selection:["Roulette",100],mutation:["Flipbit",0.01],recombination:["Crossover"],replacement:["Tournament",0.01,0.01],iterations:1000,pop:1000,alello:100,best:99,lenght:1000,data:[[x,y],[y,z],[b,a]]}
+{type:"OneMax",id:1,client:1,selection:["Roulette",100],mutation:["Flipbit",0.01],recombination:["Crossover"],replacement:["Tournament",70,20],iterations:10000,pop:1000,alello:300,best:299,lenght:1000,data:[[x,y],[y,z],[b,a]]}
