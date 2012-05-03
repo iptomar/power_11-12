@@ -158,7 +158,8 @@ public class pKnapSack extends Problem {
                 }    
             }catch(Exception e){
                 //Valor estatico da mochila
-                this.weight = 100;
+                this.weight = 1473;
+                System.out.println("Weight not found! Default value injected - " + this.weight);
                 this.addParam(pKnapSack.PARAM_WEIGHT, this.weight);
                 this.PARAM_ADDED++;
             }
@@ -182,6 +183,7 @@ public class pKnapSack extends Problem {
                     value = values.getJSONArray(i);
                     ValorPeso[i][0] = value.getInt(1);
                     ValorPeso[i][1] = value.getInt(0);
+                    System.out.println("Item "+i+":"+ValorPeso[i][0]+"-"+ValorPeso[i][1]);
                 }
               
                 
@@ -223,9 +225,12 @@ public class pKnapSack extends Problem {
                     }
             }
             this.alelloSize = this.lenght;
-            Individual __prototypeIndividual=new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, penalty);
+            //Individual __prototypeIndividual=new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, penalty);
 
-            //Individual __prototypeIndividual=null;
+            //Individual __prototypeIndividual=new genetics.algorithms.KnapSack(this.alelloSize +" "+this.bestFitness+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, penalty);
+
+            
+            Individual __prototypeIndividual=null;
 //            if(this.mode==0)
 //                return null;
 //            if(this.mode==1)    
@@ -239,33 +244,35 @@ public class pKnapSack extends Problem {
                 return null;
             //Arranque com Linear
             if(this.mode==1 && this.penalty==1)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_LINEAR);
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_LINEAR);
             if(this.mode==2 && this.penalty==1)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_LINEAR);    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_LINEAR);    
             if(this.mode==3 && this.penalty==1)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_LINEAR);              
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_LINEAR);              
             
             //Arranque com Quadratic
             if(this.mode==1 && this.penalty==2)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_QUADRATIC);
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_QUADRATIC);
             if(this.mode==2 && this.penalty==2)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_QUADRATIC);    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_QUADRATIC);    
             if(this.mode==3 && this.penalty==2)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_QUADRATIC);             
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_QUADRATIC);             
 
             //Arranque com Quadratic
             if(this.mode==1 && this.penalty==3)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_CUBIC);
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PENALTY, KnapSack.PENALTY_ORDER_CUBIC);
             if(this.mode==2 && this.penalty==3)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_CUBIC);    
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.PSEUDO_RANDOM, KnapSack.PENALTY_ORDER_CUBIC);    
             if(this.mode==3 && this.penalty==3)    
-                __prototypeIndividual = new genetics.algorithms.KnapSack(this.lenght +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_CUBIC);            
+                __prototypeIndividual = new genetics.algorithms.KnapSack(this.alelloSize +" "+this.weight+" "+ Valores+" "+ Pesos, ModeFunction.RANDOM, KnapSack.PENALTY_ORDER_CUBIC);            
             
             int __iteractions = this.Iterations;
             double __bestFitness = (double) this.bestFitness;
 
             StopCriterion __stopCriterion = new StopCriterion(__iteractions, __bestFitness);        
             
+            
+            //System.out.println("\n\nClient: "+this.getClientID() + "| Problem: "+this.getProblemID()+" \n\n");
             Solver solver = new Solver(__sizePopulation, __sizeAllelo, __prototypeIndividual, __stopCriterion, this.getOperators(), new GeneticEvents(PowerMaster.INTERVAL_PART, this.getClientID(), this.getProblemID()));
             return solver;
         }else{

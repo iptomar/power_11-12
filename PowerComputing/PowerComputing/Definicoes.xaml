@@ -1,0 +1,20 @@
+﻿<Window x:Class="PowerComputing.Definicoes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Height="207" Width="331">
+    <Grid>
+        <TabControl Height="168" HorizontalAlignment="Left" Name="tabControl1" VerticalAlignment="Top" Width="317">
+            <TabItem Header="Master" Name="tabItem1">
+                <Grid Background="White">
+                    <TextBlock Height="19" HorizontalAlignment="Left" Margin="10,19,0,0" Name="textBlock1" Text="Master IP:" VerticalAlignment="Top" Foreground="#FF4C4C4C" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="95,16,0,0" Name="tb_ip" VerticalAlignment="Top" Width="200" Text="code.dei.estt.ipt.pt" />
+                    <TextBlock Foreground="#FF4C4C4C" Height="19" HorizontalAlignment="Left" Margin="10,46,0,0" Name="textBlock2" Text="Console Port:" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="95,44,0,0" Name="tb_porta_consola" VerticalAlignment="Top" Width="71" Text="666" />
+                    <TextBlock Foreground="#FF4C4C4C" Height="19" HorizontalAlignment="Left" Margin="10,73,0,0" Name="textBlock3" Text="Graph Port:" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="95,73,0,0" Name="tb_porta_grafico" VerticalAlignment="Top" Width="71" Text="667" />
+                    <Button Content="Save" Height="21" HorizontalAlignment="Left" Margin="246,109,0,0" Name="bt_save_definicoes" VerticalAlignment="Top" Width="50" Click="bt_save_definicoes_Click" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

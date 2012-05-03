@@ -9,6 +9,7 @@ import Module.Loader.Loader;
 import Module.Loader.Problem;
 import Module.WebHTTP.WorkSocket;
 import NodeJS.Statistics.AsyncStats;
+import io.socket.IOConnection;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -18,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PowerMaster {
 
     public static SolverThread[] arrayThread;
-    public static int NUM_THREADS = 5;
+    public static int NUM_THREADS = 1;
     public static int INTERVAL_PART = 1;
 
     /**
@@ -30,6 +31,14 @@ public class PowerMaster {
         Aplication app = new Aplication();
 
         System.out.println("PowerMaster Initializing..");
+        
+        IOConnection.loggerDebug = false;
+        
+//        INTERVAL_PART = Integer.parseInt(args[0]);
+//        NUM_THREADS = Integer.parseInt(args[1]);
+        
+        INTERVAL_PART = 10;
+        NUM_THREADS = 1;        
         
         WorkSocket ws = new WorkSocket(8080);
         ws.start();

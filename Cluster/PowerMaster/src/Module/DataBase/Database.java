@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -62,8 +64,6 @@ public class Database extends AbstractAplication {
             this.AplicationStatus = false;
             ex.printStackTrace();
         }
-
-        Operations op = new Operations(this);
     }
 
     /**
@@ -81,7 +81,7 @@ public class Database extends AbstractAplication {
     public int ExecuteCountQuery(int period, int idClient, int idProblem) throws SQLException {
         int count = 0;
 
-        System.out.println("---------------------"+idClient +" - " +idProblem);
+//        System.out.println("---------------------"+idClient +" - " +idProblem);
         ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
         rs.last();
         //System.out.println(rs.getRow());
@@ -89,12 +89,22 @@ public class Database extends AbstractAplication {
         return count;
     }
 
-    public boolean ExecuteMedia(int period, int idClient, int idProblem) throws SQLException {
-        boolean erro = false;
-        ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, AVG(best) AS best, AVG(deviation) AS deviation, AVG(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
-        rs.first();
-        erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ")");
-        return erro;
+    public boolean ExecuteMedia(int period, int idClient, int idProblem) throws Exception {
+        try{
+            boolean erro = false;
+            ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, MAX(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
+            rs.first();
+            erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ")");
+            return erro;
+        }catch(SQLException e){
+            try {
+                StartUp();
+                return ExecuteMedia(period,idClient,idProblem);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw ex;
+            }
+        }
     }
 
     /**
@@ -108,8 +118,16 @@ public class Database extends AbstractAplication {
         if (this.AplicationStatus) {
             try {
                 //System.out.println(cmd);
-
-                Command.execute(cmd);
+                if(!Connection.isClosed()){
+                    Command.execute(cmd);
+                }else{
+                    try {
+                        StartUp();
+                        ExecuteNonQuery(cmd);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+                    }                    
+                }
                 return true;
             } catch (Exception e) {
                 System.out.println("ERRO nA BD " + e);

@@ -4,17 +4,13 @@
  */
 package Module.DataBase;
 
+import Module.Aplication;
+
 /**
  *
  * @author Miranda
  */
 public class Operations {
-
-    static Database bd;
-
-    public Operations(Database bd) {
-        this.bd = bd;
-    }
 
     public static boolean InserirIteracoes(String threadId, int itera, int idClient, int idProblem, double best, double average, int numBest, String attributes, double deviation, int type, double variance) {
         boolean inserir = false;
@@ -27,7 +23,7 @@ public class Operations {
 //            if(VerInt(parametros)){
 
             //INSERE NA BD E SE NAO INSERIR DA FALSE
-            if (bd.ExecuteNonQuery("INSERT INTO tblIterations VALUES (" + threadId + "," + itera + "," + idClient + "," + idProblem + ",NOW()," + best + "," + average + "," + numBest + ",'" + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");")) {
+            if (Aplication.db.ExecuteNonQuery("INSERT INTO tblIterations VALUES (" + threadId + "," + itera + "," + idClient + "," + idProblem + ",NOW()," + best + "," + average + "," + numBest + ",'" + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");")) {
                 inserir = true;
             } else {
                 System.out.println("ERRO A INSERIR NA BD1");
@@ -50,7 +46,7 @@ public class Operations {
 
 
             //INSERE NA BD E SE NAO INSERIR DA FALSE
-            if (bd.ExecuteNonQuery("INSERT INTO tblResults VALUES ("+ itera + "," + idClient + "," + idProblem + "," + globalAverage + "," + globalDeviation + "," + globalBest + "," + globalNumBest + "," + variance + ");")) {
+            if (Aplication.db.ExecuteNonQuery("INSERT INTO tblResults VALUES ("+ itera + "," + idClient + "," + idProblem + "," + globalAverage + "," + globalDeviation + "," + globalBest + "," + globalNumBest + "," + variance + ");")) {
                 inserir = true;
             } else {
                 System.out.println("ERRO A INSERIR NA BD2");

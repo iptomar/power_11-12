@@ -41,42 +41,63 @@ public class WorkSocket extends Thread {
         while (true) {
             try {
                 Socket client = ss.accept();
+                client.getInetAddress().getHostAddress();
+                //if(client.getInetAddress().getHostAddress().equals("")){
                 BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 String data;
                 while ((data = br.readLine()) != null) {
                     System.out.println(data);
-                    try {
-                        //JSONObject obj = new JSONObject(data);
-                        Problem p;
-                        p = Loader.Load(data);
-//                        Solver s = p.getNewSolver();
-//                        s.run();
-                        
-                        AtomicInteger numThreads = new AtomicInteger(5);
-                        SolverThread[] arrayThread = new SolverThread[5];
-                        
- 
-                        
-                        for (int i = 0; i < arrayThread.length; i++) {
-                            arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
-                            arrayThread[i].start();
-                            arrayThread[i].setName("" + i);
-                        }
-
-                        System.out.println("Start Async");
-                        AsyncStats async = new AsyncStats(numThreads, 5, p.getClientID(), p.getProblemID());
-                        async.start();  
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    new pedido(data).start();
                 }
+                //}
 
 
             } catch (IOException ex) {
                 Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+        }
+    }
+
+    public class pedido extends Thread {
+
+        private String data;
+
+        public pedido(String data) {
+            this.data = data;
+        }
+
+        @Override
+        public void run() {
+            try {
+                //JSONObject obj = new JSONObject(data);
+                Problem p;
+                p = Loader.Load(data);
+//                        Solver s = p.getNewSolver();
+//                        s.run();
+
+                AtomicInteger numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
+                SolverThread[] arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
+
+
+
+                for (int i = 0; i < arrayThread.length; i++) {
+                    arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
+                    arrayThread[i].start();
+                    arrayThread[i].setName("" + i);
+                }
+
+                System.out.println("Start Async");
+                System.out.println("Async:: Client:" + p.getClientID() + " id:" + p.getProblemID());
+                AsyncStats async = new AsyncStats(numThreads, PowerMaster.INTERVAL_PART, p.getClientID(), p.getProblemID());
+                async.setPriority(Thread.MAX_PRIORITY);
+                async.start();
+
+                async.join();
+
+            } catch (Exception ex) {
+                Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }
