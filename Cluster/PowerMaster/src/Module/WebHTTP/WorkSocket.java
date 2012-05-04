@@ -47,7 +47,8 @@ public class WorkSocket extends Thread {
                 String data;
                 while ((data = br.readLine()) != null) {
                     System.out.println(data);
-                    new pedido(data).start();
+                    pedido p = new pedido(data);
+                    p.start();
                 }
                 //}
 

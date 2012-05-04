@@ -18,7 +18,7 @@ public class Database extends AbstractAplication {
     /**
      * Variável que contem a a ligação com o servido MySQL
      */
-    private Connection Connection;
+    public Connection Connection;
     /**
      * Variável que contem um comando a ser executado no servidor MySQL
      */
@@ -80,7 +80,6 @@ public class Database extends AbstractAplication {
 
     public int ExecuteCountQuery(int period, int idClient, int idProblem) throws SQLException {
         int count = 0;
-
 //        System.out.println("---------------------"+idClient +" - " +idProblem);
         ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
         rs.last();
@@ -94,16 +93,32 @@ public class Database extends AbstractAplication {
             boolean erro = false;
             ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, MAX(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
             rs.first();
-            erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ")");
+            
+            String a1 =rs.getString("mediaAverage").toString();
+            String a2 =rs.getString("deviation").toString();
+            String a3 =rs.getString("best").toString();
+            String a4 =rs.getString("numBest").toString();
+            String a5 =rs.getString("variance").toString();
+            
+            rs.close();
+            //ResultSet rs2 = this.Command.executeQuery("Select COUNT(best) AS numBest  FROM tblIterations WHERE best='"+ 60 +"' AND idClient='"+idClient+"' AND idProblem='"+idProblem+"';");
+            ResultSet rs2 = this.Command.executeQuery("Select COUNT(*) AS numBest  FROM tblIterations WHERE best="+ a4 +" AND idClient="+idClient+" AND idProblem="+idProblem+" AND itera=" + period+";");
+            rs2.first();
+            //rs2.close();
+            erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + a1 + "," + a2 + "," + a3 + "," + rs2.getString("numBest").toString() + "," + a5 + ");");
+            rs2.close();            //erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ");");
             return erro;
-        }catch(SQLException e){
-            try {
-                StartUp();
-                return ExecuteMedia(period,idClient,idProblem);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                throw ex;
-            }
+        }catch(Exception e){
+            System.out.println("Erro Media");
+            e.printStackTrace();
+            throw e;
+            //try {
+                //StartUp();
+                //return ExecuteMedia(period,idClient,idProblem);
+            //} catch (Exception ex) {
+                //e.printStackTrace();
+                //throw e;
+            //}
         }
     }
 
