@@ -1417,10 +1417,13 @@ private void ModulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
 }//GEN-LAST:event_ModulosActionPerformed
 
     private void ProblemListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProblemListMouseClicked
-        
+       
         ListModel lm = this.ProblemList.getModel();
         String selected = (String)lm.getElementAt(this.ProblemList.getSelectedIndex());
         this.txtProblem.setText(this.loader.getConstructors(selected));
+        
+        
+        
     }//GEN-LAST:event_ProblemListMouseClicked
 
     private void SelectionListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SelectionListMouseClicked
