@@ -12,9 +12,6 @@ package poweremulator;
 //import Modulos.SolverThread;
 //import Modulos.Loader;
 //import Modulos.WebFileDownloader;
-import com.sun.xml.internal.ws.api.server.Module;
-import java.net.URL;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 
