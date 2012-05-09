@@ -35,6 +35,7 @@ public class Database extends AbstractAplication {
      * Variável o endereço de IP do servidor
      */
     private String ipAddress;
+    private String Database;
 
     //public static String ModuleName = "Database Module";
     /**
@@ -44,26 +45,22 @@ public class Database extends AbstractAplication {
      * @param password Password do utilizador do servidor de MySQL
      * @param address  Endereço publico do servidor de MySQL
      */
-    public Database() {
-    }
-
-    public Database(String user, String password, String address) {
+    public Database(String user, String password, String address, String database) {
         //Invocar o constutor da classe abstracta
         super("Database Module");
-        try {
-            //Atribuição de balores
-            this.username = user;
-            this.password = password;
-            this.ipAddress = address;
-            //Inicialização do Módulo
-            StartUp();
-            //Se chegar aqui o módulo foi inicializado correctamente
-            this.AplicationStatus = true;
-        } catch (Exception ex) {
-            //Se chegar a interrupção a iniciaçização do módulo foi comprometida
-            this.AplicationStatus = false;
-            ex.printStackTrace();
-        }
+
+        //Atribuição de balores
+        this.username = user;
+        this.password = password;
+        this.ipAddress = address;
+        this.Database = database;
+
+        Connect();
+    }
+
+    @Override
+    public boolean getAplicationStatus() {
+        return super.getAplicationStatus();
     }
 
     /**
@@ -72,39 +69,66 @@ public class Database extends AbstractAplication {
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
-    private void StartUp() throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection = DriverManager.getConnection("jdbc:mysql://" + this.ipAddress + ":3306/powercomputing", this.username, this.password);
-        Command = Connection.createStatement();
+    private void Connect() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection = DriverManager.getConnection("jdbc:mysql://" + this.ipAddress + ":3306/" + this.Database, this.username, this.password);
+            Command = Connection.createStatement();
+            //Se chegar aqui o módulo foi inicializado correctamente
+            this.AplicationStatus = true;
+        } catch (Exception e) {
+            //Se chegar a interrupção a iniciaçização do módulo foi comprometida
+            this.AplicationStatus = false;
+            System.out.println("Database connection failed. Database.Connect");
+            e.printStackTrace();
+        }
     }
 
     public int ExecuteCountQuery(int period, int idClient, int idProblem) throws SQLException {
         int count = 0;
-
-//        System.out.println("---------------------"+idClient +" - " +idProblem);
-        ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
-        rs.last();
-        //System.out.println(rs.getRow());
-        count = rs.getRow();
+        try {
+            ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
+            rs.last();
+            count = rs.getRow();
+            rs.close();
+        } catch (Exception e) {
+            System.out.println("Connection Lost Database.CountQuery");
+            //e.printStackTrace();
+            if (Connection.isClosed()) {
+                Connect();
+            }
+            System.out.println(Connection.isClosed());
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return ExecuteCountQuery(period, idClient, idProblem);
+        }
         return count;
     }
 
-    public boolean ExecuteMedia(int period, int idClient, int idProblem) throws Exception {
-        try{
-            boolean erro = false;
+    public boolean ExecuteMedia(int period, int idClient, int idProblem) throws SQLException {
+        boolean erro = false;
+        try {
             ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, MAX(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
             rs.first();
             erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ")");
-            return erro;
-        }catch(SQLException e){
-            try {
-                StartUp();
-                return ExecuteMedia(period,idClient,idProblem);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                throw ex;
+            rs.close();
+        } catch (Exception e) {
+            System.out.println("Connection Lost Database.ExecuteMedia");
+            //e.printStackTrace();
+            if (Connection.isClosed()) {
+                Connect();
             }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return ExecuteMedia(period, idClient, idProblem);
         }
+        return erro;
     }
 
     /**
@@ -114,27 +138,62 @@ public class Database extends AbstractAplication {
      * @throws SQLException 
      */
     public boolean ExecuteNonQuery(String cmd) throws SQLException {
-        //Verificação se o estado do módulo é de activo e pronto a usar
-        if (this.AplicationStatus) {
-            try {
-                //System.out.println(cmd);
-                if(!Connection.isClosed()){
-                    Command.execute(cmd);
-                }else{
-                    try {
-                        StartUp();
-                        ExecuteNonQuery(cmd);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-                    }                    
-                }
-                return true;
-            } catch (Exception e) {
-                System.out.println("ERRO nA BD " + e);
-                e.printStackTrace();
-                return false;
+        boolean erro = false;
+        try {
+            erro = Command.execute(cmd);
+        } catch (SQLException e) {
+            System.out.println("Connection Lost Database.ExecuteNonQuery");
+            //e.printStackTrace();
+            if (Connection.isClosed()) {
+                Connect();
             }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return ExecuteNonQuery(cmd);
         }
-        return false;
+        return erro;
+    }
+
+    public boolean InserirResult(int itera, int idClient, int idProblem, double globalAverage, double globalDeviation, double globalBest, int globalNumBest, double variance) throws SQLException {
+        boolean erro = false;
+        try {
+            erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + itera + "," + idClient + "," + idProblem + "," + globalAverage + "," + globalDeviation + "," + globalBest + "," + globalNumBest + "," + variance + ");");
+        } catch (Exception e) {
+            System.out.println("Connection Lost Database.InserirResult");
+            //e.printStackTrace();
+            if (Connection.isClosed()) {
+                Connect();
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return InserirResult(itera, idClient, idProblem, globalAverage, globalDeviation, globalBest, globalNumBest, variance);
+        }
+        return erro;
+    }
+
+    public boolean InserirIteracoes(String threadId, int itera, int idClient, int idProblem, double best, double average, int numBest, String attributes, double deviation, int type, double variance) throws SQLException {
+        boolean erro = false;
+        try {
+            this.ExecuteNonQuery("INSERT INTO tblIterations VALUES (" + threadId + "," + itera + "," + idClient + "," + idProblem + ",NOW()," + best + "," + average + "," + numBest + ",'" + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");");
+        } catch (Exception e) {
+            System.out.println("Connection Lost Database.InserirResult");
+            //e.printStackTrace();
+            if (Connection.isClosed()) {
+                Connect();
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return InserirIteracoes(threadId, itera, idClient, idProblem, best, average, numBest, attributes, deviation, type, variance);
+        }
+        return erro;
     }
 }
