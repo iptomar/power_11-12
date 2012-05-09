@@ -84,7 +84,7 @@ public class Database extends AbstractAplication {
         }
     }
 
-    public int ExecuteCountQuery(int period, int idClient, int idProblem) throws SQLException {
+    public int ExecuteCountQuery(int period, int idClient, int idProblem) {
         int count = 0;
         try {
             ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
@@ -93,22 +93,27 @@ public class Database extends AbstractAplication {
             rs.close();
         } catch (Exception e) {
 
-            if (Connection.isClosed()) {
-                System.out.println("Connection Lost Database.CountQuery");
-                Connect();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                if (Connection.isClosed()) {
+                    System.out.println("Connection Lost Database.CountQuery");
+                    Connect();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    return ExecuteCountQuery(period, idClient, idProblem);
                 }
-                return ExecuteCountQuery(period, idClient, idProblem);
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
+
             e.printStackTrace();
         }
         return count;
     }
 
-    public boolean ExecuteMedia(int period, int idClient, int idProblem) throws SQLException, Exception {
+    public boolean ExecuteMedia(int period, int idClient, int idProblem) {
         boolean erro = false;
         try {
             ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, MAX(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
@@ -119,7 +124,7 @@ public class Database extends AbstractAplication {
             String a4 = rs.getString("numBest").toString();
             String a5 = rs.getString("variance").toString();
             rs.close();
-            
+
             //ResultSet rs2 = this.Command.executeQuery("Select COUNT(best) AS numBest  FROM tblIterations WHERE best='"+ 60 +"' AND idClient='"+idClient+"' AND idProblem='"+idProblem+"';");
             ResultSet rs2 = this.Command.executeQuery("Select COUNT(*) AS numBest  FROM tblIterations WHERE best=" + a4 + " AND idClient=" + idClient + " AND idProblem=" + idProblem + " AND itera=" + period + ";");
             rs2.first();
@@ -128,16 +133,22 @@ public class Database extends AbstractAplication {
             rs2.close();            //erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ");");
             return erro;
         } catch (Exception e) {
-            if (Connection.isClosed()) {
-                System.out.println("Connection Lost Database.CountQuery");
-                Connect();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+
+            try {
+                if (Connection.isClosed()) {
+                    System.out.println("Connection Lost Database.CountQuery");
+                    Connect();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    return ExecuteMedia(period, idClient, idProblem);
                 }
-                return ExecuteMedia(period, idClient, idProblem);
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
+
             e.printStackTrace();
         }
         return erro;
@@ -149,62 +160,77 @@ public class Database extends AbstractAplication {
      * @return True -> Comando executado com sucesso; False -> Ocorreu um erro na execução do comando
      * @throws SQLException 
      */
-    public boolean ExecuteNonQuery(String cmd) throws SQLException {
+    public boolean ExecuteNonQuery(String cmd) {
         boolean erro = false;
         try {
             erro = Command.execute(cmd);
         } catch (SQLException e) {
 
-            if (Connection.isClosed()) {
-                System.out.println("Connection Lost Database.ExecuteNonQuery");
-                Connect();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                if (Connection.isClosed()) {
+                    System.out.println("Connection Lost Database.ExecuteNonQuery");
+                    Connect();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    return ExecuteNonQuery(cmd);
                 }
-                return ExecuteNonQuery(cmd);
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
+
             e.printStackTrace();
         }
         return erro;
     }
 
-    public boolean InserirResult(int itera, int idClient, int idProblem, double globalAverage, double globalDeviation, double globalBest, int globalNumBest, double variance) throws SQLException {
+    public boolean InserirResult(int itera, int idClient, int idProblem, double globalAverage, double globalDeviation, double globalBest, int globalNumBest, double variance) {
         boolean erro = false;
         try {
             erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + itera + "," + idClient + "," + idProblem + "," + globalAverage + "," + globalDeviation + "," + globalBest + "," + globalNumBest + "," + variance + ");");
         } catch (Exception e) {
-
-            if (Connection.isClosed()) {
-                System.out.println("Connection Lost Database.InserirResult");
-                Connect();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+           
+            try {
+                if (Connection.isClosed()) {
+                    System.out.println("Connection Lost Database.InserirResult");
+                    Connect();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    return InserirResult(itera, idClient, idProblem, globalAverage, globalDeviation, globalBest, globalNumBest, variance);
                 }
-                return InserirResult(itera, idClient, idProblem, globalAverage, globalDeviation, globalBest, globalNumBest, variance);
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
             e.printStackTrace();
         }
         return erro;
     }
 
-    public boolean InserirIteracoes(String threadId, int itera, int idClient, int idProblem, double best, double average, int numBest, String attributes, double deviation, int type, double variance) throws SQLException {
+    public boolean InserirIteracoes(String threadId, int itera, int idClient, int idProblem, double best, double average, int numBest, String attributes, double deviation, int type, double variance) {
         boolean erro = false;
         try {
             this.ExecuteNonQuery("INSERT INTO tblIterations VALUES (" + threadId + "," + itera + "," + idClient + "," + idProblem + ",NOW()," + best + "," + average + "," + numBest + ",'" + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");");
         } catch (Exception e) {
-            if (Connection.isClosed()) {
-                System.out.println("Connection Lost Database.InserirResult");
-                Connect();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+           
+            try {
+                if (Connection.isClosed()) {
+                    System.out.println("Connection Lost Database.InserirResult");
+                    Connect();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    return InserirIteracoes(threadId, itera, idClient, idProblem, best, average, numBest, attributes, deviation, type, variance);
                 }
-                return InserirIteracoes(threadId, itera, idClient, idProblem, best, average, numBest, attributes, deviation, type, variance);
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
             e.printStackTrace();
         }
