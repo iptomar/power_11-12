@@ -4,6 +4,8 @@
  */
 package Module.WebHTTP;
 
+import Module.Aplication;
+import org.json.JSONException;
 import powermaster.*;
 
 import Module.Loader.Loader;
@@ -17,6 +19,9 @@ import java.net.Socket;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import reflection.GeneticLoader;
 
 /**
  *
@@ -46,9 +51,31 @@ public class WorkSocket extends Thread {
                 BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 String data;
                 while ((data = br.readLine()) != null) {
-                    System.out.println(data);
-                    pedido p = new pedido(data);
-                    p.start();
+                    System.out.println("New Info Request:"+data);
+                    if(data.contains("info:")){
+                        String[] params = data.split(":");
+                        
+                        GeneticLoader gl = new GeneticLoader();
+                        String dataToSend = "{"; 
+                            dataToSend += "'"+GeneticLoader.STRING_ALGOTITHMS+"':"+gl.getInfoJSON(GeneticLoader.STRING_ALGOTITHMS)+","; 
+                            //dataToSend += "\""+GeneticLoader.STRING_GENETIC+"\":"+gl.getInfoJSON(GeneticLoader.STRING_GENETIC)+","; 
+                            dataToSend += "'"+GeneticLoader.STRING_MUTATION+"':"+gl.getInfoJSON(GeneticLoader.STRING_MUTATION)+","; 
+                            dataToSend += "'"+GeneticLoader.STRING_OPERATORS+"':"+gl.getInfoJSON(GeneticLoader.STRING_OPERATORS)+","; 
+                            dataToSend += "'"+GeneticLoader.STRING_RECOMBINATIONS+"':"+gl.getInfoJSON(GeneticLoader.STRING_RECOMBINATIONS)+","; 
+                            dataToSend += "'"+GeneticLoader.STRING_REPLACEMENTS+"':"+gl.getInfoJSON(GeneticLoader.STRING_REPLACEMENTS)+","; 
+                            dataToSend += "'"+GeneticLoader.STRING_SELECTIONS+"':"+gl.getInfoJSON(GeneticLoader.STRING_SELECTIONS)+""; 
+                            dataToSend += ",'idClient':"+params[1];
+                        dataToSend += "}";
+                        
+                        try {
+                            Aplication.nodeJS.EmitInfo(dataToSend);
+                        } catch (JSONException ex) {
+                            Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                    }else if(data.contains("load:")) {
+                        System.out.println(data);
+                    }
                 }
                 //}
 
