@@ -10,6 +10,8 @@ import io.socket.IOCallback;
 import io.socket.SocketIO;
 import io.socket.SocketIOException;
 import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,18 +51,64 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
      */
     public void Emit(String event, int iteration, int clientID, int problemID) throws JSONException {
         //Criar o objecto JSON
-        JSONObject x = new JSONObject();
-        x.put("Itera", "" + iteration);
-        x.put("idClient", "" + clientID);
-        x.put("idProblem", "" + problemID);
-        //Enviar o evento para o servidor Node.JS
-        socket.emit(event, x);
-        System.out.println(x.toString());
+        if(this.socket.isConnected()){
+            JSONObject x = new JSONObject();
+            x.put("Itera", "" + iteration);
+            x.put("idClient", "" + clientID);
+            x.put("idProblem", "" + problemID);
+            //Enviar o evento para o servidor Node.JS
+            socket.emit(event, x);
+            System.out.println(x.toString());
+        }else{
+            ReconectSingle();
+            System.out.println("Server Node Fechado");
+        }
     }
 
+    private void ReconectSingle(){
+               socket = new SocketIO();
+                try {
+                    System.out.println("A reconectar NODE.JS...");
+                    socket.connect("http://130.185.82.35:90", this);
+                    this.AplicationStatus = true;
+                } catch (MalformedURLException ex) {
+                    this.AplicationStatus = false;
+                    Logger.getLogger(NodeEmiter.class.getName()).log(Level.SEVERE, null, ex);
+
+
+                }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                System.out.println("Node.JS parece morto....");
+                this.AplicationStatus = false;
+            }        
+    }
+    
+    private void Reconect(){
+        while(socket.isConnected()){
+                socket = new SocketIO();
+                try {
+                    System.out.println("A reconectar NODE.JS...");
+                    socket.connect("http://130.185.82.35:90", this);
+                    this.AplicationStatus = true;
+                } catch (MalformedURLException ex) {
+                    this.AplicationStatus = false;
+                    Logger.getLogger(NodeEmiter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                System.out.println("Node.JS parece morto....");
+                this.AplicationStatus = false;
+                break;
+            }
+        }        
+    }
+    
     @Override
     public void onDisconnect() {
-        //throw new UnsupportedOperationException("Not supported yet.");
+        Reconect();
     }
 
     @Override
@@ -85,6 +133,6 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
 
     @Override
     public void onError(SocketIOException sioe) {
-        //throw new UnsupportedOperationException("Not supported yet.");
+        Reconect();
     }
 }

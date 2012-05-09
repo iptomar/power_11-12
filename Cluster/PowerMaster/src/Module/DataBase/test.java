@@ -15,9 +15,9 @@ public class test {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InterruptedException {
         Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt","powercomputing");
        
-            Thread.sleep(10000);
             System.out.println(db.ExecuteCountQuery(122, 122, 122));
-
+            System.out.println(db.InserirIteracoes("122", 12,12 , 123, 123123, 312312, 123123, "dsads", 312312, 12, 12312));
+            
        
        // db.ExecuteNonQuery("INSERT INTO tblResults VALUES (1,1,1,0.1,0.1,0.1,10,0.1)");
        // db.ExecuteCountQuery(1, 1, 1);

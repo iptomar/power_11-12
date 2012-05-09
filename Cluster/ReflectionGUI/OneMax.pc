@@ -1,0 +1,1 @@
+{type:OneMax,id:1,client:1,selection:[roulette,70],mutation:[flipbit,0.01],recombination:[crossover],replacement:[tournament,1000,2],iterations:1000,pop:1000,alello:100,best:90,lenght:1000,data:[[x,y],[y,z],[b,a]]}
