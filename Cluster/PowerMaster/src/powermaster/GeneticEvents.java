@@ -5,7 +5,6 @@
 package powermaster;
 
 import Module.DataBase.Database;
-import Module.DataBase.Operations;
 import genetics.Population;
 import java.sql.SQLException;
 import java.util.logging.Level;

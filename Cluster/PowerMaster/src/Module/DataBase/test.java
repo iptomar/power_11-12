@@ -22,10 +22,10 @@ public class test {
        // db.ExecuteCountQuery(1, 1, 1);
 //        db.ExecuteNonQuery("INSERT INTO tblIterations VALUES (1,1,1,1,NOW(),0.1,0.1,1,'das',0.1,1,0.1)");
 //        System.out.println(db.ExecuteCountQuery(1, 1, 1));
-        
+
         //db.ExecuteNonQuery("INSERT INTO tblIterations VALUES (" + 1 + "," + 1 + "," + 1 + "," + 1 + ",NOW()," + 1 + "," + 0.1 + "," + 0.1 + ",'" + "dsa" + "'," + 0.1 + "," + 1 + "," + 0.1 + ");");
-          
-       //db.ExecuteNonQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, AVG(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='"+ 1 +"' AND idClient='"+1 + "' AND idProblem='"+ 1 + "';");     
-        
+
+        //db.ExecuteNonQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, AVG(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='"+ 1 +"' AND idClient='"+1 + "' AND idProblem='"+ 1 + "';");     
+
     }
 }
