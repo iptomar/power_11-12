@@ -31,6 +31,7 @@ public class AdministrationClient extends Thread {
     Socket socket;
     String estado;
     public static SolverThread[] arrayThread;
+
     public AdministrationClient(Socket sock) {
         socket = sock;
         try {
@@ -140,7 +141,34 @@ public class AdministrationClient extends Thread {
 
                     out.println("Memory: " + (Administration.mon.physical().getFreeBytes() / (1024 * 1024)) + "MB / " + (Administration.mon.physical().getTotalBytes() / (1024 * 1024)) + "MB");
                     out.flush();
+                    
+                } else if ("-cpumem".equals(cmds[1])) {
+                    String cpu = "";
+                    Process p;
 
+                    //p = Runtime.getRuntime().exec("./cpu");
+                    try {
+                        FileInputStream fstream = new FileInputStream("Scripts/cpu.res");
+                        DataInputStream in = new DataInputStream(fstream);
+                        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                        String str;
+                        while ((str = br.readLine()) != null) {
+                            cpu = str;
+                        }
+                        in.close();
+                    } catch (Exception e) {
+                        System.err.println(e);
+                    }
+                    long TotalMem = Administration.mon.physical().getTotalBytes();
+                    
+                    long OcupMem =  TotalMem - Administration.mon.physical().getFreeBytes();
+                    
+                    long MemPercent = (OcupMem * 100) / TotalMem;
+                    //double cpuUsage=(Double.parseDouble(cpu)/Runtime.getRuntime().availableProcessors());
+                    out.println(cpu+"£"+MemPercent);
+                    out.flush();
+                    
+                    
                 } else if ("-tasks".equals(cmds[1])) {
 
                     String cois = "";
@@ -178,9 +206,9 @@ public class AdministrationClient extends Thread {
                 String caminho;
                 String URL;
                 Boolean URLSite = true;
-                
+
                 String PrimeiraLinha;
-                
+
                 String Nome = cmds[0].toString();
                 String ProblemID = cmds[1].toString();
                 String ClientID = cmds[2].toString();
@@ -230,7 +258,7 @@ public class AdministrationClient extends Thread {
 //                    }
                     out.println("OK");
                     out.flush();
-                    RemoteWork("File:"+caminho);
+                    RemoteWork("File:" + caminho);
                 } else {
                     out.println("NOTOK");
                     out.flush();
@@ -244,7 +272,7 @@ public class AdministrationClient extends Thread {
             }
 
             //Administration.txt_consola.append(message+ "\n");
-            
+
 
 
         } catch (Exception ex) {
@@ -265,31 +293,31 @@ public class AdministrationClient extends Thread {
         }
         return bem;
     }
-    
-    public static void RemoteWork(String path){
+
+    public static void RemoteWork(String path) {
         //Inicialização de todos os módulos do PowerMaster
         //Aplication app = new Aplication();
-        
+
         Problem p = null;
         try {
-           String  resultado = WebFileDownloader.Download(new URL(path));
-           p = Loader.Load(resultado);
-           System.out.println("\n"+resultado);
-           
+            String resultado = WebFileDownloader.Download(new URL(path));
+            p = Loader.Load(resultado);
+            System.out.println("\n" + resultado);
+
             arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
             AtomicInteger numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
 
             for (int i = 0; i < arrayThread.length; i++) {
                 arrayThread[i] = new SolverThread(p.getNewSolver(), numThreads);
                 arrayThread[i].start();
-                arrayThread[i].setName(""+i);
+                arrayThread[i].setName("" + i);
             }
 
-            AsyncStats async = new AsyncStats(numThreads,PowerMaster.INTERVAL_PART,p.getClientID(),p.getProblemID());
+            AsyncStats async = new AsyncStats(numThreads, PowerMaster.INTERVAL_PART, p.getClientID(), p.getProblemID());
             async.start();
 
         } catch (Exception ex) {
-            System.out.println("Erro no RemoteWork(): "+ex);
+            System.out.println("Erro no RemoteWork(): " + ex);
             //EmuladorEcran.Escrever("\n\nERRO: "+ex);
         }
     }
