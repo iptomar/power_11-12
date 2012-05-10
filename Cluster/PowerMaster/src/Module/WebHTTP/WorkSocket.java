@@ -5,12 +5,15 @@
 package Module.WebHTTP;
 
 import Module.Aplication;
+import java.lang.reflect.InvocationTargetException;
 import org.json.JSONException;
 import powermaster.*;
 
 import Module.Loader.Loader;
 import Module.Loader.Problem;
 import NodeJS.Statistics.AsyncStats;
+import genetics.GenericSolver;
+import genetics.Solver;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -51,29 +54,93 @@ public class WorkSocket extends Thread {
                 BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 String data;
                 while ((data = br.readLine()) != null) {
-                    System.out.println("New Info Request:"+data);
-                    if(data.contains("info:")){
-                        String[] params = data.split(":");
+                    //System.out.println("New Info Request:"+data);
+                    if(data.contains("info-")){
+                        String[] params = data.split("-");
+                        try{
+                            GeneticLoader gl = new GeneticLoader();
+                            String dataToSend = "{"; 
+                                dataToSend += "'"+GeneticLoader.STRING_ALGOTITHMS+"':"+gl.getInfoJSON(GeneticLoader.STRING_ALGOTITHMS)+","; 
+
+                                dataToSend += "'solver':'"+gl.getSolver().getInfo().replace(",", ";") +"',"; 
+
+                                dataToSend += "'"+GeneticLoader.STRING_MUTATION+"':"+gl.getInfoJSON(GeneticLoader.STRING_MUTATION)+","; 
+                                dataToSend += "'"+GeneticLoader.STRING_OPERATORS+"':"+gl.getInfoJSON(GeneticLoader.STRING_OPERATORS)+","; 
+                                dataToSend += "'"+GeneticLoader.STRING_RECOMBINATIONS+"':"+gl.getInfoJSON(GeneticLoader.STRING_RECOMBINATIONS)+","; 
+                                dataToSend += "'"+GeneticLoader.STRING_REPLACEMENTS+"':"+gl.getInfoJSON(GeneticLoader.STRING_REPLACEMENTS)+","; 
+                                dataToSend += "'"+GeneticLoader.STRING_SELECTIONS+"':"+gl.getInfoJSON(GeneticLoader.STRING_SELECTIONS)+""; 
+                                dataToSend += ",'idClient':"+params[1];
+                            dataToSend += "}";
+
+                            try {
+                                Aplication.nodeJS.EmitInfo(dataToSend);
+                            } catch (JSONException ex) {
+                                Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
                         
-                        GeneticLoader gl = new GeneticLoader();
-                        String dataToSend = "{"; 
-                            dataToSend += "'"+GeneticLoader.STRING_ALGOTITHMS+"':"+gl.getInfoJSON(GeneticLoader.STRING_ALGOTITHMS)+","; 
-                            //dataToSend += "\""+GeneticLoader.STRING_GENETIC+"\":"+gl.getInfoJSON(GeneticLoader.STRING_GENETIC)+","; 
-                            dataToSend += "'"+GeneticLoader.STRING_MUTATION+"':"+gl.getInfoJSON(GeneticLoader.STRING_MUTATION)+","; 
-                            dataToSend += "'"+GeneticLoader.STRING_OPERATORS+"':"+gl.getInfoJSON(GeneticLoader.STRING_OPERATORS)+","; 
-                            dataToSend += "'"+GeneticLoader.STRING_RECOMBINATIONS+"':"+gl.getInfoJSON(GeneticLoader.STRING_RECOMBINATIONS)+","; 
-                            dataToSend += "'"+GeneticLoader.STRING_REPLACEMENTS+"':"+gl.getInfoJSON(GeneticLoader.STRING_REPLACEMENTS)+","; 
-                            dataToSend += "'"+GeneticLoader.STRING_SELECTIONS+"':"+gl.getInfoJSON(GeneticLoader.STRING_SELECTIONS)+""; 
-                            dataToSend += ",'idClient':"+params[1];
-                        dataToSend += "}";
-                        
+                    }else if(data.contains("load-")) {
+                        String[] params = data.split("-");
                         try {
-                            Aplication.nodeJS.EmitInfo(dataToSend);
+                            JSONObject input = new  JSONObject(params[1]);
+                            
+                            int idClient = input.getInt("client");
+                            int id = input.getInt("id");
+                            
+                            GeneticLoader gl = new GeneticLoader();
+                            try {
+                                GenericSolver solver = gl.getSolver();
+                                JSONArray problem = input.getJSONArray("algorithm");
+                                String problemName = problem.getString(0);
+                                String problemParms = problem.getString(1);
+                                String problemStop = problem.getString(2);
+                                
+                                problem = input.getJSONArray("mutation");
+                                String mutationName = problem.getString(0);
+                                String mutationParms = problem.getString(1);                            
+
+//                                problem = input.getJSONArray("operator");
+//                                String operatorName = problem.getString(0);
+//                                String operatorParms = problem.getString(1);     
+
+                                problem = input.getJSONArray("recombination");
+                                String recombinationName = problem.getString(0);
+                                String recombinationParms = problem.getString(1);                               
+
+                                problem = input.getJSONArray("replacement");
+                                String replacementName = problem.getString(0);
+                                String replacementParms = problem.getString(1);                              
+
+                                problem = input.getJSONArray("selection");
+                                String selectionName = problem.getString(0);
+                                String selectionParms = problem.getString(1);       
+                                
+                                solver.setParameters(problemParms);
+                                solver.SetSelection(selectionName+" "+selectionParms);
+                                solver.SetMutation(mutationName+" "+mutationParms);
+                                solver.SetReplacement(replacementName+" "+replacementParms);
+                                solver.SetRecombination(recombinationName+" "+recombinationParms);
+                                solver.SetStopCrit(problemStop);
+
+                                solver.SetEvents(new GeneticEvents(PowerMaster.INTERVAL_PART,idClient,id));
+
+                                solver.run(); 
+                                        
+                            } catch (Exception ex) {
+                                Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            
+                            
+ 
+
+                            
+                            
                         } catch (JSONException ex) {
                             Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         
-                    }else if(data.contains("load:")) {
                         System.out.println(data);
                     }
                 }

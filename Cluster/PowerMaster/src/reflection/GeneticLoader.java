@@ -4,8 +4,10 @@
  */
 package reflection;
 
+import genetics.GenericSolver;
 import genetics.Individual;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,6 +18,7 @@ import java.util.logging.Logger;
 import operators.Operator;
 import org.xeustechnologies.jcl.JarClassLoader;
 import org.xeustechnologies.jcl.JclObjectFactory;
+import utils.EventsSolver;
 
 /**
  *
@@ -144,16 +147,16 @@ public class GeneticLoader {
             classToLoad = classToLoad.replace("/", ".");
             classToLoad = classToLoad.replace(".class", "");
             TaskLoader tl = new TaskLoader(classData, classToLoad);
-            Class c = tl.getClassObject();    
+            Class c = tl.getClassObject();
             
             if(Modifier.isAbstract(c.getModifiers())){
                 //ax +=("['"+classToLoad+"','Class abstracta'],");
                 continue;
-            }  
+            }
             if(c.isEnum()){
                 //ax +=("['"+classToLoad+"','Enumeração'],");
                 continue;
-            }              
+            }
             
             ax+="[";
             ax+="'"+classToLoad+"',";
@@ -171,29 +174,20 @@ public class GeneticLoader {
         return ax;
     }    
     
-    public ArrayList<String> getGenetics() {
-        return loadClasses(STRING_GENETIC);
+    public GenericSolver  getSolver() throws InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException{
+        byte[] classData = (byte[]) genericList.get("genetics/Solver.class");
+        TaskLoader tl = new TaskLoader(classData, "genetics.Solver");
+        Class c = tl.getClassObject();  
+        GenericSolver solver = (genetics.GenericSolver ) c.newInstance();
+//        Constructor constructor =  c.getConstructor(EventsSolver.class);
+//        Solver solver = (Solver) constructor.newInstance(events);
+        return solver;
+    }
+    
+    public ArrayList<String> getInfo(String info) {
+        return loadClasses(info);
     }
 
-    public ArrayList<String> getMutation() {
-        return loadClasses(STRING_MUTATION);
-    }
-
-    public ArrayList<String> getOperators() {
-        return loadClasses(STRING_OPERATORS);
-    }
-
-    public ArrayList<String> getReplacements() {
-        return loadClasses(STRING_REPLACEMENTS);
-    }
-
-    public ArrayList<String> getSelections() {
-        return loadClasses(STRING_SELECTIONS);
-    }
-
-    public ArrayList<String> getRecombinations() {
-        return loadClasses(STRING_RECOMBINATIONS);
-    }
     /**
      * @param args the command line arguments
      */
