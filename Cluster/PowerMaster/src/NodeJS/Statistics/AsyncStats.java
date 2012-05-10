@@ -28,23 +28,24 @@ public class AsyncStats extends Thread {
         this.aux = period;
         this.idClient = idClient;
         this.idProblem = idProblem;
+        this.setName("AsyncThread");
     }
 
     @Override
     public void run() {
 
         //Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "127.0.0.1");
-        //Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt");
+        Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt","powercomputing");
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         } catch (InterruptedException ex) {
             Logger.getLogger(AsyncStats.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         while (true) {
             try {
-                int result_count = Aplication.db.ExecuteCountQuery(period, idClient, idProblem);
+                int result_count = db.ExecuteCountQuery(period, idClient, idProblem);
                 int numThread = numThreads.get();
 
                 System.out.println("Async|  Period: " + period + "  Threads working: " + numThread + "  Result count: " + result_count + "  Cliente: " + idClient + "  Problema: " + idProblem);
@@ -53,20 +54,24 @@ public class AsyncStats extends Thread {
                     Aplication.nodeJS.Emit("end", this.period, this.idClient, this.idProblem);
                     System.out.println("Async Stop");
                     break;
-                }
+                }                
+                
                 if (result_count >= numThread) {
+                    System.out.println("Fechado"+Aplication.db.Connection.isClosed());
+
                     boolean temp = Aplication.db.ExecuteMedia(period, idClient, idProblem);
-                    System.out.println("Async Insertion| Iteration:" + period);
+                    System.out.println("media" +temp);
+//                  System.out.println("Async Insertion| Iteration:" + period);
                     Aplication.nodeJS.Emit("run", this.period, this.idClient, this.idProblem);
                     period = period + aux;
                 }
+                
 
-                Thread.sleep(2000);
+
+                Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error - Sync Class " + e);
-                break;
-
             }
         }
 

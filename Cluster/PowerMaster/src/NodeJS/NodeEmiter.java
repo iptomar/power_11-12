@@ -10,8 +10,11 @@ import io.socket.IOCallback;
 import io.socket.SocketIO;
 import io.socket.SocketIOException;
 import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
+import reflection.Base64Coder;
 
 /**
  *
@@ -49,18 +52,83 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
      */
     public void Emit(String event, int iteration, int clientID, int problemID) throws JSONException {
         //Criar o objecto JSON
-        JSONObject x = new JSONObject();
-        x.put("Itera", "" + iteration);
-        x.put("idClient", "" + clientID);
-        x.put("idProblem", "" + problemID);
-        //Enviar o evento para o servidor Node.JS
-        socket.emit(event, x);
-        System.out.println(x.toString());
+        if(this.socket.isConnected()){
+            JSONObject x = new JSONObject();
+            x.put("Itera", "" + iteration);
+            x.put("idClient", "" + clientID);
+            x.put("idProblem", "" + problemID);
+            //Enviar o evento para o servidor Node.JS
+            socket.emit(event, x);
+            System.out.println(x.toString());
+        }else{
+            ReconectSingle();
+            System.out.println("Server Node Fechado");
+        }
     }
+    
+    public void EmitInfo(String info) throws JSONException {
+        //Criar o objecto JSON
+        if(this.socket.isConnected()){
+//            JSONObject x = new JSONObject();
+//            //System.out.println("\n\n"+Base64Coder.encodeString(info));
+//            x.put("client", client);
+//            x.put("data", "" + Base64Coder.encodeString(info));
+//            System.out.println(x.toString());
+//            //Enviar o evento para o servidor Node.JS
+            socket.emit("info", Base64Coder.encodeString(info));
+            
+            
+        }else{
+            ReconectSingle();
+            System.out.println("Server Node Fechado");
+        }
+    }    
 
+    private void ReconectSingle(){
+               this.socket = new SocketIO();
+                try {
+                    System.out.println("A reconectar NODE.JS...");
+                    this.socket.connect("http://130.185.82.35:90", this);
+                    this.AplicationStatus = true;
+                } catch (MalformedURLException ex) {
+                    this.AplicationStatus = false;
+                    Logger.getLogger(NodeEmiter.class.getName()).log(Level.SEVERE, null, ex);
+
+
+                }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                System.out.println("Node.JS parece morto....");
+                this.AplicationStatus = false;
+            }        
+    }
+    
+    private void Reconect(){
+        while(this.socket.isConnected()){
+                this.socket = new SocketIO();
+                try {
+                    System.out.println("A reconectar NODE.JS...");
+                    this.socket.connect("http://130.185.82.35:90", this);
+                    this.AplicationStatus = true;
+                    break;
+                } catch (MalformedURLException ex) {
+                    this.AplicationStatus = false;
+                    Logger.getLogger(NodeEmiter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                System.out.println("Node.JS parece morto....");
+                this.AplicationStatus = false;
+                break;
+            }
+        }        
+    }
+    
     @Override
     public void onDisconnect() {
-        //throw new UnsupportedOperationException("Not supported yet.");
+        Reconect();
     }
 
     @Override
@@ -85,6 +153,6 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
 
     @Override
     public void onError(SocketIOException sioe) {
-        //throw new UnsupportedOperationException("Not supported yet.");
+        Reconect();
     }
 }
