@@ -20,7 +20,7 @@ public class PowerMaster {
 
     public static SolverThread[] arrayThread;
     public static int NUM_THREADS = 1;
-    public static int INTERVAL_PART = 1;
+    public static int INTERVAL_PART = 25;
 
     /**
      * 
