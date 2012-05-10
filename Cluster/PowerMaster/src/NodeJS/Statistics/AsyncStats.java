@@ -35,7 +35,7 @@ public class AsyncStats extends Thread {
     public void run() {
 
         //Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "127.0.0.1");
-        Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt");
+        Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt","powercomputing");
 
         try {
             Thread.sleep(5000);
@@ -59,7 +59,7 @@ public class AsyncStats extends Thread {
                 if (result_count >= numThread) {
                     System.out.println("Fechado"+Aplication.db.Connection.isClosed());
 
-                    boolean temp = Aplication.db.ExecuteMedia(period, idClient, idProblem);
+                    boolean temp = db.ExecuteMedia(period, idClient, idProblem);
                     System.out.println("media" +temp);
 //                  System.out.println("Async Insertion| Iteration:" + period);
                     Aplication.nodeJS.Emit("run", this.period, this.idClient, this.idProblem);
@@ -72,7 +72,6 @@ public class AsyncStats extends Thread {
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error - Sync Class " + e);
-                //break;
             }
         }
 

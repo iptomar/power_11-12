@@ -20,7 +20,7 @@ public class PowerMaster {
 
     public static SolverThread[] arrayThread;
     public static int NUM_THREADS = 1;
-    public static int INTERVAL_PART = 1;
+    public static int INTERVAL_PART = 25;
 
     /**
      * 
@@ -33,12 +33,12 @@ public class PowerMaster {
         System.out.println("PowerMaster Initializing..");
         
         IOConnection.loggerDebug = true;
+////        
+//        INTERVAL_PART = Integer.parseInt(args[0]);
+//        NUM_THREADS = Integer.parseInt(args[1]);
 //        
-        INTERVAL_PART = Integer.parseInt(args[0]);
-        NUM_THREADS = Integer.parseInt(args[1]);
-//        
-//        INTERVAL_PART = 1;
-//        NUM_THREADS = 1;        
+        INTERVAL_PART = 1;
+        NUM_THREADS = 1;        
         
         WorkSocket ws = new WorkSocket(8080);
         ws.start();

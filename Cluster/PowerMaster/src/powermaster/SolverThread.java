@@ -4,6 +4,7 @@
  */
 package powermaster;
 
+import genetics.GenericSolver;
 import genetics.Solver;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class SolverThread extends Thread {
 
-    Solver solver;
+    GenericSolver solver;
     AtomicInteger numThreads;
 
     /**
@@ -24,15 +25,17 @@ public class SolverThread extends Thread {
      * @param numThreads 
      * 
      */
-    public SolverThread(Solver solve, AtomicInteger numThreads) {
+    public SolverThread(GenericSolver solve, AtomicInteger numThreads) {
         this.solver = solve;
         this.numThreads = numThreads;
     }
 
     public void run() {
         try {
-            Solver __newSolver = solver;
-            __newSolver.run();
+//            GenericSolver __newSolver = solver;
+//            __newSolver.run();
+            
+            solver.run();
 
             numThreads.getAndDecrement();
             System.out.println("Atomic numThreads: " + numThreads.toString());

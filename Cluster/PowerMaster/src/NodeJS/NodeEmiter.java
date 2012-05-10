@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
+import reflection.Base64Coder;
 
 /**
  *
@@ -64,12 +65,30 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
             System.out.println("Server Node Fechado");
         }
     }
+    
+    public void EmitInfo(String info) throws JSONException {
+        //Criar o objecto JSON
+        if(this.socket.isConnected()){
+//            JSONObject x = new JSONObject();
+//            //System.out.println("\n\n"+Base64Coder.encodeString(info));
+//            x.put("client", client);
+//            x.put("data", "" + Base64Coder.encodeString(info));
+//            System.out.println(x.toString());
+//            //Enviar o evento para o servidor Node.JS
+            socket.emit("info", Base64Coder.encodeString(info));
+            
+            
+        }else{
+            ReconectSingle();
+            System.out.println("Server Node Fechado");
+        }
+    }    
 
     private void ReconectSingle(){
-               socket = new SocketIO();
+               this.socket = new SocketIO();
                 try {
                     System.out.println("A reconectar NODE.JS...");
-                    socket.connect("http://130.185.82.35:90", this);
+                    this.socket.connect("http://130.185.82.35:90", this);
                     this.AplicationStatus = true;
                 } catch (MalformedURLException ex) {
                     this.AplicationStatus = false;
@@ -86,12 +105,13 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
     }
     
     private void Reconect(){
-        while(socket.isConnected()){
-                socket = new SocketIO();
+        while(this.socket.isConnected()){
+                this.socket = new SocketIO();
                 try {
                     System.out.println("A reconectar NODE.JS...");
-                    socket.connect("http://130.185.82.35:90", this);
+                    this.socket.connect("http://130.185.82.35:90", this);
                     this.AplicationStatus = true;
+                    break;
                 } catch (MalformedURLException ex) {
                     this.AplicationStatus = false;
                     Logger.getLogger(NodeEmiter.class.getName()).log(Level.SEVERE, null, ex);
