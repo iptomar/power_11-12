@@ -237,3 +237,65 @@ public class Database extends AbstractAplication {
         return erro;
     }
 }
+
+
+
+//DELIMITER $$
+//DROP PROCEDURE IF EXISTS `ExecuteCountQuery` $$
+//CREATE PROCEDURE `ExecuteCountQuery`(period INT, id_Cliente INT, idProblem INT)
+//BEGIN
+//    SELECT COUNT(*) as num FROM tblIterations WHERE itera=period AND idClient=id_Cliente AND idProblem=idProblem;
+//END $$
+//DELIMITER ;
+//
+//
+//DELIMITER $$
+//DROP PROCEDURE IF EXISTS `ExecuteMedia` $$
+//CREATE PROCEDURE `ExecuteMedia`(period INT, id_Cliente INT, idProblem INT)
+//BEGIN
+//    
+//    DECLARE mediaAverage double;
+//    DECLARE bestMax INT;
+//    DECLARE deviationAverage double;
+//    DECLARE numBestMax INT;
+//    DECLARE varianceAverage double;
+//    
+//    DECLARE numBestCount INT;
+//    
+//    DECLARE cur1 CURSOR FOR SELECT AVG(average), MAX(best), AVG(deviation), MAX(numBest), AVG(variance)  FROM tblIterations WHERE itera=period AND idClient=id_Cliente AND idProblem=idProblem;
+//    DECLARE cur2 CURSOR FOR Select Count(*) FROM tblIterations WHERE best=numBestMax AND itera=period AND idClient=id_Cliente AND idProblem=idProblem;
+//    
+//    OPEN cur1;
+//    FETCH cur1 INTO mediaAverage, bestMax, deviationAverage, numBestMax, varianceAverage;
+//    
+//    OPEN cur2;
+//    FETCH cur2 INTO numBestCount;
+//    
+//    INSERT INTO tblResults VALUES (period ,id_Cliente, idProblem, mediaAverage, deviationAverage, bestMax, numBestCount, varianceAverage);
+//    
+//END $$
+//DELIMITER ;
+//
+//
+//DELIMITER $$
+//DROP PROCEDURE IF EXISTS `InserirResult` $$
+//CREATE PROCEDURE `InserirResult`(itera int,idClient int, idProblem int, globalAverage double, globalDeviation double, globalBest double, globalNumBest int, variance double)
+//BEGIN
+//    INSERT INTO tblResults VALUES (itera, idClient, idProblem, globalAverage, globalDeviation, globalBest, globalNumBest, variance);
+//END $$
+//DELIMITER ;
+//
+//
+//DELIMITER $$
+//DROP PROCEDURE IF EXISTS `InserirIteracoes` $$
+//CREATE PROCEDURE `InserirIteracoes`(threadId char, itera int, idClient int, idProblem int, best double, average double, numBest int, attributes char, deviation double, type int, variance double)
+//BEGIN
+//    INSERT INTO tblIterations VALUES (threadId, itera, idClient, idProblem, NOW(), best, average, numBest, attributes, deviation, type, variance);
+//END $$
+//DELIMITER ;
+
+////Testes
+//call ExecuteMedia(47,37,133606585);
+//call ExecuteCountQuery(47,37,133606585);
+//call InserirResult(94, 37, 133606585, 88.775, 0.573132630948742, 90, 0, 0.328481012658227);
+//call InserirIteracoes('0', '322', '36', '133606431', '1909', '1909', '100', "1 -  0  0 213123123123 1  1  0  1  1  0  1  0  0  1  0  1  1  0  0  1  0  0  1  0  1  1  1  1  1  1  0  0  0  1  0  1  1  1  0  1  1  1  1  1  1  0  1  1  1 - 1909", '0', '1', '0');
