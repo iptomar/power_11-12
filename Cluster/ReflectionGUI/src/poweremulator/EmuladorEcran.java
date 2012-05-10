@@ -39,15 +39,12 @@ public class EmuladorEcran extends javax.swing.JFrame {
     /** Creates new form EmuladorEcran */
     public EmuladorEcran() {
         initComponents();
-      
         loader = new GeneticLoader();
-
-        loadData(this.ProblemList,loader.getAlgorithms());
-        loadData(this.MutationList,loader.getMutation());
-        loadData(this.SelectionList,loader.getSelections());
-        loadData(this.ReplacementList,loader.getReplacements());
-        loadData(this.RecombinationList,loader.getRecombinations());
-       
+        loadData(this.ProblemList,loader.getInfo(GeneticLoader.STRING_ALGOTITHMS));
+        loadData(this.MutationList,loader.getInfo(GeneticLoader.STRING_MUTATION));
+        loadData(this.SelectionList,loader.getInfo(GeneticLoader.STRING_SELECTIONS));
+        loadData(this.ReplacementList,loader.getInfo(GeneticLoader.STRING_REPLACEMENTS));
+        loadData(this.RecombinationList,loader.getInfo(GeneticLoader.STRING_RECOMBINATIONS));
     }
     /** This method is called from within the constructor to
      * initialize the form.

@@ -100,7 +100,7 @@
                           <Component id="Limpar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="406" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="380" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -500,7 +500,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jScrollPane10" pref="264" max="32767" attributes="0"/>
+                              <Component id="jScrollPane10" pref="260" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -510,7 +510,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="ButtonNextRecombination" min="-2" pref="57" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane6" alignment="1" pref="373" max="32767" attributes="0"/>
+                          <Component id="jScrollPane6" alignment="1" pref="369" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                   </Group>
