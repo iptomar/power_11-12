@@ -26,13 +26,13 @@ public class GeneticLoader {
     private String jarFile = "GeneticAlgoritms.jar";
     private Map genericList;
     private JarClassLoader jcl;
-    private String STRING_GENETIC = "genetics";
-    private String STRING_ALGOTITHMS = "algorithms";
-    private String STRING_OPERATORS = "operators";
-    private String STRING_MUTATION = "mutation";
-    private String STRING_REPLACEMENTS = "replacements";
-    private String STRING_SELECTIONS = "selections";
-    private String STRING_RECOMBINATIONS = "recombinations";
+    public static String STRING_GENETIC = "genetics";
+    public static String STRING_ALGOTITHMS = "algorithms";
+    public static String STRING_OPERATORS = "operators";
+    public static String STRING_MUTATION = "mutation";
+    public static String STRING_REPLACEMENTS = "replacements";
+    public static String STRING_SELECTIONS = "selections";
+    public static String STRING_RECOMBINATIONS = "recombinations";
 
     public GeneticLoader() {
         loadClasses();
@@ -135,29 +135,32 @@ public class GeneticLoader {
         return loadClasses(STRING_ALGOTITHMS);
     }
 
-    public ArrayList<String> getGenetics() {
-        return loadClasses(STRING_GENETIC);
+    public String getInfoJSON(String dir) {
+        ArrayList<String> ar = loadClasses(dir);
+        String ax="[";
+        for (int i = 0; i < ar.size(); i++) {
+            String classToLoad = ar.get(i);
+            byte[] classData = (byte[]) genericList.get(classToLoad);
+            classToLoad = classToLoad.replace("/", ".");
+            classToLoad = classToLoad.replace(".class", "");
+            TaskLoader tl = new TaskLoader(classData, classToLoad);
+            Class c = tl.getClassObject();    
+            ax+="[";
+            ax+="\""+classToLoad+"\",";
+            ax+="\""+getInfo(c).replace("\n", "")+"\"";
+            ax+="]";
+            if(i<ar.size()-1){
+                ax+=",";
+            }
+        }
+        ax+="]";
+        return ax;
+    }    
+    
+    public ArrayList<String> getInfo(String info) {
+        return loadClasses(info);
     }
 
-    public ArrayList<String> getMutation() {
-        return loadClasses(STRING_MUTATION);
-    }
-
-    public ArrayList<String> getOperators() {
-        return loadClasses(STRING_OPERATORS);
-    }
-
-    public ArrayList<String> getReplacements() {
-        return loadClasses(STRING_REPLACEMENTS);
-    }
-
-    public ArrayList<String> getSelections() {
-        return loadClasses(STRING_SELECTIONS);
-    }
-
-    public ArrayList<String> getRecombinations() {
-        return loadClasses(STRING_RECOMBINATIONS);
-    }
     /**
      * @param args the command line arguments
      */

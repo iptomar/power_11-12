@@ -1,0 +1,1 @@
+{type:KnapSack,id:1,client:1,selection:[roulette,100],mutation:[flipbit,0.01],recombination:[crossover],replacement:[tournament,1000,2],iterations:10000,pop:1000,alello:50,best:1921,penalty:2,mode:1,weight:1473,lenght:1,data:[[]]}
