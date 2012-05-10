@@ -36,7 +36,6 @@ public class SolverThread extends Thread {
 //            __newSolver.run();
             
             solver.run();
-
             numThreads.getAndDecrement();
             System.out.println("Atomic numThreads: " + numThreads.toString());
         } catch (Exception ex) {
