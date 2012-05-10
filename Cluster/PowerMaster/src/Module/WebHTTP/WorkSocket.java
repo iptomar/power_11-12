@@ -126,7 +126,24 @@ public class WorkSocket extends Thread {
 
                                 solver.SetEvents(new GeneticEvents(PowerMaster.INTERVAL_PART,idClient,id));
 
-                                solver.run(); 
+                                
+                                AtomicInteger numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
+                                SolverThread[] arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
+
+
+
+                                for (int i = 0; i < arrayThread.length; i++) {
+                                    arrayThread[i] = new SolverThread(solver, numThreads);
+                                    arrayThread[i].start();
+                                    arrayThread[i].setName("" + i);
+                                }
+
+                                System.out.println("Start Async");
+                                System.out.println("Async:: Client:" + idClient + " id:" + id);
+                                AsyncStats async = new AsyncStats(numThreads, PowerMaster.INTERVAL_PART, idClient, id);
+                                async.setPriority(Thread.MAX_PRIORITY);
+                                async.start();
+                                async.join();
                                         
                             } catch (Exception ex) {
                                 Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
