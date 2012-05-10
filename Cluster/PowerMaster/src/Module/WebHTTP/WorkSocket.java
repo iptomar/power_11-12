@@ -54,8 +54,9 @@ public class WorkSocket extends Thread {
                 BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 String data;
                 while ((data = br.readLine()) != null) {
-                    //System.out.println("New Info Request:"+data);
+                   
                     if(data.contains("info-")){
+                        System.out.println("New Info Request:"+data);
                         String[] params = data.split("-");
                         try{
                             GeneticLoader gl = new GeneticLoader();
@@ -82,6 +83,7 @@ public class WorkSocket extends Thread {
                         }
                         
                     }else if(data.contains("load-")) {
+                        System.out.println("New Info Request:"+data);
                         String[] params = data.split("-");
                         try {
                             JSONObject input = new  JSONObject(params[1]);
