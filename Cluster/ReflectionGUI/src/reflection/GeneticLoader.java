@@ -108,11 +108,11 @@ public class GeneticLoader {
         try {
             if (c.getName().contains(STRING_ALGOTITHMS)) {
                 Individual obj = (Individual) c.newInstance();
-                return obj.getInfo() + "\n\n";
+                return obj.getInfo().replace("<p>", "").replace("</p>", "\n") + "\n\n";
             } else {
 
                 Operator obj = (Operator) c.newInstance();
-                return obj.getInfo() + "\n\n";
+                return obj.getInfo().replace("<p>", "").replace("</p>", "\n") + "\n\n";
 
             }
         } catch (Exception e) {
