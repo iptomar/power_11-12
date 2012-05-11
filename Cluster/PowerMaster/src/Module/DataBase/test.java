@@ -22,12 +22,13 @@ public class test {
         int idClient = 37;
         int idProblem = 133666719;
         
-       double ze = 0.12;
+       double ze = 0.49;
        String jose = "asdas";
-       //db.InserirIteracoes(interval, interval, idClient, idProblem, ze, ze, idClient, jose, ze, idClient, ze);
+       
+       db.InserirIteracoes(interval, interval, idClient, idProblem, ze, ze, ze, jose, ze, idClient, ze);
        //db.InserirResult(interval, idClient, idProblem, ze, ze, ze, idClient, ze);
-       //db.ExecuteMedia(interval, idClient, idProblem);
-       System.out.println(db.ExecuteCountQuery(interval, idClient, idProblem));
+       db.ExecuteMedia(interval, idClient, idProblem);
+       //System.out.println(db.ExecuteCountQuery(interval, idClient, idProblem));
         
        
         // db.ExecuteNonQuery("INSERT INTO tblResults VALUES (1,1,1,0.1,0.1,0.1,10,0.1)");
