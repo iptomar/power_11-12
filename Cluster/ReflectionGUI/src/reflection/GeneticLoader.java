@@ -4,8 +4,10 @@
  */
 package reflection;
 
+import genetics.GenericSolver;
 import genetics.Individual;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,6 +18,7 @@ import java.util.logging.Logger;
 import operators.Operator;
 import org.xeustechnologies.jcl.JarClassLoader;
 import org.xeustechnologies.jcl.JclObjectFactory;
+import utils.EventsSolver;
 
 /**
  *
@@ -49,7 +52,7 @@ public class GeneticLoader {
 
         for (Iterator i = keys.iterator(); i.hasNext();) {
             String key = (String) i.next();
-            System.out.println(key);
+            //System.out.println(key);
         }
     }
 
@@ -144,18 +147,42 @@ public class GeneticLoader {
             classToLoad = classToLoad.replace("/", ".");
             classToLoad = classToLoad.replace(".class", "");
             TaskLoader tl = new TaskLoader(classData, classToLoad);
-            Class c = tl.getClassObject();    
+            Class c = tl.getClassObject();
+            
+            if(Modifier.isAbstract(c.getModifiers())){
+                //ax +=("['"+classToLoad+"','Class abstracta'],");
+                continue;
+            }
+            if(c.isEnum()){
+                //ax +=("['"+classToLoad+"','Enumeração'],");
+                continue;
+            }
+            
             ax+="[";
-            ax+="\""+classToLoad+"\",";
-            ax+="\""+getInfo(c).replace("\n", "")+"\"";
+            ax+="'"+classToLoad+"',";
+            ax+="'"+getInfo(c).replace("\n", "")+"'";
             ax+="]";
             if(i<ar.size()-1){
                 ax+=",";
             }
         }
+        if(ax.charAt(ax.length()-1)==','){
+            //System.out.println("\n\n Encontrado , \n\n");
+            ax = ax.substring(0, ax.length()-1);
+        }
         ax+="]";
         return ax;
     }    
+    
+    public GenericSolver  getSolver() throws InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException{
+        byte[] classData = (byte[]) genericList.get("genetics/Solver.class");
+        TaskLoader tl = new TaskLoader(classData, "genetics.Solver");
+        Class c = tl.getClassObject();  
+        GenericSolver solver = (genetics.GenericSolver ) c.newInstance();
+//        Constructor constructor =  c.getConstructor(EventsSolver.class);
+//        Solver solver = (Solver) constructor.newInstance(events);
+        return solver;
+    }
     
     public ArrayList<String> getInfo(String info) {
         return loadClasses(info);
