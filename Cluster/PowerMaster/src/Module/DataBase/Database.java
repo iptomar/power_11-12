@@ -87,14 +87,14 @@ public class Database extends AbstractAplication {
     public int ExecuteCountQuery(int period, int idClient, int idProblem) {
         int count = 0;
         try {
-//            ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
-//            rs.last();
-//            count = rs.getRow();
-//            rs.close(); 
-            ResultSet rs = this.Command.executeQuery("call ExecuteCountQuery(" + period + "," + idClient + "," + idProblem + ");");
-            rs.first();
+            ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
+            rs.last();
             count = rs.getRow();
-            rs.close();
+            rs.close(); 
+//            ResultSet rs = this.Command.executeQuery("call ExecuteCountQuery(" + period + "," + idClient + "," + idProblem + ");");
+//            rs.first();
+//            count = rs.getRow();
+//            rs.close();
         } catch (Exception e) {
 
             try {
