@@ -90,7 +90,11 @@ public class Database extends AbstractAplication {
             ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
             rs.last();
             count = rs.getRow();
-            rs.close();
+            rs.close(); 
+//            ResultSet rs = this.Command.executeQuery("call ExecuteCountQuery(" + period + "," + idClient + "," + idProblem + ");");
+//            rs.first();
+//            count = rs.getRow();
+//            rs.close();
         } catch (Exception e) {
 
             try {
@@ -126,12 +130,12 @@ public class Database extends AbstractAplication {
             rs.close();
 
             //ResultSet rs2 = this.Command.executeQuery("Select COUNT(best) AS numBest  FROM tblIterations WHERE best='"+ 60 +"' AND idClient='"+idClient+"' AND idProblem='"+idProblem+"';");
-            ResultSet rs2 = this.Command.executeQuery("Select COUNT(*) AS numBest  FROM tblIterations WHERE best=" + a4 + " AND idClient=" + idClient + " AND idProblem=" + idProblem + " AND itera=" + period + ";");
+            ResultSet rs2 = this.Command.executeQuery("Select COUNT(*) AS numBest  FROM tblIterations WHERE best=" + a3 + " AND idClient=" + idClient + " AND idProblem=" + idProblem + " AND itera=" + period + ";");
             rs2.first();
             //rs2.close();
             erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + a1 + "," + a2 + "," + a3 + "," + rs2.getString("numBest").toString() + "," + a5 + ");");
             rs2.close();            //erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ");");
-            return erro;
+            //erro = this.ExecuteNonQuery("call ExecuteMedia(" + period + "," + idClient + "," + idProblem + ");");
         } catch (Exception e) {
 
             try {
@@ -190,8 +194,9 @@ public class Database extends AbstractAplication {
         boolean erro = false;
         try {
             erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + itera + "," + idClient + "," + idProblem + "," + globalAverage + "," + globalDeviation + "," + globalBest + "," + globalNumBest + "," + variance + ");");
+            //erro = this.ExecuteNonQuery("call InserirResult(" + itera + "," + idClient + "," + idProblem + "," + globalAverage + "," + globalDeviation + "," + globalBest + "," + globalNumBest + "," + variance + ");");
         } catch (Exception e) {
-           
+
             try {
                 if (Connection.isClosed()) {
                     System.out.println("Connection Lost Database.InserirResult");
@@ -206,7 +211,7 @@ public class Database extends AbstractAplication {
             } catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             e.printStackTrace();
         }
         return erro;
@@ -216,8 +221,9 @@ public class Database extends AbstractAplication {
         boolean erro = false;
         try {
             this.ExecuteNonQuery("INSERT INTO tblIterations VALUES (" + threadId + "," + itera + "," + idClient + "," + idProblem + ",NOW()," + best + "," + average + "," + numBest + ",'" + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");");
+           //erro = this.ExecuteNonQuery("call InserirIteracoes(" + threadId + "," + itera + "," + idClient + "," + idProblem + best + "," + average + "," + numBest + ",'" + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");");
         } catch (Exception e) {
-           
+
             try {
                 if (Connection.isClosed()) {
                     System.out.println("Connection Lost Database.InserirResult");
@@ -237,9 +243,6 @@ public class Database extends AbstractAplication {
         return erro;
     }
 }
-
-
-
 //DELIMITER $$
 //DROP PROCEDURE IF EXISTS `ExecuteCountQuery` $$
 //CREATE PROCEDURE `ExecuteCountQuery`(period INT, id_Cliente INT, idProblem INT)
@@ -293,7 +296,6 @@ public class Database extends AbstractAplication {
 //    INSERT INTO tblIterations VALUES (threadId, itera, idClient, idProblem, NOW(), best, average, numBest, attributes, deviation, type, variance);
 //END $$
 //DELIMITER ;
-
 ////Testes
 //call ExecuteMedia(47,37,133606585);
 //call ExecuteCountQuery(47,37,133606585);

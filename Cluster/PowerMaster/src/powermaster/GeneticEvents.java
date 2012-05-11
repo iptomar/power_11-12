@@ -57,7 +57,8 @@ public class GeneticEvents implements EventsSolver {
             System.out.println("Deviation: " + statistics.getDesvioPadraoPopulation().doubleValue());
 //            System.out.println("");
 //        }
-
+           
+            
         if (i == 0) {
             db.InserirIteracoes(Thread.currentThread().getName().toString(), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 0, statistics.getVarianciaPopulation());
             //            System.out.println("Thread["+Thread.currentThread().getName()+"]First Iteration inserted[" + i + "]:" + aux);
