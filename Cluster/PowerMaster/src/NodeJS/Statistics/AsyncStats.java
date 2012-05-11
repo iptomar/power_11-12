@@ -48,7 +48,9 @@ public class AsyncStats extends Thread {
                 int result_count = db.ExecuteCountQuery(period, idClient, idProblem);
                 int numThread = numThreads.get();
 
-                //System.out.println("Async|  Period: " + period + "  Threads working: " + numThread + "  Result count: " + result_count + "  Cliente: " + idClient + "  Problema: " + idProblem);
+                
+               
+              // System.out.println("Async|  Period: " + period + "  Threads working: " + numThread + "  Result count: " + result_count + "  Cliente: " + idClient + "  Problema: " + idProblem);
                 if (result_count == 0 && numThread == 0) {
                     Aplication.nodeJS.Emit("end", this.period, this.idClient, this.idProblem);
                     System.out.println("Async Stop");
@@ -59,14 +61,11 @@ public class AsyncStats extends Thread {
                     //System.out.println("Fechado"+Aplication.db.Connection.isClosed());
 
                     boolean temp = db.ExecuteMedia(period, idClient, idProblem);
-                    System.out.println("media" +temp);
-//                  System.out.println("Async Insertion| Iteration:" + period);
+                  //System.out.println("Async Insertion| Iteration:" + period);
                     Aplication.nodeJS.Emit("run", this.period, this.idClient, this.idProblem);
                     period = period + aux;
                 }
                 
-
-
                 Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
