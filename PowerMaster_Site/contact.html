@@ -20,7 +20,19 @@ label {  padding-right:15px; float:left; width:70px;}
 <script type="text/javascript">
     $('.map').corner("8px");
 </script>
-
+<script LANGUAGE="JavaScript">    
+	totals =0;   
+	function adiciona(){    
+		 totals++       
+		 tbl = document.getElementById("tabela")        
+		 var novaLinha = tbl.insertRow(-1);      
+		 var novaCelula;         
+		 if(totals%2==0) cl = "#F5E9EC";      
+		 else cl = "#FBF6F7";       
+		 novaCelula = novaLinha.insertCell(0);  
+		 novaCelula = novalinha.insertCell(1);
+	 }   
+ </script>
 </head>
 <body>
 	<div id="top-container">
@@ -40,11 +52,9 @@ label {  padding-right:15px; float:left; width:70px;}
 	<div id="page-title">
 		<div id="page-title-inner">
 			<div class="title">
-			<h1>Contactos</h1>
+			<h1>Forum</h1>
 			</div>
 			<div class="dot-separator-title"></div>
-			<div class="description">
-			<p>Bla bla whiskas saquetas</p>
 			</div>
 		</div>   	            
 	</div>
@@ -61,19 +71,21 @@ label {  padding-right:15px; float:left; width:70px;}
 		
 		<div id="contact-right">      
 			<div id="contactFormArea">
-				<form action="formulario.php" method="POST" id="cForm">
+				<table id='tabela' border='0' width='100%'>        
+					<tr style='background-color:#FBF6F7'>        
+						<td>Nome</td>          
+						<td>Post</td>        
+					</tr>  
+				</table>
+
 					<fieldset>
 					<label for="posName">Nome</label><br />
 					<input class="input" type="text" size="25" name="posName" id="posName" /><br /><br />
-					<label for="posEmail">Email</label><br />
-					<input class="input" type="text" size="25" name="posEmail" id="posEmail" /><br /><br />
-					<label for="posRegard">Assunto</label><br />
-					<input class="input" type="text" size="25" name="posRegard" id="posRegard" /><br /><br />
 					<label for="posText">Mensagem</label><br />
 					<textarea cols="50" rows="8" name="posText" id="posText" class="textarea"></textarea><br /><br />    						
-					<input class="input-submit"  type="submit" name="sendContactEmail" id="sendContactEmail" value="" /> 
+					<input class="input-submit"  type="submit" name="sendContactEmail" id="sendContactEmail" value="" onClick="adiciona()"/> 
 					</fieldset>
-				</form>     
+  
 			</div>
 		</div>            
 			  
