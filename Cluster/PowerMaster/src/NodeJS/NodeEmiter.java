@@ -9,7 +9,11 @@ import io.socket.IOAcknowledge;
 import io.socket.IOCallback;
 import io.socket.SocketIO;
 import io.socket.SocketIOException;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONException;
@@ -76,13 +80,28 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
 //            System.out.println(x.toString());
 //            //Enviar o evento para o servidor Node.JS
             socket.emit("info", Base64Coder.encodeString(info));
-            
-            
         }else{
             ReconectSingle();
             System.out.println("Server Node Fechado");
         }
     }    
+    
+    public void EmitStatus() throws JSONException, UnknownHostException {
+        //Criar o objecto JSON
+        if(this.socket.isConnected()){
+            JSONObject x = new JSONObject();
+            Map<String,String> Servers = new Hashtable();
+            
+            InetAddress thisIp =InetAddress.getLocalHost();
+            Servers.put(thisIp.getHostName(), thisIp.getHostAddress());
+            x.put("servers", Servers);
+            
+            socket.emit("codeStats",x );
+        }else{
+            ReconectSingle();
+            System.out.println("Server Node Fechado");
+        }
+    }      
 
     private void ReconectSingle(){
                this.socket = new SocketIO();

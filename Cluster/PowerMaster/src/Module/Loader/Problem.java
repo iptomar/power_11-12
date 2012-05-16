@@ -116,18 +116,18 @@ public abstract class Problem {
             }
             if(mutation.getString(0).equals("truncation")){
                 System.out.println("mutation:truncation - "+mutation.getDouble(1));
-                operators.add( new  operators.replacements.Truncation(mutation.getInt(1)));
+//                operators.add( new  operators.replacements.Truncation(mutation.getInt(1)));
             }              
             
             //Replacements Loader
             JSONArray replacement = data.getJSONArray("replacement");
             if(replacement.getString(0).equals("tournament")){
                 System.out.println("replacement:tournament - "+replacement.getInt(1)+","+replacement.getInt(2));
-                operators.add( new operators.replacements.Tournament(replacement.getInt(1),replacement.getInt(2)));
+//                operators.add( new operators.replacements.Tournament(replacement.getInt(1),replacement.getInt(2)));
             }
             if(replacement.getString(0).equals("truncation")){
                 System.out.println("replacement:truncation - "+replacement.getInt(1));
-                operators.add( new  operators.replacements.Truncation(replacement.getInt(1)));
+//                operators.add( new  operators.replacements.Truncation(replacement.getInt(1)));
             }           
         }
     
