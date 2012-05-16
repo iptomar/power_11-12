@@ -39,7 +39,7 @@ public class PowerMaster {
 //        
 //        INTERVAL_PART = 1;
 //        NUM_THREADS = 1;        
-        
+//        
         WorkSocket ws = new WorkSocket(8080);
         ws.start();
         

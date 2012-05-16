@@ -64,7 +64,7 @@ public class WorkSocket extends Thread {
     public class newClient extends Thread {
 
         private Socket client;
-        private GenericSolver solver;
+        //private GenericSolver solver;
         private SolverThread[] arrayThread;
         private AtomicInteger numThreads;
         private AsyncStats async;
@@ -131,50 +131,14 @@ public class WorkSocket extends Thread {
 
                             clients.put(new String(idClient+"_"+id), this);
                             
-                            GeneticLoader gl = new GeneticLoader();
                             try {
-                                solver = gl.getSolver();
-                                JSONArray problem = input.getJSONArray("algorithm");
-                                String problemName = problem.getString(0);
-                                String problemParms = problem.getString(1);
-                                String problemStop = problem.getString(2);
-
-                                problem = input.getJSONArray("mutation");
-                                String mutationName = problem.getString(0);
-                                String mutationParms = problem.getString(1);
-
-//                                problem = input.getJSONArray("operator");
-//                                String operatorName = problem.getString(0);
-//                                String operatorParms = problem.getString(1);     
-
-                                problem = input.getJSONArray("recombination");
-                                String recombinationName = problem.getString(0);
-                                String recombinationParms = problem.getString(1);
-
-                                problem = input.getJSONArray("replacement");
-                                String replacementName = problem.getString(0);
-                                String replacementParms = problem.getString(1);
-
-                                problem = input.getJSONArray("selection");
-                                String selectionName = problem.getString(0);
-                                String selectionParms = problem.getString(1);
-
-                                solver.setParameters(problemParms);
-                                solver.SetSelection(selectionName + " " + selectionParms);
-                                solver.SetMutation(mutationName + " " + mutationParms);
-                                solver.SetReplacement(replacementName + " " + replacementParms);
-                                solver.SetRecombination(recombinationName + " " + recombinationParms);
-                                solver.SetStopCrit(problemStop);
-
-                                solver.SetEvents(new GeneticEvents(PowerMaster.INTERVAL_PART, idClient, id));
-
-
+                                
                                 numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
                                 arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
 
-
-
                                 for (int i = 0; i < arrayThread.length; i++) {
+                                    GenericSolver solver = SolverCreator.CreateSolver(input);
+                                    solver.SetEvents(new GeneticEvents(PowerMaster.INTERVAL_PART, idClient, id));
                                     arrayThread[i] = new SolverThread(solver, numThreads);
                                     arrayThread[i].start();
                                     arrayThread[i].setName("" + i);
