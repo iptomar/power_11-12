@@ -93,7 +93,7 @@ public class Database extends AbstractAplication {
             rs.close(); 
 //            ResultSet rs = this.Command.executeQuery("call ExecuteCountQuery(" + period + "," + idClient + "," + idProblem + ");");
 //            rs.first();
-//            count = rs.getRow();
+//            count = rs.getInt("num");
 //            rs.close();
         } catch (Exception e) {
 
@@ -137,7 +137,7 @@ public class Database extends AbstractAplication {
             rs2.close();            
             
             
-            // erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ");");
+             //erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ");");
             
             //erro = this.ExecuteNonQuery("call ExecuteMedia(" + period + "," + idClient + "," + idProblem + ");");
         } catch (Exception e) {
@@ -197,8 +197,8 @@ public class Database extends AbstractAplication {
     public boolean InserirResult(int itera, int idClient, int idProblem, double globalAverage, double globalDeviation, double globalBest, double globalNumBest, double variance) {
         boolean erro = false;
         try {
-            erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + itera + "," + idClient + "," + idProblem + "," + globalAverage + "," + globalDeviation + "," + globalBest + "," + globalNumBest + "," + variance + ");");
-            //erro = this.ExecuteNonQuery("call InserirResult(" + itera + "," + idClient + "," + idProblem + "," + globalAverage + "," + globalDeviation + "," + globalBest + "," + globalNumBest + "," + variance + ");");
+            //erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + itera + "," + idClient + "," + idProblem + "," + globalAverage + "," + globalDeviation + "," + globalBest + "," + globalNumBest + "," + variance + ");");
+            erro = this.ExecuteNonQuery("call InserirResult(" + itera + "," + idClient + "," + idProblem + "," + globalAverage + "," + globalDeviation + "," + globalBest + "," + globalNumBest + "," + variance + ");");
         } catch (Exception e) {
 
             try {
@@ -224,8 +224,8 @@ public class Database extends AbstractAplication {
     public boolean InserirIteracoes(int threadId, int itera, int idClient, int idProblem, double best, double average, double numBest, String attributes, double deviation, int type, double variance) {
         boolean erro = false;
         try {
-            this.ExecuteNonQuery("INSERT INTO tblIterations VALUES (" + threadId + "," + itera + "," + idClient + "," + idProblem + ",NOW()," + best + "," + average + "," + numBest + ",'" + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");");
-            //erro = this.ExecuteNonQuery("call InserirIteracoes(" + threadId + "," + itera + "," + idClient + "," + idProblem +","+ best + "," + average + "," + numBest + ",'" + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");");
+            //this.ExecuteNonQuery("INSERT INTO tblIterations VALUES (" + threadId + "," + itera + "," + idClient + "," + idProblem + ",NOW()," + best + "," + average + "," + numBest + ",'" + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");");
+            erro = this.ExecuteNonQuery("call InserirIteracoes(" + threadId + "," + itera + "," + idClient + "," + idProblem +","+ best + "," + average + "," + numBest + ",'" + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");");
         } catch (Exception e) {
 
             try {
