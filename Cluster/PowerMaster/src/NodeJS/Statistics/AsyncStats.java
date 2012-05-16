@@ -31,6 +31,10 @@ public class AsyncStats extends Thread {
         this.setName("AsyncThread");
     }
 
+    public void Stop(){
+        
+    }
+    
     @Override
     public void run() {
 
@@ -48,8 +52,6 @@ public class AsyncStats extends Thread {
                 int result_count = db.ExecuteCountQuery(period, idClient, idProblem);
                 int numThread = numThreads.get();
 
-                
-               
               // System.out.println("Async|  Period: " + period + "  Threads working: " + numThread + "  Result count: " + result_count + "  Cliente: " + idClient + "  Problema: " + idProblem);
                 if (result_count == 0 && numThread == 0) {
                     Aplication.nodeJS.Emit("end", this.period, this.idClient, this.idProblem);

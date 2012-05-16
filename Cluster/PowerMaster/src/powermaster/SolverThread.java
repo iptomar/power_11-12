@@ -30,6 +30,11 @@ public class SolverThread extends Thread {
         this.numThreads = numThreads;
     }
 
+    public void Stop(){
+        //solver.getPopulation();
+        //solver.Stop();
+    }
+    
     public void run() {
         try {
 //            GenericSolver __newSolver = solver;

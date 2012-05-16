@@ -53,10 +53,6 @@ public class WorkSocket extends Thread {
                 
                 newClient nc = new newClient(client);
                 nc.start();
-                //if(client.getInetAddress().getHostAddress().equals("")){
-
-                //}
-
 
             } catch (IOException ex) {
                 Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,9 +64,24 @@ public class WorkSocket extends Thread {
     public class newClient extends Thread {
 
         private Socket client;
-
+        private GenericSolver solver;
+        private SolverThread[] arrayThread;
+        private AtomicInteger numThreads;
+        private AsyncStats async;
+        
+        int idClient;
+        int id;
+        
         public newClient(Socket client) {
             this.client = client;
+        }
+        
+        public void StopSolver(){
+            SaveStatus ss = new SaveStatus(new String(idClient+"_"+id));
+            for (int i = 0; i < arrayThread.length; i++) {
+                arrayThread[i].Stop();
+            }
+            async.Stop();
         }
 
         @Override
@@ -115,14 +126,14 @@ public class WorkSocket extends Thread {
                         try {
                             JSONObject input = new JSONObject(params[1]);
 
-                            int idClient = input.getInt("client");
-                            int id = input.getInt("id");
+                            idClient = input.getInt("client");
+                            id = input.getInt("id");
 
                             clients.put(new String(idClient+"_"+id), this);
                             
                             GeneticLoader gl = new GeneticLoader();
                             try {
-                                GenericSolver solver = gl.getSolver();
+                                solver = gl.getSolver();
                                 JSONArray problem = input.getJSONArray("algorithm");
                                 String problemName = problem.getString(0);
                                 String problemParms = problem.getString(1);
@@ -158,8 +169,8 @@ public class WorkSocket extends Thread {
                                 solver.SetEvents(new GeneticEvents(PowerMaster.INTERVAL_PART, idClient, id));
 
 
-                                AtomicInteger numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
-                                SolverThread[] arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
+                                numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
+                                arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
 
 
 
@@ -171,7 +182,7 @@ public class WorkSocket extends Thread {
 
                                 System.out.println("Start Async");
                                 System.out.println("Async:: Client:" + idClient + " id:" + id);
-                                AsyncStats async = new AsyncStats(numThreads, PowerMaster.INTERVAL_PART, idClient, id);
+                                async = new AsyncStats(numThreads, PowerMaster.INTERVAL_PART, idClient, id);
                                 async.setPriority(Thread.MAX_PRIORITY);
                                 async.start();
                                 async.join();
@@ -185,10 +196,19 @@ public class WorkSocket extends Thread {
                         }
 
                         System.out.println(data);
+                    //Novo Pedido do estado do servidor e slaves
                     }else if(data.contains("status-")){
                         System.out.println("New Status request...");
                         Aplication.nodeJS.EmitStatus();
-                        
+                    //Pedido de paragem do Solver
+                    } else if (data.contains("stop-")) {
+                        System.out.println("New Stop Request:" + data);
+                        String[] params = data.split("-"); 
+                        JSONObject input = new JSONObject(params[1]);
+                        int idClient = input.getInt("client");
+                        int id = input.getInt("id");       
+                        newClient client = clients.get(new String(idClient+"_"+id));
+                        client.StopSolver();
                     }
                 }                
                 
