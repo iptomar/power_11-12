@@ -5,6 +5,7 @@
 package powermaster;
 
 import genetics.GenericSolver;
+import genetics.Population;
 import genetics.Solver;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -30,8 +31,10 @@ public class SolverThread extends Thread {
         this.numThreads = numThreads;
     }
 
-    public void Stop(){
-        //solver.getPopulation();
+    public Population Stop(){  
+        Population p = solver.getPopulation();
+        solver = null;
+        return p;
         //solver.Stop();
     }
     
@@ -44,6 +47,8 @@ public class SolverThread extends Thread {
             numThreads.getAndDecrement();
             System.out.println("Atomic numThreads: " + numThreads.toString());
         } catch (Exception ex) {
+            numThreads.getAndDecrement();
+            System.out.println("Force Stop: " + numThreads.toString());
             Logger.getLogger(SolverThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

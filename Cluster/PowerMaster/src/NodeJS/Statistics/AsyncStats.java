@@ -22,6 +22,8 @@ public class AsyncStats extends Thread {
     int idClient;
     int idProblem;
 
+    boolean Stop;
+    
     public AsyncStats(AtomicInteger numThreads, int period, int idClient, int idProblem) {
         this.numThreads = numThreads;
         this.period = period-1;
@@ -29,10 +31,11 @@ public class AsyncStats extends Thread {
         this.idClient = idClient;
         this.idProblem = idProblem;
         this.setName("AsyncThread");
+        this.Stop = false;
     }
 
     public void Stop(){
-        
+        Stop=true;
     }
     
     @Override
@@ -47,7 +50,7 @@ public class AsyncStats extends Thread {
             Logger.getLogger(AsyncStats.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        while (true) {
+        while (!Stop) {
             try {
                 int result_count = db.ExecuteCountQuery(period, idClient, idProblem);
                 int numThread = numThreads.get();

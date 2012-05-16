@@ -5,22 +5,25 @@
 package Module.WebHTTP;
 
 import Module.Aplication;
+import java.io.FileNotFoundException;
 import org.json.JSONException;
 import powermaster.*;
 
 import NodeJS.Statistics.AsyncStats;
 import genetics.GenericSolver;
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import reflection.GeneticLoader;
 
@@ -76,12 +79,18 @@ public class WorkSocket extends Thread {
             this.client = client;
         }
         
-        public void StopSolver(){
-            SaveStatus ss = new SaveStatus(new String(idClient+"_"+id));
+        public void StopSolver() throws FileNotFoundException, IOException{
+            SaveStatus save = new SaveStatus(idClient+"_"+id);
             for (int i = 0; i < arrayThread.length; i++) {
-                arrayThread[i].Stop();
+                save.AddPopulation(arrayThread[i].Stop());
             }
             async.Stop();
+            
+            FileOutputStream fos = new FileOutputStream(idClient+"_"+id);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(save);
+            oos.close();            
+            
         }
 
         @Override
@@ -121,7 +130,7 @@ public class WorkSocket extends Thread {
 
                     //Novo parametro
                     } else if (data.contains("load-")) {
-                        System.out.println("New Info Request:" + data);
+                        System.out.println("New Problem Request:" + data);
                         String[] params = data.split("-");
                         try {
                             JSONObject input = new JSONObject(params[1]);
