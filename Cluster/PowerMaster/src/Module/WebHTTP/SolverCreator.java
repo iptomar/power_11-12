@@ -22,12 +22,24 @@ public class SolverCreator {
        
         JSONArray problem = input.getJSONArray("algorithm");
         String problemName = problem.getString(0);
+        System.out.println("Problema:"+problemName);
         String problemParms = problem.getString(1);
+        System.out.println("Parametros Solver:"+problemParms);
         String problemStop = problem.getString(2);
+        System.out.println("Critétios de paragem:"+problemStop+"\n\n");
 
+        String paramTSP = null;
+        if(problemName.contains(".TSP")){
+            JSONArray dataTSP = input.getJSONArray("TSP");
+            paramTSP = dataTSP.getString(0);
+            System.out.println("**TSP ENCONTRADO** \n Dados:"+paramTSP+"\n\n");
+        }        
+        
         problem = input.getJSONArray("mutation");
         String mutationName = problem.getString(0);
+        System.out.println("Mutação:"+mutationName);
         String mutationParms = problem.getString(1);
+        System.out.println("Parametros de Mutação:"+mutationParms+"\n\n");
 
 //                                problem = input.getJSONArray("operator");
 //                                String operatorName = problem.getString(0);
@@ -35,23 +47,37 @@ public class SolverCreator {
 
         problem = input.getJSONArray("recombination");
         String recombinationName = problem.getString(0);
+        System.out.println("Recominação:"+recombinationName);
         String recombinationParms = problem.getString(1);
+        System.out.println("Parametros de Recombinação:"+recombinationName+"\n\n");
 
         problem = input.getJSONArray("replacement");
         String replacementName = problem.getString(0);
+        System.out.println("Replacement:"+replacementName);
         String replacementParms = problem.getString(1);
-
+        System.out.println("Parametros de Replacement:"+replacementParms+"\n\n");
+        
         problem = input.getJSONArray("selection");
         String selectionName = problem.getString(0);
+        System.out.println("Selection:"+selectionName);
         String selectionParms = problem.getString(1);
+        System.out.println("Parametros de Replacement:"+selectionParms+"\n\n");
 
-        solver.setParameters(problemParms);
-        solver.SetSelection(selectionName + " " + selectionParms);
-        solver.SetMutation(mutationName + " " + mutationParms);
-        solver.SetReplacement(replacementName + " " + replacementParms);
-        solver.SetRecombination(recombinationName + " " + recombinationParms);
-        solver.SetStopCrit(problemStop);
+        System.out.println("setParameters:"+solver.setParameters(problemParms));
+        System.out.println("SetSelection:"+solver.SetSelection(selectionName + " " + selectionParms));
+        System.out.println("SetMutation:"+solver.SetMutation(mutationName + " " + mutationParms));        
+        System.out.println("SetReplacement:"+solver.SetReplacement(replacementName + " " + replacementParms));        
+        System.out.println("SetRecombination:"+solver.SetRecombination(recombinationName + " " + recombinationParms));        
+        System.out.println("SetStopCrit:"+solver.SetStopCrit(problemStop));  
 
+        System.out.println("\n\n");
+        
+        
+        if(paramTSP!=null){
+            System.out.println("SetTSPProbl:"+solver.SetTSPProbl(paramTSP));
+            
+        }
+        
         return solver;
     }
 }
