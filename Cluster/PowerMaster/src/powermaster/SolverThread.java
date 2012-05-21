@@ -32,11 +32,9 @@ public class SolverThread extends Thread {
     }
 
     public Population Stop(){  
-        //Population p = solver.getPopulation();
-        solver = null;
-        //return p;
-        return null;
-        //solver.Stop();
+        Population p = solver.getPopulation();
+        solver.StopSolver();
+        return p;
     }
     
     public void run() {

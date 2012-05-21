@@ -12,6 +12,7 @@ import powermaster.*;
 import NodeJS.Statistics.AsyncStats;
 import genetics.GenericSolver;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -91,6 +92,8 @@ public class WorkSocket extends Thread {
             oos.writeObject(save);
             oos.close();            
             
+            clients.remove(save);
+            
         }
 
         @Override
@@ -137,9 +140,12 @@ public class WorkSocket extends Thread {
 
                             idClient = input.getInt("client");
                             id = input.getInt("id");
-
-                            clients.put(new String(idClient+"_"+id), this);
+                            if((new File(idClient+"_"+id).exists())){
+                                
+                            }else{
                             
+                            }
+                            clients.put(new String(idClient+"_"+id), this);
                             try {
                                 
                                 numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);

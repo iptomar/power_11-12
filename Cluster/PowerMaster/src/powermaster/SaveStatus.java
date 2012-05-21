@@ -26,4 +26,12 @@ public class SaveStatus implements Serializable{
         pops.add(pop);
     }
     
+    public int getNumPopulations(){
+        return this.pops.size();
+    }
+    
+    public Population getPopulation(int index){
+        return this.pops.get(index);
+    }
+    
 }

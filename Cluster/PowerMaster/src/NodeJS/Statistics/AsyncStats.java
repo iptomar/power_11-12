@@ -22,7 +22,7 @@ public class AsyncStats extends Thread {
     int idClient;
     int idProblem;
 
-    boolean Stop;
+    volatile boolean Stop;
     
     public AsyncStats(AtomicInteger numThreads, int period, int idClient, int idProblem) {
         this.numThreads = numThreads;
@@ -34,7 +34,7 @@ public class AsyncStats extends Thread {
         this.Stop = false;
     }
 
-    public void Stop(){
+    public synchronized void Stop(){
         Stop=true;
     }
     
@@ -70,7 +70,7 @@ public class AsyncStats extends Thread {
                     period = period + aux;
                 }
                 
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error - Sync Class " + e);
