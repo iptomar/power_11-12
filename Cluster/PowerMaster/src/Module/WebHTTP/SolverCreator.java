@@ -6,6 +6,8 @@ package Module.WebHTTP;
 
 import genetics.GenericSolver;
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,13 +73,16 @@ public class SolverCreator {
         System.out.println("SetStopCrit:"+solver.SetStopCrit(problemStop));  
 
         System.out.println("\n\n");
-        
-        
+
         if(paramTSP!=null){
-            System.out.println("SetTSPProbl:"+solver.SetTSPProbl(paramTSP));
-            
+            System.out.println("SetTSPProbl:"+solver.SetTSPProbl(paramTSP)+"\n\n");
         }
-        
+            try {
+            Thread.sleep(5000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(SolverCreator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
         return solver;
     }
 }

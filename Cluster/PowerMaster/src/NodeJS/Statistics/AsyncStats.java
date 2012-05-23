@@ -25,6 +25,7 @@ import powermaster.PowerMaster;
 import powermaster.SaveStatus;
 import powermaster.SolverThread;
 import utils.ComparatorIndividual;
+import utils.PopulationUtils;
 
 /**
  *
@@ -88,6 +89,19 @@ public class AsyncStats extends Thread {
             System.out.println("\n\n"+ind.toString()+"\n\n");
         }
         
+    }
+    
+    /**
+     * Método para percorrer todas as threads e procurar o maior double
+     */
+    public double getBestIndividual(){
+        double maxFitness=0,aux=0;
+        for (int i = 0; i < arrayThread.length; i++) {
+            if((aux=PopulationUtils.getBestFitness(arrayThread[i].getPopulation()))>maxFitness){
+                maxFitness=aux;
+            }
+        }
+        return maxFitness;
     }
     
     @Override

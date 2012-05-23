@@ -34,11 +34,11 @@ public class PowerMaster {
         
         IOConnection.loggerDebug = true;
 ////        
-//        INTERVAL_PART = Integer.parseInt(args[0]);
-//        NUM_THREADS = Integer.parseInt(args[1]);
+        INTERVAL_PART = Integer.parseInt(args[0]);
+        NUM_THREADS = Integer.parseInt(args[1]);
 //        
-        INTERVAL_PART = 1;
-        NUM_THREADS = 4;        
+//        INTERVAL_PART = 25;
+//        NUM_THREADS = 4;        
 //        
         WorkSocket ws = new WorkSocket(8080);
         ws.start();

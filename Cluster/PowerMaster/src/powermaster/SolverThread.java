@@ -40,6 +40,10 @@ public class SolverThread extends Thread {
         return p;
     }
     
+    public Population getPopulation(){
+        return solver.getPopulation();
+    }
+    
     public Collection<Individual> getUniqueIndividuals(int fitness){
         return PopulationUtils.getUniqueIndividuals(this.solver.getPopulation(),fitness);
     }
