@@ -5,8 +5,10 @@
 package powermaster;
 
 import Module.DataBase.Database;
+import genetics.Individual;
 import genetics.Population;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import statistics.Statistics;
@@ -75,8 +77,9 @@ public class GeneticEvents implements EventsSolver {
 
        db.InserirIteracoes(Integer.parseInt(Thread.currentThread().getName()), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 2, statistics.getVarianciaPopulation());
        
-
-        //        System.out.println("Thread["+Thread.currentThread().getName()+"]Last Iteration inserted[" + i + "]:" + aux);
+       ArrayList<Individual> array = new ArrayList<Individual>(PopulationUtils.getUniqueIndividuals(pltn, PopulationUtils.getBestFitness(pltn)));
+       
+       //        System.out.println("Thread["+Thread.currentThread().getName()+"]Last Iteration inserted[" + i + "]:" + aux);
         //        
         System.out.println("Thread[" + Thread.currentThread().getName() + "]: Solver ended");
         System.out.println("--------------------------------------------------");

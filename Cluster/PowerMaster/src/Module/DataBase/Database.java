@@ -118,7 +118,7 @@ public class Database extends AbstractAplication {
         return count;
     }
 
-    public boolean ExecuteMedia(int period, int idClient, int idProblem) {
+    public boolean ExecuteMedia(int period, int idClient, int idProblem, AsyncStats async) {
         boolean erro = false;
         try {
             ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, MAX(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
@@ -130,6 +130,8 @@ public class Database extends AbstractAplication {
             String a5 = rs.getString("variance").toString();
             rs.close();
 
+            //async.getAllUniqueIndividuals(Double.parseDouble(a3));
+            
             //ResultSet rs2 = this.Command.executeQuery("Select COUNT(best) AS numBest  FROM tblIterations WHERE best='"+ 60 +"' AND idClient='"+idClient+"' AND idProblem='"+idProblem+"';");
             ResultSet rs2 = this.Command.executeQuery("Select COUNT(*) AS numBest  FROM tblIterations WHERE best=" + a3 + " AND idClient=" + idClient + " AND idProblem=" + idProblem + " AND itera=" + period + ";");
             rs2.first();
@@ -152,7 +154,7 @@ public class Database extends AbstractAplication {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    return ExecuteMedia(period, idClient, idProblem);
+                    return ExecuteMedia(period, idClient, idProblem,async);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
