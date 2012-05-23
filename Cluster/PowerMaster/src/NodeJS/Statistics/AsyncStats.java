@@ -78,7 +78,7 @@ public class AsyncStats extends Thread {
         //clients.remove(save);
     }
 
-    public void getAllUniqueIndividuals(int fitness){
+    public void getAllUniqueIndividuals(double fitness){
         TreeSet result = new TreeSet(new ComparatorIndividual());
         for (int i = 0; i < arrayThread.length; i++) {
             //Entra uma collection
@@ -125,6 +125,8 @@ public class AsyncStats extends Thread {
                 if (result_count == 0 && numThread == 0) {
                     Aplication.nodeJS.Emit("end", this.period, this.idClient, this.idProblem);
                     System.out.println("Async Stop");
+                    double best = getBestIndividual();
+                    getAllUniqueIndividuals(best);
                     break;
                 }
 
