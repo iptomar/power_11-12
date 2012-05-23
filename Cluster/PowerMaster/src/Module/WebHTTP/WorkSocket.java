@@ -69,8 +69,8 @@ public class WorkSocket extends Thread {
 
         private Socket client;
         //private GenericSolver solver;
-        private SolverThread[] arrayThread;
-        private AtomicInteger numThreads;
+        //private SolverThread[] arrayThread;
+        //private AtomicInteger numThreads;
         private AsyncStats async;
         
         int idClient;
@@ -81,19 +81,19 @@ public class WorkSocket extends Thread {
         }
         
         public void StopSolver() throws FileNotFoundException, IOException{
-            SaveStatus save = new SaveStatus(idClient+"_"+id);
+            /*SaveStatus save = new SaveStatus(idClient+"_"+id);
             for (int i = 0; i < arrayThread.length; i++) {
                 save.AddPopulation(arrayThread[i].Stop());
             }
             async.Stop();
             
-            FileOutputStream fos = new FileOutputStream(idClient+"_"+id);
+            FileOutputStream fos = new FileOutputStream("Pops/"+idClient+"_"+id);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(save);
             oos.close();            
             
-            clients.remove(save);
-            
+            clients.remove(save);*/
+            this.async.Stop();
         }
 
         @Override
@@ -140,7 +140,7 @@ public class WorkSocket extends Thread {
 
                             idClient = input.getInt("client");
                             id = input.getInt("id");
-                            if((new File(idClient+"_"+id).exists())){
+                            if((new File("Pops/"+idClient+"_"+id).exists())){
                                 
                             }else{
                             
@@ -148,23 +148,23 @@ public class WorkSocket extends Thread {
                             clients.put(new String(idClient+"_"+id), this);
                             try {
                                 
-                                numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
-                                arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
+                                //numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
+                                //arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
 
-                                for (int i = 0; i < arrayThread.length; i++) {
+                                /*for (int i = 0; i < arrayThread.length; i++) {
                                     GenericSolver solver = SolverCreator.CreateSolver(input);
                                     solver.SetEvents(new GeneticEvents(PowerMaster.INTERVAL_PART, idClient, id));
                                     arrayThread[i] = new SolverThread(solver, numThreads);
                                     arrayThread[i].start();
                                     arrayThread[i].setName("" + i);
-                                }
+                                }*/
 
                                 System.out.println("Start Async");
                                 System.out.println("Async:: Client:" + idClient + " id:" + id);
-                                async = new AsyncStats(numThreads, PowerMaster.INTERVAL_PART, idClient, id);
+                                async = new AsyncStats(PowerMaster.INTERVAL_PART, idClient, id,input);
                                 async.setPriority(Thread.MAX_PRIORITY);
                                 async.start();
-                                async.join();
+                                //async.join();
 
                             } catch (Exception ex) {
                                 Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);

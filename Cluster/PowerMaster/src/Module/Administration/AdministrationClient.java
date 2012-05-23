@@ -313,8 +313,8 @@ public class AdministrationClient extends Thread {
                 arrayThread[i].setName("" + i);
             }
 
-            AsyncStats async = new AsyncStats(numThreads, PowerMaster.INTERVAL_PART, p.getClientID(), p.getProblemID());
-            async.start();
+            //AsyncStats async = new AsyncStats(numThreads, PowerMaster.INTERVAL_PART, p.getClientID(), p.getProblemID());
+            //async.start();
 
         } catch (Exception ex) {
             System.out.println("Erro no RemoteWork(): " + ex);

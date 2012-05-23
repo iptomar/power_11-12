@@ -71,6 +71,9 @@ public class GeneticEvents implements EventsSolver {
 
     @Override
     public void EventFinishSolver(int i, Population pltn) {
+        
+        
+        
         Statistics statistics = new Statistics(pltn);
 
        db.InserirIteracoes(Integer.parseInt(Thread.currentThread().getName()), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 2, statistics.getVarianciaPopulation());
