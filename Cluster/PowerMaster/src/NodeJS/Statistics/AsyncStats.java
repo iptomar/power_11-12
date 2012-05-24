@@ -133,7 +133,7 @@ public class AsyncStats extends Thread {
 
                 if (result_count >= numThread) {
                     //System.out.println("Fechado"+Aplication.db.Connection.isClosed());
-                    boolean temp = db.ExecuteMedia(period, idClient, idProblem,this);
+                    boolean temp = db.ExecuteMedia(period, idClient, idProblem, "teste");
                     //System.out.println("Async Insertion| Iteration:" + period);
                     Aplication.nodeJS.Emit("run", this.period, this.idClient, this.idProblem);
                     period = period + aux;
