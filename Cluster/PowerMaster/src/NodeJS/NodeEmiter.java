@@ -70,6 +70,23 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
         }
     }
     
+    public void EmitStop(String data,int clientID, int problemID){
+        if(this.socket.isConnected()){
+            try {
+                JSONObject x = new JSONObject();
+                x.put("idClient", "" + clientID);
+                x.put("idProblem", "" + problemID);     
+                x.put("data",data);
+                socket.emit("stop",x);
+            } catch (JSONException ex) {
+                Logger.getLogger(NodeEmiter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            ReconectSingle();
+            System.out.println("Server Node Fechado");
+        }            
+    }
+    
     public void EmitInfo(String info) throws JSONException {
         //Criar o objecto JSON
         if(this.socket.isConnected()){

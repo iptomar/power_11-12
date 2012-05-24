@@ -148,6 +148,12 @@ public class AsyncStats extends Thread {
                 System.out.println("Error - Sync Class " + e);
             }
         }
+        
+        if(Stop=true){                              
+                db.ExecuteLastItera(idClient, idProblem, getAllUniqueIndividuals(getBestIndividual())); 
+                Aplication.nodeJS.EmitStop(getAllUniqueIndividuals(getBestIndividual()),idClient,idProblem);
+                System.out.println("Async Stop By Force");           
+        }
 
     }
 }
