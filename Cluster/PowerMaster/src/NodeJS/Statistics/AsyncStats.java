@@ -55,8 +55,8 @@ public class AsyncStats extends Thread {
             GenericSolver solver = SolverCreator.CreateSolver(input);
             solver.SetEvents(new GeneticEvents(PowerMaster.INTERVAL_PART, idClient, idProblem));
             arrayThread[i] = new SolverThread(solver, numThreads);
-            arrayThread[i].start();
             arrayThread[i].setName("" + i);
+            arrayThread[i].start();
         }
 
         //this.start();

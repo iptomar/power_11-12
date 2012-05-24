@@ -77,11 +77,11 @@ public class SolverCreator {
         if(paramTSP!=null){
             System.out.println("SetTSPProbl:"+solver.SetTSPProbl(paramTSP)+"\n\n");
         }
-            try {
-            Thread.sleep(5000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(SolverCreator.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//            try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(SolverCreator.class.getName()).log(Level.SEVERE, null, ex);
+//        }
             
         return solver;
     }
