@@ -58,6 +58,7 @@ namespace PowerComputing
             else
             {
                 System.Media.SoundPlayer player = new System.Media.SoundPlayer("Sounds/access_denied.wav");
+                
                 player.Play();
             }
         }

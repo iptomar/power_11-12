@@ -45,7 +45,7 @@ namespace PowerComputing
         private const int MaxPoints = 70;
         private int tickInterval = 1000;
         private DateTime lastUpdated;
-
+        DateTime prim= DateTime.Now;
         private int NUMERO_CORES;
 
         private bool _LIGADO = false;
@@ -69,13 +69,18 @@ namespace PowerComputing
 
             //Adicionar zoom ao grafico
             chart.Behaviour = new ZoomBehaviour();
-            chart.Series.First().DataSeries = GenerateDataSeries();
 
-            CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
+            var stack = chart.Series[0] as IChartMultipleSeries;
+            var stack2 = chart.Series[1] as IChartMultipleSeries;
 
+           
+            stack.Series[0].DataSeries = GenerateDataCPU();
+            stack2.Series[0].DataSeries = GenerateDataMEM();
+
+            CompositionTarget.Rendering += new EventHandler(CompositionTargetCPU_Rendering);
+                        
             thr = new Thread(VerificarLigacao);
             thr.Start();
-
         }
 
 
@@ -135,7 +140,6 @@ namespace PowerComputing
             catch { _LIGADO = false; }
         }
 
-
         private delegate void MexeCallback();
         private void Mexe()
         {
@@ -165,13 +169,7 @@ namespace PowerComputing
 
 
 
-
-
-
-
-
-
-        private IDataSeries GenerateDataSeries()
+        private IDataSeries GenerateDataCPU()
         {
             var data = new DataSeries<DateTime, double>();
 
@@ -192,53 +190,121 @@ namespace PowerComputing
             return data;
         }
 
-        void CompositionTarget_Rendering(object sender, EventArgs e)
+
+        private IDataSeries GenerateDataMEM()
+        {
+            var data = new DataSeries<DateTime, double>();
+
+            // Set the starting date a year earlier & set initial price
+            this.currentTime = DateTime.Now;
+            double price = 100.00;
+
+            // Create initial data for the charts and assign it to them
+            for (int i = 0; i < 100; i++)
+            {
+                currentTime = currentTime.AddMilliseconds(tickInterval);
+
+                // Generate the price
+                price = 0.0;
+                data.Add(new DataPoint<DateTime, double>(currentTime, price));
+            }
+
+            return data;
+        }
+
+        void CompositionTargetCPU_Rendering(object sender, EventArgs e)
         {
             if ((DateTime.Now - lastUpdated).TotalMilliseconds > tickInterval)
             {
-                UpdateChart();
+                UpdateChartCPU();
+                UpdateChartMEM();
+                
+
             }
         }
 
 
-        void UpdateChart()
+        void UpdateChartCPU()
         {
             try
             {
                 if (((FrameworkElement)chart.Parent).ActualWidth == 0)
                     return;
 
-                var priceData = (DataSeries<DateTime, double>)chart.Series[0].DataSeries;
+                var stackedLineSeries = chart.Series[0] as IChartMultipleSeries;
 
+                var cpu = (DataSeries<DateTime, double>)stackedLineSeries.Series[0].DataSeries;
+                
 
-                double currentCPU = Convert.ToDouble(socket_graficos.EnviaPedido("get -cpu")) / NUMERO_CORES;
+                //MessageBox.Show(stackedLineSeries.Series[0].GetType()+" | " + stackedLineSeries.Series[1].GetType() + " | " + stackedLineSeries.Series[2].GetType());
+                string []dados = socket_graficos.EnviaPedido("get -cpumem").ToString().Split('£');
 
-                if (currentCPU > 100)
+                double currentCPU = Convert.ToInt32(Convert.ToDouble(dados[0].ToString().Replace(',','.')) / NUMERO_CORES);
+                double currentMEM= Convert.ToDouble(dados[1]);
+
+                lbl_cpu.Text = "CPU: " + currentCPU + "%";
+
+                if (currentCPU > 100.0)
                 {
-                    currentCPU = 100;
+                    currentCPU = 100.0;
+                   
                 }
-                priceData.Add(new DataPoint<DateTime, double>(currentTime, currentCPU));
+
+                cpu.Add(new DataPoint<DateTime, double>(currentTime, currentCPU));
+                
 
                 currentTime = currentTime.AddMilliseconds(tickInterval);
 
-                if (priceData.Count > MaxPoints)
+                if (cpu.Count > MaxPoints)
                 {
-                    priceData.RemoveAt(0);
+                    cpu.RemoveAt(0);
+                    
                 }
-
                 lastUpdated = DateTime.Now;
             }
             catch { }
         }
 
 
+        void UpdateChartMEM()
+        {
+            try
+            {
+                if (((FrameworkElement)chart.Parent).ActualWidth == 0)
+                    return;
+
+                var stackedLineSeries = chart.Series[1] as IChartMultipleSeries;
+
+                var mem = (DataSeries<DateTime, double>)stackedLineSeries.Series[0].DataSeries;
+
+                //MessageBox.Show(stackedLineSeries.Series[0].GetType()+" | " + stackedLineSeries.Series[1].GetType() + " | " + stackedLineSeries.Series[2].GetType());
+                string[] dados = socket_graficos.EnviaPedido("get -cpumem").ToString().Split('£');
+
+                double currentCPU = Convert.ToInt32(Convert.ToDouble(dados[0].ToString().Replace(',', '.')) / NUMERO_CORES);
+                double currentMEM = Convert.ToDouble(dados[1]);
 
 
+                lbl_mem.Text = "MEM: " + currentMEM + "%";
 
+                if (currentMEM > 100.0)
+                {
+                    
+                    currentMEM = 100.0;
+                }
 
+                mem.Add(new DataPoint<DateTime, double>(currentTime, currentMEM));
 
+                currentTime = currentTime.AddMilliseconds(tickInterval);
 
-
+                if (mem.Count > MaxPoints)
+                {
+                    
+                    mem.RemoveAt(0);
+                }
+                lastUpdated = DateTime.Now;
+            }
+            catch { }
+        }
 
 
 
@@ -257,6 +323,11 @@ namespace PowerComputing
             tb.Foreground = brush;
         }
 
+        /// <summary>
+        /// Metodo de animação entre paineis
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Animation(object sender, MouseButtonEventArgs e)
         {
             TextBlock tb = sender as TextBlock;
@@ -307,14 +378,19 @@ namespace PowerComputing
             }
         }
 
+        /// <summary>
+        /// Metodo que executa pedidos pela consola
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox2_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 tb_consola.AppendText("#powercomputing > " + tb_diz.Text + "\n");
 
-                socket_consola.IP = tb_ip.Text;
-                socket_consola.Porta = Convert.ToInt32(tb_porta.Text);
+                socket_consola.IP = Properties.Settings.Default.IPMaster;
+                socket_consola.Porta = Convert.ToInt32(Properties.Settings.Default.PortaConsola);
 
                 string txt_recebido = socket_consola.EnviaPedido(tb_diz.Text);
 
@@ -347,53 +423,17 @@ namespace PowerComputing
             }
         }
 
+        /// <summary>
+        /// Metodo executado ao fechar a janaela
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             thr.Abort();
 
             Properties.Settings.Default.Nome = Utilizador.NOME;
             Properties.Settings.Default.Save();
-        }
-
-        string[] ois;
-        string[] pids;
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            string tasks = socket_graficos.EnviaPedido("get -tasks");
-
-            string[] tasks_partidas = tasks.Split('£');
-
-            DataTable resultados = CriaDataTable();
-
-            for (int i = 1; i < tasks_partidas.Length; i++)
-            {
-                string[] teste = tasks_partidas[i].Split('?');
-
-                 DataRow linha;
-                   
-                 linha = resultados.NewRow();
- 
-                 //gera o n£mero GUID
-                 linha["PID"] = teste[0].ToString().Replace(" ", "");
-
-                 try
-                 {
-                     linha["NAME"] = teste[1].ToString().Replace(" ","");
-                 }
-                 catch (Exception)
-                 {
-                     linha["NAME"] = "Não consegui";
-                 }
-
-                 resultados.Rows.Add(linha);
-            }
-
-            DataSet ds_on = new DataSet();
-            ds_on.Clear();
-            ds_on.Tables.Add(resultados);
-            this.lb_tasks.DataContext = ds_on;
-
         }
 
         private DataTable CriaDataTable()
@@ -414,6 +454,11 @@ namespace PowerComputing
             return mDataTable;
         }
 
+        /// <summary>
+        /// ComboBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -431,6 +476,11 @@ namespace PowerComputing
             catch { }
         }
 
+        /// <summary>
+        /// Metodo que executa um OneMax
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bt_execute_onemax_Click(object sender, RoutedEventArgs e)
         {
             string[] ddl_selection = onemax_ddl_selection.SelectedItem.ToString().Split(' ');
