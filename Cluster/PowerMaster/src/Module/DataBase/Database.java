@@ -23,7 +23,7 @@ public class Database extends AbstractAplication {
     /**
      * Variável que contem um comando a ser executado no servidor MySQL
      */
-    private Statement Command;
+    public Statement Command;
     /**
      * Variável que contem o Username do servidor MySQL
      */
@@ -130,7 +130,7 @@ public class Database extends AbstractAplication {
             String a5 = rs.getString("variance").toString();
             rs.close();
 
-            async.getAllUniqueIndividuals(Double.parseDouble(a3));
+            //async.getAllUniqueIndividuals(Double.parseDouble(a3));
             
             //ResultSet rs2 = this.Command.executeQuery("Select COUNT(best) AS numBest  FROM tblIterations WHERE best='"+ 60 +"' AND idClient='"+idClient+"' AND idProblem='"+idProblem+"';");
             ResultSet rs2 = this.Command.executeQuery("Select COUNT(*) AS numBest  FROM tblIterations WHERE best=" + a3 + " AND idClient=" + idClient + " AND idProblem=" + idProblem + " AND itera=" + period + ";");

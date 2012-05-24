@@ -7,6 +7,7 @@ package NodeJS.Statistics;
 import Module.Aplication;
 import Module.DataBase.Database;
 import Module.WebHTTP.SolverCreator;
+import com.sun.rmi.rmid.ExecOptionPermission;
 import genetics.GenericSolver;
 import genetics.Individual;
 import java.io.FileNotFoundException;
@@ -14,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.ResultSet;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -84,9 +86,9 @@ public class AsyncStats extends Thread {
             //Entra uma collection
             result.addAll( arrayThread[i].getUniqueIndividuals(fitness));
         }
-        
+        System.out.println("Resultado Final:");
         for (Object ind : result) {
-            System.out.println("\n\n"+ind.toString()+"\n\n");
+            System.out.println(ind.toString());
         }
         
     }
@@ -122,14 +124,14 @@ public class AsyncStats extends Thread {
                 int numThread = numThreads.get();
 
                 // System.out.println("Async|  Period: " + period + "  Threads working: " + numThread + "  Result count: " + result_count + "  Cliente: " + idClient + "  Problema: " + idProblem);
-                if (result_count == 0 && numThread == 0) {
+                if (result_count == 0 && numThread == 0) {                
+                    getAllUniqueIndividuals(getBestIndividual());
                     Aplication.nodeJS.Emit("end", this.period, this.idClient, this.idProblem);
                     System.out.println("Async Stop");
                     break;
                 }
 
                 if (result_count >= numThread) {
-                    getAllUniqueIndividuals(getBestIndividual());
                     //System.out.println("Fechado"+Aplication.db.Connection.isClosed());
                     boolean temp = db.ExecuteMedia(period, idClient, idProblem,this);
                     //System.out.println("Async Insertion| Iteration:" + period);
