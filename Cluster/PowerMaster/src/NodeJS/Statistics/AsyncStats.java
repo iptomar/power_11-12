@@ -129,6 +129,7 @@ public class AsyncStats extends Thread {
                 }
 
                 if (result_count >= numThread) {
+                    getAllUniqueIndividuals(getBestIndividual());
                     //System.out.println("Fechado"+Aplication.db.Connection.isClosed());
                     boolean temp = db.ExecuteMedia(period, idClient, idProblem,this);
                     //System.out.println("Async Insertion| Iteration:" + period);
