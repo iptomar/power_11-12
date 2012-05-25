@@ -3,27 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="PowerComputing.MainWindow"
         Title="Power Computing" Height="515" Width="928" WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize" Icon="/PowerComputing;component/Images/power_icon_black.png" WindowStartupLocation="CenterScreen" Closing="Window_Closing" xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit">
-    
+
     <!-- Inicio dos Resources -->
     <Window.Resources>
-        
-        <!-- Data Templates -->
-        <DataTemplate x:Key="template_tasks">
-            <StackPanel Orientation="Horizontal" Width="400">
-                <TextBlock Text="{Binding PID}" FontSize="11" Foreground="Black" Margin="5,5,5,5" />
-                <TextBlock Text=" - " FontSize="11" Foreground="Black" Margin="5,5,5,5" />
-                <TextBlock Text="{Binding NAME}" FontSize="11" Foreground="Black" Margin="5,5,5,5" />
-            </StackPanel>
-        </DataTemplate>
-        
-        
+
         <!-- Styles -->
         <Style TargetType="{x:Type ListBoxItem}">
             <Style.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Gray" Opacity=".4"/>
             </Style.Resources>
         </Style>
-        
+
         <!-- Efeitos de transição entre  -->
         <Storyboard x:Key="problems_to_results">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="grid">
@@ -70,36 +60,36 @@
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         </Style>
-        
+
         <!-- Inicio dos efeitos para mostrar e esconder a janela de connection lost -->
         <Storyboard x:Key="connection_lost_slide_down">
-        	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="grelha_erro">
-        		<EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-        		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="370"/>
-        	</DoubleAnimationUsingKeyFrames>
-        	<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grelha_bg">
-        		<DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
-        	</ObjectAnimationUsingKeyFrames>
-        	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grelha_bg">
-        		<EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
-        		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.495"/>
-        	</DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="grelha_erro">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="370"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grelha_bg">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grelha_bg">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.495"/>
+            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-        
+
         <Storyboard x:Key="connection_lost_slide_up">
-        	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="grelha_erro">
-        		<SplineDoubleKeyFrame KeyTime="0" Value="370"/>
-        		<SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
-        	</DoubleAnimationUsingKeyFrames>
-        	<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grelha_bg">
-        		<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-        		<DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Visible}"/>
-        		<DiscreteObjectKeyFrame KeyTime="0:0:0.7" Value="{x:Static Visibility.Hidden}"/>
-        	</ObjectAnimationUsingKeyFrames>
-        	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grelha_bg">
-        		<EasingDoubleKeyFrame KeyTime="0" Value="0.5"/>
-        		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
-        	</DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="grelha_erro">
+                <SplineDoubleKeyFrame KeyTime="0" Value="370"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grelha_bg">
+                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.7" Value="{x:Static Visibility.Hidden}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grelha_bg">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0.5"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <!-- Fim dos efeitos para mostrar e esconder a janela de connection lost -->
 
@@ -108,28 +98,28 @@
 
     <!-- Inicio dos Triggers -->
     <Window.Triggers>
-		<EventTrigger RoutedEvent="ButtonBase.Click" SourceName="desce_efeito">
-			<BeginStoryboard x:Name="connection_lost_slide_down_BeginStoryboard" Storyboard="{StaticResource connection_lost_slide_down}"/>
-		</EventTrigger>
-		<EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown" SourceName="image1">
-			<BeginStoryboard x:Name="connection_lost_slide_up_BeginStoryboard" Storyboard="{StaticResource connection_lost_slide_up}"/>
-		</EventTrigger>
-	</Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="desce_efeito">
+            <BeginStoryboard x:Name="connection_lost_slide_down_BeginStoryboard" Storyboard="{StaticResource connection_lost_slide_down}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown" SourceName="image1">
+            <BeginStoryboard x:Name="connection_lost_slide_up_BeginStoryboard" Storyboard="{StaticResource connection_lost_slide_up}"/>
+        </EventTrigger>
+    </Window.Triggers>
     <!-- Fim dos Triggers -->
-    
+
     <Grid Background="White">
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="0.05*"/>
             <RowDefinition Height="0.104*"/>
             <RowDefinition Height="0.846*"/>
         </Grid.RowDefinitions>
-        
+
         <!-- Titulo e opçoes secundarias -->
         <TextBlock HorizontalAlignment="Left" x:Name="tb_titulo" Margin="8,4,0,2.18" Foreground="#FF1F6884" FontWeight="Bold" FontSize="13.333" ><Run Language="pt-pt" Text="POWER COMPUTING"/></TextBlock>
         <TextBlock HorizontalAlignment="Right" x:Name="textBlock1_Copy" Margin="0,4,54.316,2.18" Foreground="#FF4C4C4C" FontWeight="Bold" FontSize="13.333" Cursor="Hand" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"><Run Language="pt-pt" Text="SETTINGS"/><LineBreak/><Run Language="pt-pt"/></TextBlock>
         <TextBlock HorizontalAlignment="Right" x:Name="textBlock1_Copy1" Margin="0,4,8,2.18" Foreground="#FF4C4C4C" FontWeight="Bold" FontSize="13.333" Cursor="Hand"  MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"><Run Language="pt-pt" Text="HELP"/></TextBlock>
-        
+
         <!-- Popup's -->
         <Popup>
             <Grid Background="#FFE5E5E5" Height="100" Width="100"/>
@@ -140,15 +130,15 @@
         <Popup>
             <Grid Background="#FFE5E5E5" Height="100" Width="100"/>
         </Popup>
-        
+
         <!-- Menu principal -->
         <TextBlock HorizontalAlignment="Left" Margin="8,4,0,4" Grid.Row="1" TextWrapping="Wrap" FontSize="29.333" Width="132.25" Foreground="#FF4C4C4C" Cursor="Hand" MouseLeftButtonDown="Button_Animation" x:Name="problems"><Run Language="pt-pt" Text="problems"/></TextBlock>
         <TextBlock HorizontalAlignment="Left" Margin="158,4,0,4" Grid.Row="1" TextWrapping="Wrap" FontSize="29.333" Width="87.003" Foreground="#FF4C4C4C" Cursor="Hand" MouseLeftButtonDown="Button_Animation" x:Name="results"><Run Language="pt-pt" Text="results"/></TextBlock>
         <TextBlock HorizontalAlignment="Left" Margin="266,4,0,4" Grid.Row="1" TextWrapping="Wrap" FontSize="29.333" Width="95" Foreground="#FF4C4C4C" Cursor="Hand" MouseLeftButtonDown="Button_Animation" x:Name="master"><Run Language="pt-pt" Text="master"/></TextBlock>
-        
+
         <!-- Inicio da grelha principal -->
         <Grid x:Name="grid" Margin="0,-13,-1872,0" Grid.Row="2" Background="White" d:LayoutOverrides="VerticalAlignment" RenderTransformOrigin="0.5,0.5">
-            
+
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -162,183 +152,177 @@
                 <ColumnDefinition Width="0.333*" />
                 <ColumnDefinition Width="0.333*" />
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="46.833,28,0,0" TextWrapping="Wrap" Text="code.dei.estt.ipt.pt" VerticalAlignment="Top" Width="179.553" x:Name="tb_ip"/>
-            <TextBox Grid.Column="1" Margin="240.885,27.481,0,0" TextWrapping="Wrap" Text="666" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" x:Name="tb_porta" HorizontalAlignment="Left" Width="83.552">
-                <TextBox.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="0.25"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </TextBox.RenderTransform>
-            </TextBox>
-            
             <!-- Inicio dos problemas -->
             <TabControl Grid.Column="0" Margin="-1.5,27.5,0,-1.5">
-            	
+
                 <TabItem Header="OneMax" Background="White">
-            		
+
                     <Grid Background="White">
-            			
+
                         <GroupBox Header="OneMax Parameters" Margin="8,0.5,0,8" BorderBrush="#FFCCCCCC" HorizontalAlignment="Left" Width="208.697" FontWeight="Bold" Foreground="#FF4C4C4C">
-							<Grid>
-								<TextBlock Margin="8,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Problem Name"/></TextBlock>
-								<TextBox x:Name="onemax_problem_name" Margin="6,25.96,10,0" TextWrapping="Wrap" Text="OneMax" VerticalAlignment="Top" FontWeight="Normal" IsEnabled="False" />
-								<TextBlock Margin="8,54.92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="ProblemID"/></TextBlock>
-								<TextBox x:Name="onemax_problem_id" Margin="8,74.88,8,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" FontWeight="Normal"/>
-								<TextBlock Margin="8,102.84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="ClientID"/></TextBlock>
-								<TextBox x:Name="onemax_client_id" Margin="8,122.8,8,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" FontWeight="Normal"/>
-								<TextBlock Margin="8,150.76,0,161.362" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" d:LayoutOverrides="Height"><Run Language="pt-pt" Text="Population Size"/></TextBlock>
-								<TextBox x:Name="onemax_population_size" Margin="8,0,8,135.402" TextWrapping="Wrap" Text="1000" VerticalAlignment="Bottom" FontWeight="Normal"/>
-								<TextBlock Margin="8,0,0,114.108" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" VerticalAlignment="Bottom"><Run Language="pt-pt" Text="Alello Size"/></TextBlock>
-								<TextBox x:Name="onemax_alello_size" Margin="8,0,8,88.148" TextWrapping="Wrap" Text="100" VerticalAlignment="Bottom" FontWeight="Normal"/>
-								<TextBlock Margin="8,0,0,67.188" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" VerticalAlignment="Bottom"><Run Language="pt-pt" Text="Param Best Fitness"/></TextBlock>
-								<TextBox x:Name="onemax_best_fitness" Margin="8,0,8,44.228" TextWrapping="Wrap" Text="99" VerticalAlignment="Bottom" FontWeight="Normal"/>
-								<TextBlock Margin="8,0,0,24.268" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" VerticalAlignment="Bottom"><Run Language="pt-pt" Text="Iterations"/></TextBlock>
-								<TextBox x:Name="onemax_iterations" Margin="8,0,8,2.308" TextWrapping="Wrap" Text="1000" VerticalAlignment="Bottom" FontWeight="Normal"/>
-							</Grid>
-						</GroupBox>
-                        
-            			<GroupBox Header="OneMax Generator" Margin="229,0.5,0,8" BorderBrush="#FFCCCCCC" HorizontalAlignment="Left" Width="208.697" FontWeight="Bold" Foreground="#FF4C4C4C">
-            				<Grid>
-            					<TextBlock Margin="8,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Selection"/></TextBlock>
-            					<ComboBox Margin="7.667,25.96,8,0" VerticalAlignment="Top" DataContext="{Binding}" Foreground="#FF4C4C4C" FontWeight="Normal" SelectionChanged="ComboBox_SelectionChanged" Name="onemax_ddl_selection">
+                            <Grid>
+                                <TextBlock Margin="8,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Problem Name"/></TextBlock>
+                                <TextBox x:Name="onemax_problem_name" Margin="6,25.96,10,0" TextWrapping="Wrap" Text="OneMax" VerticalAlignment="Top" FontWeight="Normal" IsEnabled="False" />
+                                <TextBlock Margin="8,54.92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="ProblemID"/></TextBlock>
+                                <TextBox x:Name="onemax_problem_id" Margin="8,74.88,8,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" FontWeight="Normal"/>
+                                <TextBlock Margin="8,102.84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="ClientID"/></TextBlock>
+                                <TextBox x:Name="onemax_client_id" Margin="8,122.8,8,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" FontWeight="Normal"/>
+                                <TextBlock Margin="8,150.76,0,161.362" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" d:LayoutOverrides="Height"><Run Language="pt-pt" Text="Population Size"/></TextBlock>
+                                <TextBox x:Name="onemax_population_size" Margin="8,0,8,135.402" TextWrapping="Wrap" Text="1000" VerticalAlignment="Bottom" FontWeight="Normal"/>
+                                <TextBlock Margin="8,0,0,114.108" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" VerticalAlignment="Bottom"><Run Language="pt-pt" Text="Alello Size"/></TextBlock>
+                                <TextBox x:Name="onemax_alello_size" Margin="8,0,8,88.148" TextWrapping="Wrap" Text="100" VerticalAlignment="Bottom" FontWeight="Normal"/>
+                                <TextBlock Margin="8,0,0,67.188" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" VerticalAlignment="Bottom"><Run Language="pt-pt" Text="Param Best Fitness"/></TextBlock>
+                                <TextBox x:Name="onemax_best_fitness" Margin="8,0,8,44.228" TextWrapping="Wrap" Text="99" VerticalAlignment="Bottom" FontWeight="Normal"/>
+                                <TextBlock Margin="8,0,0,24.268" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" VerticalAlignment="Bottom"><Run Language="pt-pt" Text="Iterations"/></TextBlock>
+                                <TextBox x:Name="onemax_iterations" Margin="8,0,8,2.308" TextWrapping="Wrap" Text="1000" VerticalAlignment="Bottom" FontWeight="Normal"/>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Header="OneMax Generator" Margin="229,0.5,0,8" BorderBrush="#FFCCCCCC" HorizontalAlignment="Left" Width="208.697" FontWeight="Bold" Foreground="#FF4C4C4C">
+                            <Grid>
+                                <TextBlock Margin="8,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Selection"/></TextBlock>
+                                <ComboBox Margin="7.667,25.96,8,0" VerticalAlignment="Top" DataContext="{Binding}" Foreground="#FF4C4C4C" FontWeight="Normal" SelectionChanged="ComboBox_SelectionChanged" Name="onemax_ddl_selection">
                                     <ComboBoxItem Content="Roulette" IsSelected="True" />
                                     <ComboBoxItem Content="SUS" />
                                     <ComboBoxItem Content="Tournament" />
                                 </ComboBox>
-            					<TextBlock Margin="7.667,54.92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Valor 1:"/></TextBlock>
-            					<TextBox Margin="56.5,51.92,8,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" FontWeight="Normal" Foreground="#FF4C4C4C" Name="onemax_selection_valor1" />
-            					<TextBlock Margin="8,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Mutation"/></TextBlock>
-            					<ComboBox Margin="7.667,129.96,8,0" VerticalAlignment="Top" DataContext="{Binding}" Foreground="#FF4C4C4C" FontWeight="Normal" Name="onemax_dll_mutation">
-            						<ComboBoxItem Content="Flipbit" IsSelected="True" />
-            					</ComboBox>
-            					<TextBlock Margin="7.667,158.92,0,145" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" d:LayoutOverrides="Height" Height="22"><Run Language="pt-pt" Text="Valor:"/></TextBlock>
-            					<TextBox Margin="44.5,155.92,8,148" TextWrapping="Wrap" Text="0.01" FontWeight="Normal" Foreground="#FF4C4C4C" d:LayoutOverrides="Height" Height="22" Name="onemax_mutation_valor" />
-            					<TextBlock Margin="8,0,0,127.622" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Recombination"/></TextBlock>
-            					<ComboBox Margin="8,0,7.667,101.662" VerticalAlignment="Bottom" DataContext="{Binding}" Foreground="#FF4C4C4C" FontWeight="Normal" Name="onemax_dll_recombination">
-            						<ComboBoxItem Content="Crossover" IsSelected="True" />
-            					</ComboBox>
-            					<TextBlock Margin="7.667,0,0,81.622" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Replacement"/></TextBlock>
-            					<ComboBox Margin="7.667,0,8,55.662" VerticalAlignment="Bottom" DataContext="{Binding}" Foreground="#FF4C4C4C" FontWeight="Normal" Name="onemax_dll_replacement">
-            						<ComboBoxItem Content="Tournament" IsSelected="True" />
-            					</ComboBox>
-            					<TextBlock Margin="7.667,0,0,32.702" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Valor 1:"/></TextBlock>
-            					<TextBox Margin="56.5,0,8,29.702" TextWrapping="Wrap" Text="20" VerticalAlignment="Bottom" FontWeight="Normal" Foreground="#FF4C4C4C" Name="onemax_tournament_valor1" />
-            					<TextBlock Margin="7.667,0,0,6.742" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Valor 2:"/></TextBlock>
-            					<TextBox Margin="56.5,0,8,3.742" TextWrapping="Wrap" Text="30" VerticalAlignment="Bottom" FontWeight="Normal" Foreground="#FF4C4C4C" Name="onemax_tournament_valor2" />
-            					<TextBlock Margin="7.667,80.88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Valor 2:"/></TextBlock>
-            					<TextBox Margin="56.5,77.88,8,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" FontWeight="Normal" Foreground="#FF4C4C4C" IsEnabled="False" Name="onemax_selection_valor2" />
+                                <TextBlock Margin="7.667,54.92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Valor 1:"/></TextBlock>
+                                <TextBox Margin="56.5,51.92,8,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" FontWeight="Normal" Foreground="#FF4C4C4C" Name="onemax_selection_valor1" />
+                                <TextBlock Margin="8,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Mutation"/></TextBlock>
+                                <ComboBox Margin="7.667,129.96,8,0" VerticalAlignment="Top" DataContext="{Binding}" Foreground="#FF4C4C4C" FontWeight="Normal" Name="onemax_dll_mutation">
+                                    <ComboBoxItem Content="Flipbit" IsSelected="True" />
+                                </ComboBox>
+                                <TextBlock Margin="7.667,158.92,0,145" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" d:LayoutOverrides="Height" Height="22"><Run Language="pt-pt" Text="Valor:"/></TextBlock>
+                                <TextBox Margin="44.5,155.92,8,148" TextWrapping="Wrap" Text="0.01" FontWeight="Normal" Foreground="#FF4C4C4C" d:LayoutOverrides="Height" Height="22" Name="onemax_mutation_valor" />
+                                <TextBlock Margin="8,0,0,127.622" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Recombination"/></TextBlock>
+                                <ComboBox Margin="8,0,7.667,101.662" VerticalAlignment="Bottom" DataContext="{Binding}" Foreground="#FF4C4C4C" FontWeight="Normal" Name="onemax_dll_recombination">
+                                    <ComboBoxItem Content="Crossover" IsSelected="True" />
+                                </ComboBox>
+                                <TextBlock Margin="7.667,0,0,81.622" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Replacement"/></TextBlock>
+                                <ComboBox Margin="7.667,0,8,55.662" VerticalAlignment="Bottom" DataContext="{Binding}" Foreground="#FF4C4C4C" FontWeight="Normal" Name="onemax_dll_replacement">
+                                    <ComboBoxItem Content="Tournament" IsSelected="True" />
+                                </ComboBox>
+                                <TextBlock Margin="7.667,0,0,32.702" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Valor 1:"/></TextBlock>
+                                <TextBox Margin="56.5,0,8,29.702" TextWrapping="Wrap" Text="20" VerticalAlignment="Bottom" FontWeight="Normal" Foreground="#FF4C4C4C" Name="onemax_tournament_valor1" />
+                                <TextBlock Margin="7.667,0,0,6.742" TextWrapping="Wrap" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Valor 2:"/></TextBlock>
+                                <TextBox Margin="56.5,0,8,3.742" TextWrapping="Wrap" Text="30" VerticalAlignment="Bottom" FontWeight="Normal" Foreground="#FF4C4C4C" Name="onemax_tournament_valor2" />
+                                <TextBlock Margin="7.667,80.88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Valor 2:"/></TextBlock>
+                                <TextBox Margin="56.5,77.88,8,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" FontWeight="Normal" Foreground="#FF4C4C4C" IsEnabled="False" Name="onemax_selection_valor2" />
                             </Grid>
-            			</GroupBox>
-                        
+                        </GroupBox>
+
                         <Button Content="Execute" Height="23" HorizontalAlignment="Left" Margin="453,12,0,0" Name="bt_execute_onemax" VerticalAlignment="Top" Width="75" Click="bt_execute_onemax_Click" />
                         <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="454,41,0,0" Name="lbl_onemax_resultado" VerticalAlignment="Top" />
                         <Button Content="Desce" x:Name="desce_efeito" HorizontalAlignment="Right" Margin="0,12,306.333,0" VerticalAlignment="Top" Width="75"/>
-                    
-                    </Grid>  
-                    
-				</TabItem>
-                
-				<TabItem Header="KnapSack" Background="White">
-					<Grid Background="White">
-            			<GroupBox Header="OneMax Parameters" Margin="8,0.5,0,8" BorderBrush="#FFCCCCCC" HorizontalAlignment="Left" Width="208.697" FontWeight="Bold" Foreground="#FF4C4C4C">
-							<Grid>
-								<TextBlock Margin="8,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Problem Name"/></TextBlock>
-								<TextBox x:Name="problem_name" Margin="6,25.96,10,0" TextWrapping="Wrap" Text="OneMax" VerticalAlignment="Top" FontWeight="Normal"/>
-								<TextBlock Margin="8,54.92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="ProblemID"/></TextBlock>
-								<TextBox x:Name="problem_id" Margin="8,74.88,8,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" FontWeight="Normal"/>
-								<TextBlock Margin="8,102.84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="ClientID"/></TextBlock>
-								<TextBox x:Name="client_id" Margin="8,122.8,8,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" FontWeight="Normal"/>
-								<TextBlock Margin="8,150.76,0,161.362" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" d:LayoutOverrides="Height"><Run Language="pt-pt" Text="Population Size"/></TextBlock>
-								<TextBox x:Name="population_size" Margin="8,0,8,135.402" TextWrapping="Wrap" Text="1000" VerticalAlignment="Bottom" FontWeight="Normal"/>
-								<TextBlock Margin="8,0,0,114.108" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" VerticalAlignment="Bottom"><Run Language="pt-pt" Text="Alello Size"/></TextBlock>
-								<TextBox x:Name="alello_size" Margin="8,0,8,88.148" TextWrapping="Wrap" Text="100" VerticalAlignment="Bottom" FontWeight="Normal"/>
-								<TextBlock Margin="8,0,0,24.268" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" VerticalAlignment="Bottom"><Run Language="pt-pt" Text="Iterations"/></TextBlock>
-								<TextBox x:Name="iterations" Margin="8,0,8,2.308" TextWrapping="Wrap" Text="1000" VerticalAlignment="Bottom" FontWeight="Normal"/>
-							</Grid>
-						</GroupBox>
-					</Grid>
-				</TabItem> 
-                
-			</TabControl>
+
+                    </Grid>
+
+                </TabItem>
+
+                <TabItem Header="KnapSack" Background="White">
+                    <Grid Background="White">
+                        <GroupBox Header="OneMax Parameters" Margin="8,0.5,0,8" BorderBrush="#FFCCCCCC" HorizontalAlignment="Left" Width="208.697" FontWeight="Bold" Foreground="#FF4C4C4C">
+                            <Grid>
+                                <TextBlock Margin="8,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="Problem Name"/></TextBlock>
+                                <TextBox x:Name="problem_name" Margin="6,25.96,10,0" TextWrapping="Wrap" Text="OneMax" VerticalAlignment="Top" FontWeight="Normal"/>
+                                <TextBlock Margin="8,54.92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="ProblemID"/></TextBlock>
+                                <TextBox x:Name="problem_id" Margin="8,74.88,8,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" FontWeight="Normal"/>
+                                <TextBlock Margin="8,102.84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal"><Run Language="pt-pt" Text="ClientID"/></TextBlock>
+                                <TextBox x:Name="client_id" Margin="8,122.8,8,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" FontWeight="Normal"/>
+                                <TextBlock Margin="8,150.76,0,161.362" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" d:LayoutOverrides="Height"><Run Language="pt-pt" Text="Population Size"/></TextBlock>
+                                <TextBox x:Name="population_size" Margin="8,0,8,135.402" TextWrapping="Wrap" Text="1000" VerticalAlignment="Bottom" FontWeight="Normal"/>
+                                <TextBlock Margin="8,0,0,114.108" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" VerticalAlignment="Bottom"><Run Language="pt-pt" Text="Alello Size"/></TextBlock>
+                                <TextBox x:Name="alello_size" Margin="8,0,8,88.148" TextWrapping="Wrap" Text="100" VerticalAlignment="Bottom" FontWeight="Normal"/>
+                                <TextBlock Margin="8,0,0,24.268" TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="#FF4C4C4C" FontWeight="Normal" VerticalAlignment="Bottom"><Run Language="pt-pt" Text="Iterations"/></TextBlock>
+                                <TextBox x:Name="iterations" Margin="8,0,8,2.308" TextWrapping="Wrap" Text="1000" VerticalAlignment="Bottom" FontWeight="Normal"/>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
             <!-- Fim dos problemas -->
 
 
             <!-- Inicio do Master -->
             <TabControl Grid.Column="2" Margin="-1.5,27.5,0,-1.5">
             	
-				<TabItem Header="Tasks" Background="White">
-            		<Grid Background="White">
-                        <ListBox x:Name="lb_tasks" ItemsSource="{Binding Tables[0]}" ItemTemplate="{StaticResource template_tasks}" Margin="-4,0,2,-4"/>
-                    </Grid>
-            	</TabItem>
-
                 <TabItem Header="Performance" Background="White">
-            		<Grid Background="White">
+                    <Grid Background="White">
+
                         <Grid x:Name="chart_cpu" Grid.Column="0"  Margin="0,0,20,0">
-		                <my:Chart Name="chart" Height="340" Background="White" LegendVisibility="Collapsed">
-		                    <my:Chart.XAxis>
-		                        <my:DateTimeAxis ShowMinorTicks="False" ShowMajorGridlines="False"/>
-		                    </my:Chart.XAxis>
+                            <my:Chart x:Name="chart" Height="340" Background="White" LegendVisibility="Collapsed">
+                                <my:Chart.XAxis>
+                                    <my:DateTimeAxis ShowMinorTicks="False" ShowMajorGridlines="False"/>
+                                </my:Chart.XAxis>
 
-		                    <my:Chart.YAxis>
-		                        <my:LinearAxis LabelFormatString="0'%" ShowMinorTicks="True" ShowMajorGridlines="True">
-		                            <my:LinearAxis.Range>
-		                                <my:DoubleRange Minimum="-1" Maximum="101"/>
-		                            </my:LinearAxis.Range>
-		                        </my:LinearAxis>
-		                    </my:Chart.YAxis>
+                                <my:Chart.YAxis>
+                                    <my:LinearAxis LabelFormatString="0'%" ShowMinorTicks="True" ShowMajorGridlines="True">
+                                        <my:LinearAxis.Range>
+                                            <my:DoubleRange Minimum="-1" Maximum="101"/>
+                                        </my:LinearAxis.Range>
+                                    </my:LinearAxis>
+                                </my:Chart.YAxis>
 
-		                    <my:Chart.Series>
-		                        <my:LineSeries LineStroke="Red"  LineStrokeThickness="1" />
-		                    </my:Chart.Series>
-		                </my:Chart>
-		            </Grid>
-	       		
-					</Grid>
-            	</TabItem>
+                                <my:Chart.Series>
+                                    <my:StackedLineSeries >
+                                        <my:LineSeries LineStroke="Red" LineStrokeThickness="2" Name="CPU" />
+                                    </my:StackedLineSeries>
+                                    <my:StackedLineSeries >
+                                        <my:LineSeries LineStroke="Blue" LineStrokeThickness="2" Name="MEM" HorizontalAlignment="Left" Width="879.48"/>
+                                    </my:StackedLineSeries>
+                                </my:Chart.Series>
+                            </my:Chart>
+                        </Grid>
+
+                        <Grid x:Name="grid_percentagens" HorizontalAlignment="Left" Width="112.667" Background="White" Height="36.6" VerticalAlignment="Top" Margin="39.262,17.348,0,0" d:LayoutOverrides="GridBox">
+                            <TextBlock x:Name="lbl_cpu" Margin="5.5,0,8,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="pt-pt" Text="CPU:"/></TextBlock>
+                            <TextBlock x:Name="lbl_mem" Margin="5.5,17.39,8.501,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="16.96"><Run Language="pt-pt" Text="MEM:"/></TextBlock>
+                            <Rectangle Fill="Red" Height="1" Margin="6.5,15.96,0,0" Stroke="Red" VerticalAlignment="Top" HorizontalAlignment="Left" Width="22.893"/>
+                            <Rectangle Fill="#FF1300FF" Height="1" Margin="6.682,0,0,2.25" Stroke="#FF1300FF" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="28.5"/>
+                        </Grid>
+						
+
+                    </Grid>
+                </TabItem>
 
                 <TabItem Header="Console" Background="White">
-					<Grid Background="White">
+                    <Grid Background="White">
                         <TextBox Height="344.042" x:Name="tb_consola" BorderThickness="1.000001" VerticalAlignment="Top" Foreground="#FF48832C" FontFamily="Consolas" FontSize="14.667" TextAlignment="Justify" Background="#FFEBE8E8" IsReadOnly="True" RenderTransformOrigin="0.5,0.5" VerticalScrollBarVisibility="Auto" BorderBrush="#00000000" d:LayoutOverrides="GridBox" Margin="-5,0,5,0" />
-                        <TextBox Height="29" HorizontalAlignment="Left" x:Name="tb_diz"  BorderThickness="1.000001" VerticalAlignment="Bottom" Width="924.833" PreviewKeyDown="textBox2_KeyDown" BorderBrush="{x:Null}" Background="#FFEBE8E8" Foreground="#FF48832C" Margin="-5,0,0,-3.999" d:LayoutOverrides="GridBox" FontFamily="Consolas" FontSize="14.667" />
+                        <TextBox Height="29" HorizontalAlignment="Left" x:Name="tb_diz"  BorderThickness="1.000001" VerticalAlignment="Bottom" Width="924.833" PreviewKeyDown="textBox2_KeyDown" BorderBrush="{x:Null}" Background="#FFEBE8E8" Foreground="#FF48832C" d:LayoutOverrides="GridBox" FontFamily="Consolas" FontSize="14.667" />
                     </Grid>
-				</TabItem>
+                </TabItem>
 
                 <TabItem Header="Statistics" Background="White">
-					<Grid Background="white">
-						
-					</Grid>
-				</TabItem>
-				
+                    <Grid Background="white">
+
+                    </Grid>
+                </TabItem>
+
             </TabControl>
             <!-- Inicio do Master -->
-            
-            <Button Content="Get Tasks" Height="23" HorizontalAlignment="Left" Margin="151.386,322,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" Grid.Column="1" d:LayoutOverrides="HorizontalAlignment" />
-            
         </Grid>
         <!-- Fim da grelha principal -->
 
         <!-- Grelha de background transparente -->
         <Grid Margin="-12,-3.65,-10,-8.35" x:Name="grelha_bg" Background="#FF4C4C4C" Grid.RowSpan="3" Opacity="0" Visibility="Hidden"/>
-        
+
         <!-- Grelha que contem a janela de connection lost -->
         <Grid x:Name="grelha_erro" Margin="314,-221.5,312.5,0" VerticalAlignment="Top" Height="169" Background="White" RenderTransformOrigin="0.5,0.5">
-        	<Grid.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform/>
-        			<SkewTransform/>
-        			<RotateTransform/>
-        			<TranslateTransform/>
-        		</TransformGroup>
-        	</Grid.RenderTransform>
-        	<Rectangle Fill="White" Stroke="#FF333333" HorizontalAlignment="Left" Width="295.5" StrokeThickness="2"/>
-        	<TextBlock Margin="79.501,106.998,79.502,0" TextWrapping="Wrap" Foreground="#FFD06B23" FontSize="18.667" VerticalAlignment="Top" Height="29.83"><Run Language="pt-pt" Text="Connection Lost"/></TextBlock>
-        	<Image Height="78" Margin="108.75,23.665,108.75,0" x:Name="image1" Stretch="Fill" VerticalAlignment="Top" Source="/PowerComputing;component/Images/lost.png" Width="78" />
-        	<TextBlock Margin="57.507,0,58.66,20.208" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="10.667" Foreground="#FF4C4C4C"><Run Language="pt-pt" Text="Please check your internet connection"/></TextBlock>
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Rectangle Fill="White" Stroke="#FF333333" HorizontalAlignment="Left" Width="295.5" StrokeThickness="2"/>
+            <TextBlock Margin="79.501,106.998,79.502,0" TextWrapping="Wrap" Foreground="#FFD06B23" FontSize="18.667" VerticalAlignment="Top" Height="29.83"><Run Language="pt-pt" Text="Connection Lost"/></TextBlock>
+            <Image Height="78" Margin="108.75,23.665,108.75,0" x:Name="image1" Stretch="Fill" VerticalAlignment="Top" Source="/PowerComputing;component/Images/lost.png" Width="78" />
+            <TextBlock Margin="57.507,0,58.66,20.208" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="10.667" Foreground="#FF4C4C4C"><Run Language="pt-pt" Text="Please check your internet connection"/></TextBlock>
         </Grid>
-        
+
+
     </Grid>
 </Window>

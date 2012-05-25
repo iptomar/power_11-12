@@ -80,18 +80,30 @@ public class AsyncStats extends Thread {
         //clients.remove(save);
     }
 
-    public void getAllUniqueIndividuals(double fitness){
+    public String getAllUniqueIndividuals(double fitness){
         TreeSet result = new TreeSet(new ComparatorIndividual());
         for (int i = 0; i < arrayThread.length; i++) {
             //Entra uma collection
             result.addAll( arrayThread[i].getUniqueIndividuals(fitness));
         }
+        StringBuilder sb = new StringBuilder();
         System.out.println("Resultado Final:");
         for (Object ind : result) {
+            sb.append(ind.toString());
+            sb.append(":");
             System.out.println(ind.toString());
         }
-        
+        return sb.toString();
     }
+    
+    public int getAllUniqueIndividualsCount(double fitness){
+        TreeSet result = new TreeSet(new ComparatorIndividual());
+        for (int i = 0; i < arrayThread.length; i++) {
+            //Entra uma collection
+            result.addAll( arrayThread[i].getUniqueIndividuals(fitness));
+        }
+        return result.size();
+    }    
     
     /**
      * Método para percorrer todas as threads e procurar o maior double
@@ -124,8 +136,8 @@ public class AsyncStats extends Thread {
                 int numThread = numThreads.get();
 
                 // System.out.println("Async|  Period: " + period + "  Threads working: " + numThread + "  Result count: " + result_count + "  Cliente: " + idClient + "  Problema: " + idProblem);
-                if (result_count == 0 && numThread == 0) {                
-                    getAllUniqueIndividuals(getBestIndividual());
+                if (result_count == 0 && numThread == 0) {       
+                    db.ExecuteMedia(period,idClient, idProblem, ""+getAllUniqueIndividualsCount(getBestIndividual()),""+getAllUniqueIndividuals(getBestIndividual()));                    
                     Aplication.nodeJS.Emit("end", this.period, this.idClient, this.idProblem);
                     System.out.println("Async Stop");
                     break;
@@ -133,7 +145,7 @@ public class AsyncStats extends Thread {
 
                 if (result_count >= numThread) {
                     //System.out.println("Fechado"+Aplication.db.Connection.isClosed());
-                    boolean temp = db.ExecuteMedia(period, idClient, idProblem, "teste");
+                    boolean temp = db.ExecuteMedia(period, idClient, idProblem, ""+getAllUniqueIndividualsCount(getBestIndividual())," ");
                     //System.out.println("Async Insertion| Iteration:" + period);
                     Aplication.nodeJS.Emit("run", this.period, this.idClient, this.idProblem);
                     period = period + aux;
@@ -145,6 +157,12 @@ public class AsyncStats extends Thread {
                 System.out.println("Error - Sync Class " + e);
             }
         }
+        
+//        if(Stop=true){                              
+//                db.ExecuteLastItera(idClient, idProblem, getAllUniqueIndividuals(getBestIndividual())); 
+//                Aplication.nodeJS.EmitStop(getAllUniqueIndividuals(getBestIndividual()),idClient,idProblem);
+//                System.out.println("Async Stop By Force");           
+//        }
 
     }
 }

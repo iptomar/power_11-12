@@ -152,7 +152,7 @@ public class Database extends AbstractAplication {
 //    }
     
     
-    public boolean ExecuteMedia(int period, int idClient, int idProblem, String globalNumBest) {
+    public boolean ExecuteMedia(int period, int idClient, int idProblem, String globalNumBest, String Final) {
         boolean erro = false;
         try {
 //            ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, MAX(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
@@ -164,7 +164,7 @@ public class Database extends AbstractAplication {
 //            String a5 = rs.getString("variance").toString();
 //            rs.close();
 //
-//            async.getAllUniqueIndividuals(Double.parseDouble(a3));
+//           //async.getAllUniqueIndividuals(Double.parseDouble(a3));
 //            
 //            //ResultSet rs2 = this.Command.executeQuery("Select COUNT(best) AS numBest  FROM tblIterations WHERE best='"+ 60 +"' AND idClient='"+idClient+"' AND idProblem='"+idProblem+"';");
 //            ResultSet rs2 = this.Command.executeQuery("Select COUNT(*) AS numBest  FROM tblIterations WHERE best=" + a3 + " AND idClient=" + idClient + " AND idProblem=" + idProblem + " AND itera=" + period + ";");
@@ -176,7 +176,7 @@ public class Database extends AbstractAplication {
             
              //erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ");");
          
-            erro = this.ExecuteNonQuery("call ExecuteMedia(" + period + "," + idClient + "," + idProblem + ",'"+globalNumBest+"');");
+            erro = this.ExecuteNonQuery("call ExecuteMedia(" + period + "," + idClient + "," + idProblem + ",'"+globalNumBest+"','"+Final+"');");
         } catch (Exception e) {
 
             try {
@@ -188,7 +188,7 @@ public class Database extends AbstractAplication {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    return ExecuteMedia(period, idClient, idProblem, globalNumBest);
+                    return ExecuteMedia(period, idClient, idProblem, globalNumBest,Final);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
