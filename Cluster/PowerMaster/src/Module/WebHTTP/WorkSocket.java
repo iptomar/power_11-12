@@ -81,19 +81,22 @@ public class WorkSocket extends Thread {
         }
         
         public void StopSolver() throws FileNotFoundException, IOException{
-            /*SaveStatus save = new SaveStatus(idClient+"_"+id);
-            for (int i = 0; i < arrayThread.length; i++) {
-                save.AddPopulation(arrayThread[i].Stop());
-            }
-            async.Stop();
-            
-            FileOutputStream fos = new FileOutputStream("Pops/"+idClient+"_"+id);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(save);
-            oos.close();            
-            
-            clients.remove(save);*/
             this.async.Stop();
+        }
+        
+        public void getPopulation(){
+            
+        }
+        
+        public void getBestPopulation(){
+            String result = "{'idProblem':"+id;
+            result += ",'idClient':"+idClient+",";
+         
+            String data = async.getBestPopulation();
+            result += data;
+            result += "}";
+            Aplication.nodeJS.EmitPop(result);
+            System.out.println(result);
         }
 
         @Override
@@ -187,8 +190,21 @@ public class WorkSocket extends Thread {
                         int idClient = input.getInt("client");
                         int id = input.getInt("id");       
                         newClient client = clients.get(new String(idClient+"_"+id));
-                        client.StopSolver();
+                        if(client!=null){
+                            client.StopSolver();
+                        }else{
+                            System.out.println("ProblemID/ClientID - Error - NO STOP");
+                        }
                     }
+                    else if (data.contains("pop-")) {
+                        System.out.println("New Population Request:" + data);
+                        String[] params = data.split("-"); 
+                        JSONObject input = new JSONObject(params[1]);
+                        int idClient = input.getInt("client");
+                        int id = input.getInt("id");       
+                        newClient client = clients.get(new String(idClient+"_"+id));
+                        client.getBestPopulation();
+                    }                    
                 }                
                 
                 

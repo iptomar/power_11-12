@@ -87,6 +87,16 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
         }            
     }
     
+    public void EmitPop(String pop){
+        //Criar o objecto JSON
+        if(this.socket.isConnected()){
+            socket.emit("pop", Base64Coder.encodeString(pop));
+        }else{
+            ReconectSingle();
+            System.out.println("Server Node Fechado");
+        }            
+    }    
+    
     public void EmitInfo(String info) throws JSONException {
         //Criar o objecto JSON
         if(this.socket.isConnected()){

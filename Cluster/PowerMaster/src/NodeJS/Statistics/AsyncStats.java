@@ -10,12 +10,16 @@ import Module.WebHTTP.SolverCreator;
 import com.sun.rmi.rmid.ExecOptionPermission;
 import genetics.GenericSolver;
 import genetics.Individual;
+import genetics.Population;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -26,6 +30,7 @@ import powermaster.GeneticEvents;
 import powermaster.PowerMaster;
 import powermaster.SaveStatus;
 import powermaster.SolverThread;
+import statistics.Statistics;
 import utils.ComparatorIndividual;
 import utils.PopulationUtils;
 
@@ -79,8 +84,40 @@ public class AsyncStats extends Thread {
 
         //clients.remove(save);
     }
+    
+    public synchronized String getBestPopulation(){
+        
+        double bestOfAll=0;
+        int index=-1;//index da melhor população encontrada
+        for (int i = 0; i < arrayThread.length; i++) {
+            Statistics s = new Statistics(arrayThread[i].getPopulation());
+            if(s.getMediaFitnessPopulation()>bestOfAll){
+                index=i;
+            }
+        }   
+        String json="";
+        if(index>=0){
+            json+="'data':[";
+            Population p = arrayThread[index].getPopulation();
+            int i=1;
+            for (Individual individuo : p) {
+                json+="[";
+                json+="'"+i+"',";
+                json+="'"+individuo.fitness()+"'";
+                json+="]";
+                if(i<p.getSizePopulation()){
+                    json+=",";
+                }  
+                i++;                
+            }
+            json+="]";
+
+        }
+        return json;
+    }
 
     public String getAllUniqueIndividuals(double fitness){
+        
         TreeSet result = new TreeSet(new ComparatorIndividual());
         for (int i = 0; i < arrayThread.length; i++) {
             //Entra uma collection
