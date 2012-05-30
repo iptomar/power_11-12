@@ -7,7 +7,6 @@ package NodeJS.Statistics;
 import Module.Aplication;
 import Module.DataBase.Database;
 import Module.WebHTTP.SolverCreator;
-import com.sun.rmi.rmid.ExecOptionPermission;
 import genetics.GenericSolver;
 import genetics.Individual;
 import genetics.Population;
@@ -16,10 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -119,17 +116,32 @@ public class AsyncStats extends Thread {
     public String getAllUniqueIndividuals(double fitness){
         
         TreeSet result = new TreeSet(new ComparatorIndividual());
+        Hashtable ht = new Hashtable();
         for (int i = 0; i < arrayThread.length; i++) {
-            //Entra uma collection
-            result.addAll( arrayThread[i].getUniqueIndividuals(fitness));
+            for (Individual individuo : arrayThread[i].getUniqueIndividuals(fitness)) {
+                ht.put(individuo.toString(), individuo);
+            }
         }
+        
         StringBuilder sb = new StringBuilder();
-        System.out.println("Resultado Final:");
-        for (Object ind : result) {
-            sb.append(ind.toString());
+        Enumeration e = ht.elements();
+        while(e.hasMoreElements()){
+            sb.append(((Individual)e.nextElement()).toString());
             sb.append(":");
-            System.out.println(ind.toString());
+            System.out.println(sb.toString());
         }
+        
+//        for (int i = 0; i < arrayThread.length; i++) {
+//            //Entra uma collection
+//            result.addAll( arrayThread[i].getUniqueIndividuals(fitness));
+//        }
+//        StringBuilder sb = new StringBuilder();
+//        System.out.println("Resultado Final:");
+//        for (Object ind : result) {
+//            sb.append(ind.toString());
+//            sb.append(":");
+//            System.out.println(ind.toString());
+//        }
         return sb.toString();
     }
     

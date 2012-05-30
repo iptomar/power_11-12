@@ -261,8 +261,9 @@ public class Database extends AbstractAplication {
     public boolean InserirIteracoes(int threadId, int itera, int idClient, int idProblem, double best, double average, String attributes, double deviation, int type, double variance) {
         boolean erro = false;
         try {
+            //System.out.println("call InserirIteracoes(" + threadId + "," + itera + "," + idClient + "," + idProblem +","+ best + "," + average + "," + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");");
             //this.ExecuteNonQuery("INSERT INTO tblIterations VALUES (" + threadId + "," + itera + "," + idClient + "," + idProblem + ",NOW()," + best + "," + average + "," + numBest + ",'" + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");");
-            erro = this.ExecuteNonQuery("call InserirIteracoes(" + threadId + "," + itera + "," + idClient + "," + idProblem +","+ best + "," + average + "," + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");");
+            erro = this.ExecuteNonQuery("call InserirIteracoes(" + threadId + "," + itera + "," + idClient + "," + idProblem +","+ best + "," + average + ",'" + attributes.toString() + "'," + deviation + "," + type + "," + variance + ");");
         } catch (Exception e) {
 
             try {
