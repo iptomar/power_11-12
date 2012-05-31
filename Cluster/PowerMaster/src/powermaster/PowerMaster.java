@@ -38,7 +38,7 @@ public class PowerMaster {
 //        NUM_THREADS = Integer.parseInt(args[1]);
 //        
         INTERVAL_PART = 5;
-        NUM_THREADS = 10;        
+        NUM_THREADS = 1;        
 //        
         WorkSocket ws = new WorkSocket(8080);
         ws.start();
