@@ -30,7 +30,7 @@ public class PowerMaster {
         //Inicialização de todos os módulos do PowerMaster
         Aplication app = new Aplication();
 
-        System.out.println("PowerMaster Initializing..");
+        System.out.println("PowerMaster Initializing...");
         
         IOConnection.loggerDebug = true;
 ////        
