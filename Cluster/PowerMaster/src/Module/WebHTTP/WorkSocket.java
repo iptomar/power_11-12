@@ -88,6 +88,10 @@ public class WorkSocket extends Thread {
             
         }
         
+        public void UpdateParms(JSONObject input){
+            async.UpdateParametrs(input);
+        }
+        
         public void getBestPopulation(){
             String result = "{'idProblem':"+id;
             result += ",'idClient':"+idClient+",";
@@ -203,13 +207,26 @@ public class WorkSocket extends Thread {
                         int idClient = input.getInt("client");
                         int id = input.getInt("id");       
                         newClient client = clients.get(new String(idClient+"_"+id));
-                        client.getBestPopulation();
-                    }                    
+                        if(client!=null){
+                            client.getBestPopulation();
+                        }
+                    }   
+                    else if (data.contains("update-")) {
+                        System.out.println("New Update Request:" + data);
+                        String[] params = data.split("-"); 
+                        JSONObject input = new JSONObject(params[1]);
+                        int idClient = input.getInt("client");
+                        int id = input.getInt("id");     
+                        newClient client = clients.get(new String(idClient+"_"+id));
+                        if(client!=null){
+                            client.UpdateParms(input);
+                        }
+                    }                          
                 }                
                 
                 
             } catch (Exception ex) {
-                Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         

@@ -21,6 +21,7 @@ import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import powermaster.GeneticEvents;
@@ -46,7 +47,7 @@ public class AsyncStats extends Thread {
     private SolverThread[] arrayThread;
 
     public AsyncStats(int period, int idClient, int idProblem, JSONObject input) throws InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException, JSONException {
-        this.period = period - 1;
+        this.period = 0;
         this.aux = period;
         this.idClient = idClient;
         this.idProblem = idProblem;
@@ -112,6 +113,63 @@ public class AsyncStats extends Thread {
         }
         return json;
     }
+    
+    
+    public void UpdateParametrs(JSONObject input){
+        JSONArray problem = null;
+        String mutationName= null;
+        String mutationParms = null;
+        try{
+            problem = input.getJSONArray("mutation");
+            mutationName = problem.getString(0);
+            System.out.println("Mutação:"+mutationName);
+            mutationParms = problem.getString(1);
+            System.out.println("Parametros de Mutação:"+mutationParms+"\n\n");
+        }catch(Exception e){}
+        
+        String recombinationName = null;
+        String recombinationParms = null;
+        try{
+            problem = input.getJSONArray("recombination");
+            recombinationName = problem.getString(0);
+            System.out.println("Recominação:"+recombinationName);
+            recombinationParms = problem.getString(1);
+            System.out.println("Parametros de Recombinação:"+recombinationParms+"\n\n");
+        }catch(Exception e){}
+        
+         String replacementName = null;
+         String replacementParms = null;
+        try{
+            problem = input.getJSONArray("replacement");
+            replacementName = problem.getString(0);
+            System.out.println("Replacement:"+replacementName);
+            replacementParms = problem.getString(1);
+            System.out.println("Parametros de Replacement:"+replacementParms+"\n\n");
+        }catch(Exception e){}
+        
+        String selectionName = null;
+        String selectionParms = null;
+        try{
+            problem = input.getJSONArray("selection");
+            selectionName = problem.getString(0);
+            System.out.println("Selection:"+selectionName);
+            selectionParms = problem.getString(1);
+            System.out.println("Parametros de Replacement:"+selectionParms+"\n\n");
+        }catch(Exception e){}        
+        
+        for (int i = 0; i < arrayThread.length; i++) {
+            GenericSolver solver = arrayThread[i].getSolver();
+            if(selectionName!=null && selectionParms != null)
+            System.out.println("SetSelection:"+solver.SetSelection(selectionName + " " + selectionParms));
+            if(mutationName!=null && mutationParms != null)
+            System.out.println("SetMutation:"+solver.SetMutation(mutationName + " " + mutationParms));  
+            if(replacementName!=null && replacementParms != null)
+            System.out.println("SetReplacement:"+solver.SetReplacement(replacementName + " " + replacementParms));
+            if(recombinationName!=null && recombinationParms != null)
+            System.out.println("SetRecombination:"+solver.SetRecombination(recombinationName + " " + recombinationParms));         
+        }        
+        
+    }
 
     public String getAllUniqueIndividuals(double fitness){
         
@@ -174,7 +232,7 @@ public class AsyncStats extends Thread {
         Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt", "powercomputing");
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         } catch (InterruptedException ex) {
             Logger.getLogger(AsyncStats.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -185,7 +243,8 @@ public class AsyncStats extends Thread {
                 int numThread = numThreads.get();
 
                 // System.out.println("Async|  Period: " + period + "  Threads working: " + numThread + "  Result count: " + result_count + "  Cliente: " + idClient + "  Problema: " + idProblem);
-                if (result_count == 0 && numThread == 0) {       
+                if (result_count == 0 && numThread == 0) {
+                    System.out.println("********************************************-------------"+period);
                     db.ExecuteMedia(period,idClient, idProblem, ""+getAllUniqueIndividualsCount(getBestIndividual()),""+getAllUniqueIndividuals(getBestIndividual()));                    
                     Aplication.nodeJS.Emit("end", this.period, this.idClient, this.idProblem);
                     System.out.println("Async Stop");
@@ -193,6 +252,7 @@ public class AsyncStats extends Thread {
                 }
 
                 if (result_count >= numThread) {
+                    System.out.println("********************************************============="+period);
                     //System.out.println("Fechado"+Aplication.db.Connection.isClosed());
                     boolean temp = db.ExecuteMedia(period, idClient, idProblem, ""+getAllUniqueIndividualsCount(getBestIndividual())," ");
                     //System.out.println("Async Insertion| Iteration:" + period);
@@ -200,7 +260,7 @@ public class AsyncStats extends Thread {
                     period = period + aux;
                 }
 
-                Thread.sleep(750);
+                Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error - Sync Class " + e);

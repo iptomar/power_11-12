@@ -51,7 +51,7 @@ public class SolverCreator {
         String recombinationName = problem.getString(0);
         System.out.println("Recominação:"+recombinationName);
         String recombinationParms = problem.getString(1);
-        System.out.println("Parametros de Recombinação:"+recombinationName+"\n\n");
+        System.out.println("Parametros de Recombinação:"+recombinationParms+"\n\n");
 
         problem = input.getJSONArray("replacement");
         String replacementName = problem.getString(0);

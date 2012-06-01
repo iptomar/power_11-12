@@ -118,39 +118,7 @@ public class Database extends AbstractAplication {
         return count;
     }
 
-    
-    
-//     public boolean ExecuteLastItera(int idClient, int idProblem, String globalNumBest) {
-//        boolean erro = false;
-//        try {
-//            ResultSet rs = this.Command.executeQuery("SELECT Max(itera) as maxItera FROM powercomputing.tblIterations WHERE type='2' AND idProblem='" + idProblem + "';");
-//            rs.last();
-//            int count = rs.getInt("maxItera");
-//            rs.close(); 
-//            
-//            erro = this.ExecuteNonQuery("call ExecuteMediaFinal(" + count + "," + idClient + "," + idProblem + ",'"+globalNumBest+"');");
-//        } catch (Exception e) {
-//
-//            try {
-//                if (Connection.isClosed()) {
-//                    System.out.println("Connection Lost Database.CountQuery");
-//                    Connect();
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException ex) {
-//                        Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                    return ExecuteLastItera(idClient, idProblem, globalNumBest);
-//                }
-//            } catch (SQLException ex) {
-//                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//            e.printStackTrace();
-//        }
-//        return erro;
-//    }
-    
+        
     
     public boolean ExecuteMedia(int period, int idClient, int idProblem, String globalNumBest, String Final) {
         boolean erro = false;

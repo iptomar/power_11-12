@@ -79,7 +79,9 @@ public class GeneticEvents implements EventsSolver {
 //        ArrayList<Individual> arr = new ArrayList<Individual>(PopulationUtils.getUniqueIndividuals(pltn, PopulationUtils.getBestFitness(pltn)));
 //        int numBestUnique = arr.size();
         
-        db.InserirIteracoes(Integer.parseInt(Thread.currentThread().getName()), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getHallOfFame(pltn, PopulationUtils.getNumberIndividualsWithBestFitness(pltn)).toString(), statistics.getDesvioPadraoPopulation(), 2, statistics.getVarianciaPopulation()); //        System.out.println("Thread["+Thread.currentThread().getName()+"]Last Iteration inserted[" + i + "]:" + aux);
+        String knap = PopulationUtils.getKnapSackLastParameters(pltn);
+        if(knap==null){knap=" ";}
+        db.InserirIteracoes(Integer.parseInt(Thread.currentThread().getName()), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getHallOfFame(pltn, PopulationUtils.getNumberIndividualsWithBestFitness(pltn)).toString()+":" + knap, statistics.getDesvioPadraoPopulation(), 2, statistics.getVarianciaPopulation()); //        System.out.println("Thread["+Thread.currentThread().getName()+"]Last Iteration inserted[" + i + "]:" + aux);
         //        
         System.out.println("Thread[" + Thread.currentThread().getName() + "]: Solver ended");
         System.out.println("--------------------------------------------------");
