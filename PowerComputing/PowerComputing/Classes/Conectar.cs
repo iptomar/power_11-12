@@ -16,7 +16,7 @@ namespace PowerComputing.Classes
 
         public Conectar()
         {
-            ConnectionString = "server=localhost; User Id=; password=; database=powercomputing";
+            ConnectionString = "";
 
             Coneccao = new MySqlConnection(ConnectionString);
             Comando = new MySqlCommand();

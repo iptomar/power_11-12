@@ -30,14 +30,14 @@ public class PowerMaster {
         //Inicialização de todos os módulos do PowerMaster
         Aplication app = new Aplication();
 
-        System.out.println("PowerMaster Initializing..");
+        System.out.println("PowerMaster Initializing...");
         
         IOConnection.loggerDebug = true;
 ////        
 //        INTERVAL_PART = Integer.parseInt(args[0]);
 //        NUM_THREADS = Integer.parseInt(args[1]);
 //        
-        INTERVAL_PART = 1;
+        INTERVAL_PART = 5;
         NUM_THREADS = 1;        
 //        
         WorkSocket ws = new WorkSocket(8080);

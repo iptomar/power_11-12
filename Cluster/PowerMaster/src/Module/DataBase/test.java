@@ -19,26 +19,32 @@ public class test {
 
 
         int interval = 0;
-        int idClient = 37;
-        int idProblem = 133666719;
+        int idClient = -2;
+        int idProblem = -2;
         
-       double ze = 0.49;
+       double ze = 0.70;
        String jose = "asdas";
        
-       //db.InserirIteracoes(interval, interval, idClient, idProblem, ze, ze, ze, jose, ze, idClient, ze);
+       //db.InserirIteracoes(0, 1, idClient, idProblem, ze, ze, ze, jose, ze, 1, ze);
+       //ze = 0.51;
+       //db.InserirIteracoes(1, 1, idClient, idProblem, ze, ze, ze, jose, ze, 1, ze);
+       
+//       
+//       
+       //ze = 0.49;
+       //db.InserirIteracoes(0, 1, idClient, idProblem, ze, ze, ze, jose, ze, 2, ze);
+       //ze = 0.51;
+       //db.InserirIteracoes(1, 1, idClient, idProblem, ze, ze, ze, jose, ze, 2, ze);
+       
        //db.InserirResult(interval, idClient, idProblem, ze, ze, ze, idClient, ze);
-       //db.ExecuteMedia(interval, idClient, idProblem);
-       System.out.println(db.ExecuteCountQuery(interval, idClient, idProblem));
+      
+       //db.ExecuteMedia(1, idClient, idProblem, "123");
+       
+
+        
+        //db.ExecuteLastItera(idClient, idProblem, jose);
+       //System.out.println(db.ExecuteCountQuery(interval, idClient, idProblem));
         
        
-        // db.ExecuteNonQuery("INSERT INTO tblResults VALUES (1,1,1,0.1,0.1,0.1,10,0.1)");
-        // db.ExecuteCountQuery(1, 1, 1);
-//        db.ExecuteNonQuery("INSERT INTO tblIterations VALUES (1,1,1,1,NOW(),0.1,0.1,1,'das',0.1,1,0.1)");
-//        System.out.println(db.ExecuteCountQuery(1, 1, 1));
-
-        //db.ExecuteNonQuery("INSERT INTO tblIterations VALUES (" + 1 + "," + 1 + "," + 1 + "," + 1 + ",NOW()," + 1 + "," + 0.1 + "," + 0.1 + ",'" + "dsa" + "'," + 0.1 + "," + 1 + "," + 0.1 + ");");
-
-        //db.ExecuteNonQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, AVG(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='"+ 1 +"' AND idClient='"+1 + "' AND idProblem='"+ 1 + "';");     
-
     }
 }

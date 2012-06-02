@@ -5,11 +5,14 @@
 package powermaster;
 
 import genetics.GenericSolver;
+import genetics.Individual;
 import genetics.Population;
 import genetics.Solver;
+import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.PopulationUtils;
 
 /**
  *
@@ -30,13 +33,23 @@ public class SolverThread extends Thread {
         this.solver = solve;
         this.numThreads = numThreads;
     }
+    
+    public GenericSolver getSolver(){
+        return this.solver;
+    }
 
     public Population Stop(){  
-        //Population p = solver.getPopulation();
-        solver = null;
-        //return p;
-        return null;
-        //solver.Stop();
+        Population p = solver.getPopulation();
+        solver.StopSolver();
+        return p;
+    }
+    
+    public Population getPopulation(){
+        return solver.getPopulation();
+    }
+    
+    public Collection<Individual> getUniqueIndividuals(double fitness){
+        return PopulationUtils.getUniqueIndividuals(this.solver.getPopulation(),fitness);
     }
     
     public void run() {

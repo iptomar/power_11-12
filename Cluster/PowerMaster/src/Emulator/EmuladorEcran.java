@@ -17,7 +17,6 @@ import java.io.FileWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import powermaster.PowerMaster;
-import powermaster.WorkSocket2;
 
 /**
  *

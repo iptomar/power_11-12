@@ -8,10 +8,12 @@ import Module.Loader.Loader;
 import Module.Loader.Problem;
 import Module.WebHTTP.WebFileDownloader;
 import NodeJS.Statistics.AsyncStats;
+import genetics.GenericSolver;
 import genetics.Solver;
 import java.io.*;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import powermaster.PowerMaster;
 import powermaster.SolverThread;
+import reflection.GeneticLoader;
 
 /**
  *
@@ -141,12 +144,48 @@ public class AdministrationClient extends Thread {
 
                     out.println("Memory: " + (Administration.mon.physical().getFreeBytes() / (1024 * 1024)) + "MB / " + (Administration.mon.physical().getTotalBytes() / (1024 * 1024)) + "MB");
                     out.flush();
-                    
+
+                } else if ("-info".equals(cmds[1])) {
+                    GeneticLoader genLoad = new GeneticLoader();
+                    String res = "";
+                    try {
+                        // Create file 
+                        FileWriter fstream = new FileWriter(cmds[2].toString() + ".ff");
+                        BufferedWriter out = new BufferedWriter(fstream);
+                        out.write(genLoad.getConstructors("genetics/algorithms/" + cmds[2].toString() + ".class"));
+                        //Close the output stream
+                        out.close();
+
+                        // Open the file that is the first 
+                        // command line parameter
+
+                        FileInputStream stream = new FileInputStream(cmds[2].toString() + ".ff");
+                        // Get the object of DataInputStream
+                        DataInputStream in = new DataInputStream(stream);
+                        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                        String strLine;
+                        //Read File Line By Line
+                        while ((strLine = br.readLine()) != null) {
+                            // Print the content on the console
+                            res += strLine.replace("<p>", "").replace("</p>", "€") + "#";
+                        }
+                        //Close the input stream
+                        in.close();
+                    } catch (Exception e) {//Catch exception if any
+                        System.err.println("Error: " + e.getMessage());
+                    }
+                    String[] texto = res.split("#");
+
+                    out.println(texto[2].toString());
+                    out.flush();
+
+
+
                 } else if ("-cpumem".equals(cmds[1])) {
                     String cpu = "";
                     Process p;
 
-                    //p = Runtime.getRuntime().exec("./cpu");
+                   
                     try {
                         FileInputStream fstream = new FileInputStream("Scripts/cpu.res");
                         DataInputStream in = new DataInputStream(fstream);
@@ -160,15 +199,16 @@ public class AdministrationClient extends Thread {
                         System.err.println(e);
                     }
                     long TotalMem = Administration.mon.physical().getTotalBytes();
-                    
-                    long OcupMem =  TotalMem - Administration.mon.physical().getFreeBytes();
-                    
+
+                    long OcupMem = TotalMem - Administration.mon.physical().getFreeBytes();
+
                     long MemPercent = (OcupMem * 100) / TotalMem;
-                    //double cpuUsage=(Double.parseDouble(cpu)/Runtime.getRuntime().availableProcessors());
-                    out.println(cpu+"£"+MemPercent);
+                    
+                    out.println(cpu + "£" + MemPercent);
+                    //out.println("50£50");
                     out.flush();
-                    
-                    
+
+
                 } else if ("-tasks".equals(cmds[1])) {
 
                     String cois = "";
@@ -313,8 +353,8 @@ public class AdministrationClient extends Thread {
                 arrayThread[i].setName("" + i);
             }
 
-            AsyncStats async = new AsyncStats(numThreads, PowerMaster.INTERVAL_PART, p.getClientID(), p.getProblemID());
-            async.start();
+            //AsyncStats async = new AsyncStats(numThreads, PowerMaster.INTERVAL_PART, p.getClientID(), p.getProblemID());
+            //async.start();
 
         } catch (Exception ex) {
             System.out.println("Erro no RemoteWork(): " + ex);
