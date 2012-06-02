@@ -6,6 +6,7 @@ package Module.WebHTTP;
 
 import genetics.GenericSolver;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONArray;
@@ -42,7 +43,19 @@ public class SolverCreator {
         System.out.println("Mutação:"+mutationName);
         String mutationParms = problem.getString(1);
         System.out.println("Parametros de Mutação:"+mutationParms+"\n\n");
-
+        
+        
+        double probability = Double.parseDouble(mutationParms);
+        double changeProb = (probability * 0.20) * (new Random(System.currentTimeMillis())).nextDouble();
+        boolean addOrsub = (new Random(System.currentTimeMillis())).nextBoolean();
+        if(addOrsub){
+            probability = probability + changeProb;
+            mutationParms = Double.toString(probability);
+        }else{
+            probability = probability - changeProb;
+            mutationParms = Double.toString(probability);
+        }
+        
 //                                problem = input.getJSONArray("operator");
 //                                String operatorName = problem.getString(0);
 //                                String operatorParms = problem.getString(1);     

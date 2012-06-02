@@ -13,12 +13,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import operators.Operator;
 import org.xeustechnologies.jcl.JarClassLoader;
-import org.xeustechnologies.jcl.JclObjectFactory;
-import utils.EventsSolver;
 
 /**
  *
@@ -26,7 +22,8 @@ import utils.EventsSolver;
  */
 public class GeneticLoader {
 
-    private String jarFile = "GeneticAlgoritms.jar";
+    //private String jarFile = "GeneticAlgoritms.jar";
+    private String jarFile = "/root/Beta/GeneticAlgoritms.jar";
     private Map genericList;
     private JarClassLoader jcl;
     public static String STRING_GENETIC = "genetics";

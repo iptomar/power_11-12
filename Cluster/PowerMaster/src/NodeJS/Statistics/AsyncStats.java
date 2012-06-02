@@ -183,6 +183,7 @@ public class AsyncStats extends Thread {
         
         StringBuilder sb = new StringBuilder();
         Enumeration e = ht.elements();
+        System.out.println("Resultados:");
         while(e.hasMoreElements()){
             sb.append(((Individual)e.nextElement()).toString());
             sb.append(":");
@@ -244,6 +245,7 @@ public class AsyncStats extends Thread {
 
                 // System.out.println("Async|  Period: " + period + "  Threads working: " + numThread + "  Result count: " + result_count + "  Cliente: " + idClient + "  Problema: " + idProblem);
                 if (result_count == 0 && numThread == 0) {
+                    //getAllUniqueIndividuals(getBestIndividual());
                     System.out.println("********************************************-------------"+period);
                     db.ExecuteMedia(period,idClient, idProblem, ""+getAllUniqueIndividualsCount(getBestIndividual()),""+getAllUniqueIndividuals(getBestIndividual()));                    
                     Aplication.nodeJS.Emit("end", this.period, this.idClient, this.idProblem);
