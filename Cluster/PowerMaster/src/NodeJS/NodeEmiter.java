@@ -44,7 +44,11 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
         super("Node.JS Module");
         socket = new SocketIO();
         socket.connect("http://130.185.82.35:90", this);
-        this.AplicationStatus = true;
+        if(socket.isConnected()){
+            this.AplicationStatus = true;
+        }else{
+            AplicationStatus = false;
+        }
     }
 
     /**
@@ -70,6 +74,12 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
         }
     }
     
+    /**
+     * Método para enviar a confirmação de paragem do solver
+     * @param data Informação sobre a paragem do solver ()
+     * @param clientID IdCliente
+     * @param problemID IdProblema
+     */
     public void EmitStop(String data,int clientID, int problemID){
         if(this.socket.isConnected()){
             try {
@@ -87,6 +97,10 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
         }            
     }
     
+    /**
+     * Método para enviar a população de um conjunto de solver (idCliente + Problema) para optimum computing
+     * @param pop String formatada por json com a popolação do solver com melhor media
+     */
     public void EmitPop(String pop){
         //Criar o objecto JSON
         if(this.socket.isConnected()){
@@ -97,6 +111,12 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
         }            
     }    
     
+    /**
+     * Método para enviar para o servidor de Node.JS da Optimum Computing toda a informação lida por reflection.
+     * A informação é enviada com codificação base64 devido aos caracteres especiadis que o JSON utiliza.
+     * @param info Informação a ser enviada por reflection para o servidor Node. Esta String ja deve vir formatada em json.
+     * @throws JSONException 
+     */
     public void EmitInfo(String info) throws JSONException {
         //Criar o objecto JSON
         if(this.socket.isConnected()){
@@ -113,6 +133,11 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
         }
     }    
     
+    /**
+     * Método para enviar o estado do servidor PowerMaster
+     * @throws JSONException
+     * @throws UnknownHostException 
+     */
     public void EmitStatus() throws JSONException, UnknownHostException {
         //Criar o objecto JSON
         if(this.socket.isConnected()){
@@ -129,7 +154,10 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
             System.out.println("Server Node Fechado");
         }
     }      
-
+    
+    /**
+     * Método para tentar reconectar de modo unico ao servidor de Node.JS
+     */
     private void ReconectSingle(){
                this.socket = new SocketIO();
                 try {
@@ -150,6 +178,9 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
             }        
     }
     
+    /**
+     * Método para reconectar de modo continuo ao servidor de Node.JS
+     */
     private void Reconect(){
         while(this.socket.isConnected()){
                 this.socket = new SocketIO();

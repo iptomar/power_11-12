@@ -38,14 +38,10 @@ public class WorkSocket extends Thread {
     private ServerSocket ss;
     private Map<String,newClient>clients;
 
-    public WorkSocket(int port) {
+    public WorkSocket(int port) throws IOException {
         clients = new Hashtable();
         this.port = port;
-        try {
-            ss = new ServerSocket(port);
-        } catch (IOException ex) {
-            Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ss = new ServerSocket(port);
     }
 
     @Override

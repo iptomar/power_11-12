@@ -15,7 +15,16 @@ import org.json.JSONObject;
  */
 public class Loader {
      static String[] linhas; 
-     
+    
+    /**
+     * Método para interpretar uma string formatada com JSON e carregar um solver a respectiva informação do passada na string.
+     * Este método está desactualizado e não é utilizado no programa. Este código apenas está aqui devido a pertencer ao módulo de comunicação entre a Power Computing e Optimum Computing.
+     * Este meétodo de carregar a informação não suporta Reflection, ou seja execução de código dinamico.
+     *
+     * @return Restorna um problema (Solver) carregado com a informação passada por uma string JSON.
+     * @deprecated Este método esta totalmente desactualizado. Por favor verifique o objecto WorkSocket.
+     */
+    @Deprecated     
     public static Problem Load(String dataIn) throws Exception {
         JSONObject data = new JSONObject(dataIn);
         if (data.getString("type").equals(pOnesMax.ProblemName)) {
@@ -47,8 +56,6 @@ public class Loader {
                 knapSack.setClientID(data.getInt("client"));
                 System.out.println("Cliente:"+data.getInt("client"));
                 System.out.println("id:"+data.getInt("id"));
-//                knapSack.setProblemID(1000);
-//                knapSack.setClientID(1000);
                 System.out.println("##### KnapSack Problem Ok #####");
                 return (Problem)knapSack;
             }
