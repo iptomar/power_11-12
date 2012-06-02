@@ -36,7 +36,7 @@ public class PowerMaster {
 //        INTERVAL_PART = Integer.parseInt(args[0]);
 //        NUM_THREADS = Integer.parseInt(args[1]);
 //        
-        INTERVAL_PART = 5;
+        INTERVAL_PART = 2;
         NUM_THREADS = 4;        
     }
     

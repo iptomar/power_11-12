@@ -36,7 +36,7 @@ public class WorkSocket extends Thread {
 
     private int port;
     private ServerSocket ss;
-    private Map<String,newClient>clients;
+    private Map<String, newClient> clients;
 
     public WorkSocket(int port) throws IOException {
         clients = new Hashtable();
@@ -50,7 +50,7 @@ public class WorkSocket extends Thread {
             try {
                 Socket client = ss.accept();
                 client.getInetAddress().getHostAddress();
-                
+
                 newClient nc = new newClient(client);
                 nc.start();
 
@@ -68,30 +68,28 @@ public class WorkSocket extends Thread {
         //private SolverThread[] arrayThread;
         //private AtomicInteger numThreads;
         private AsyncStats async;
-        
         int idClient;
         int id;
-        
+
         public newClient(Socket client) {
             this.client = client;
         }
-        
-        public void StopSolver() throws FileNotFoundException, IOException{
+
+        public void StopSolver() throws FileNotFoundException, IOException {
             this.async.Stop();
         }
-        
-        public void getPopulation(){
-            
+
+        public void getPopulation() {
         }
-        
-        public void UpdateParms(JSONObject input){
+
+        public void UpdateParms(JSONObject input) {
             async.UpdateParametrs(input);
         }
-        
-        public void getBestPopulation(){
-            String result = "{'idProblem':"+id;
-            result += ",'idClient':"+idClient+",";
-         
+
+        public void getBestPopulation() {
+            String result = "{'idProblem':" + id;
+            result += ",'idClient':" + idClient + ",";
+
             String data = async.getBestPopulation();
             result += data;
             result += "}";
@@ -102,7 +100,7 @@ public class WorkSocket extends Thread {
         @Override
         public void run() {
             try {
-                
+
                 BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 String data;
                 while ((data = br.readLine()) != null) {
@@ -134,7 +132,7 @@ public class WorkSocket extends Thread {
                             e.printStackTrace();
                         }
 
-                    //Novo parametro
+                        //Novo parametro
                     } else if (data.contains("load-")) {
                         System.out.println("New Problem Request:" + data);
                         String[] params = data.split("-");
@@ -143,28 +141,14 @@ public class WorkSocket extends Thread {
 
                             idClient = input.getInt("client");
                             id = input.getInt("id");
-                            if((new File("Pops/"+idClient+"_"+id).exists())){
-                                
-                            }else{
-                            
-                            }
-                            clients.put(new String(idClient+"_"+id), this);
+//                            if ((new File("Pops/" + idClient + "_" + id).exists())) {
+//                            } else {
+//                            }
+                            clients.put(new String(idClient + "_" + id), this);
                             try {
-                                
-                                //numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
-                                //arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
-
-                                /*for (int i = 0; i < arrayThread.length; i++) {
-                                    GenericSolver solver = SolverCreator.CreateSolver(input);
-                                    solver.SetEvents(new GeneticEvents(PowerMaster.INTERVAL_PART, idClient, id));
-                                    arrayThread[i] = new SolverThread(solver, numThreads);
-                                    arrayThread[i].start();
-                                    arrayThread[i].setName("" + i);
-                                }*/
-
                                 System.out.println("Start Async");
                                 System.out.println("Async:: Client:" + idClient + " id:" + id);
-                                async = new AsyncStats(PowerMaster.INTERVAL_PART, idClient, id,input);
+                                async = new AsyncStats(PowerMaster.INTERVAL_PART, idClient, id, input);
                                 async.setPriority(Thread.MAX_PRIORITY);
                                 async.start();
                                 //async.join();
@@ -178,54 +162,50 @@ public class WorkSocket extends Thread {
                         }
 
                         System.out.println(data);
-                    //Novo Pedido do estado do servidor e slaves
-                    }else if(data.contains("status-")){
+                        //Novo Pedido do estado do servidor e slaves
+                    } else if (data.contains("status-")) {
                         System.out.println("New Status request...");
                         Aplication.nodeJS.EmitStatus();
-                    //Pedido de paragem do Solver
+                        //Pedido de paragem do Solver
                     } else if (data.contains("stop-")) {
                         System.out.println("New Stop Request:" + data);
-                        String[] params = data.split("-"); 
+                        String[] params = data.split("-");
                         JSONObject input = new JSONObject(params[1]);
                         int idClient = input.getInt("client");
-                        int id = input.getInt("id");       
-                        newClient client = clients.get(new String(idClient+"_"+id));
-                        if(client!=null){
+                        int id = input.getInt("id");
+                        newClient client = clients.get(new String(idClient + "_" + id));
+                        if (client != null) {
                             client.StopSolver();
-                        }else{
+                        } else {
                             System.out.println("ProblemID/ClientID - Error - NO STOP");
                         }
-                    }
-                    else if (data.contains("pop-")) {
+                    } else if (data.contains("pop-")) {
                         System.out.println("New Population Request:" + data);
-                        String[] params = data.split("-"); 
+                        String[] params = data.split("-");
                         JSONObject input = new JSONObject(params[1]);
                         int idClient = input.getInt("client");
-                        int id = input.getInt("id");       
-                        newClient client = clients.get(new String(idClient+"_"+id));
-                        if(client!=null){
+                        int id = input.getInt("id");
+                        newClient client = clients.get(new String(idClient + "_" + id));
+                        if (client != null) {
                             client.getBestPopulation();
                         }
-                    }   
-                    else if (data.contains("update-")) {
+                    } else if (data.contains("update-")) {
                         System.out.println("New Update Request:" + data);
-                        String[] params = data.split("-"); 
+                        String[] params = data.split("-");
                         JSONObject input = new JSONObject(params[1]);
                         int idClient = input.getInt("client");
-                        int id = input.getInt("id");     
-                        newClient client = clients.get(new String(idClient+"_"+id));
-                        if(client!=null){
+                        int id = input.getInt("id");
+                        newClient client = clients.get(new String(idClient + "_" + id));
+                        if (client != null) {
                             client.UpdateParms(input);
                         }
-                    }                          
-                }                
-                
-                
+                    }
+                }
+
+
             } catch (Exception ex) {
                 //Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        
     }
 }

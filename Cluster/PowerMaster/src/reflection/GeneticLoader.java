@@ -22,8 +22,8 @@ import org.xeustechnologies.jcl.JarClassLoader;
  */
 public class GeneticLoader {
 
-    //private String jarFile = "GeneticAlgoritms.jar";
-    private String jarFile = "/root/Beta/GeneticAlgoritms.jar";
+    private String jarFile = "GeneticAlgoritms.jar";
+    //private String jarFile = "/root/Beta/GeneticAlgoritms.jar";
     private Map genericList;
     private JarClassLoader jcl;
     public static String STRING_GENETIC = "genetics";

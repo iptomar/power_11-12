@@ -38,14 +38,53 @@ import utils.PopulationUtils;
  */
 public class AsyncStats extends Thread {
 
-    AtomicInteger numThreads;
-    int period;
-    int aux;
-    int idClient;
-    int idProblem;
-    volatile boolean Stop;
+    /**
+     * Objecto atómico que indica o número de Solver activos
+     */
+    private volatile AtomicInteger numThreads;
+    /**
+     * Variável que indica o periodo de saltos entre iterações para anailise de valores
+     */
+    private int period;
+    /**
+     * Variável auxiliar no calculo do periodo
+     */
+    private int aux;
+    /**
+     * Variável que indica o idCliente a que pertence o problema
+     */
+    private int idClient;
+    /**
+     * Variável que indica que o ID problem do problema
+     */
+    private int idProblem;
+    /**
+     * Variável de controlo para terminar os solver e o AsyncStats
+     */
+    private volatile boolean Stop;
+    /**
+     * Array de threads do tipo SolverThread. Cada obejcto do tipo SolverThread contem um solver.
+     */
     private SolverThread[] arrayThread;
-
+    /**
+     * Veriável que contem o best fitness que irá ser encontrado por os solvers.
+     */
+    private int BestToFound;
+    
+    
+    /**
+     * Contrutor do AsynsStats
+     * @param period Espaçamento entre calculos estatisticos (entre iterações)
+     * @param idClient Id do cliente
+     * @param idProblem Id do problema
+     * @param input String JSON com o problema a ser carregado. 
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws NoSuchMethodException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException
+     * @throws JSONException 
+     */
     public AsyncStats(int period, int idClient, int idProblem, JSONObject input) throws InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException, JSONException {
         this.period = 0;
         this.aux = period;
@@ -54,6 +93,16 @@ public class AsyncStats extends Thread {
         this.setName("AsyncThread");
         this.Stop = false;
 
+        //Verificar qual o best fitness a ser encontrado
+        try{
+            JSONArray problem = input.getJSONArray("algorithm");
+            String problemStop = problem.getString(2);
+            BestToFound = Integer.parseInt(problemStop.split(" ")[2]);
+        }catch(Exception e){
+            BestToFound = 0;
+        }
+        
+        //Inicialização dos diversos solvers.
         numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
         arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
         for (int i = 0; i < arrayThread.length; i++) {
@@ -67,24 +116,29 @@ public class AsyncStats extends Thread {
         //this.start();
     }
 
+    /**
+     * Método para terminar os solvers e o objecto AsysnStats
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public synchronized void Stop() throws FileNotFoundException, IOException {
         SaveStatus save = new SaveStatus(idClient + "_" + idProblem);
         for (int i = 0; i < arrayThread.length; i++) {
             save.AddPopulation(arrayThread[i].Stop());
         }
-
         Stop = true;
-
+        //Gravar a população dos solvers num objecto do tipo SavaStatus;
         FileOutputStream fos = new FileOutputStream("Pops/" + idClient + "_" + idProblem);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(save);
         oos.close();
-
-        //clients.remove(save);
     }
     
+    /**
+     * Método para obter de todos os solvers a melhor poulação entre eles através do fitness. (Pedido feito por optimum computing para o problema KnapSack)
+     * @return String formatada em json com todos os individuos da população
+     */
     public synchronized String getBestPopulation(){
-        
         double bestOfAll=0;
         int index=-1;//index da melhor população encontrada
         for (int i = 0; i < arrayThread.length; i++) {
@@ -114,7 +168,10 @@ public class AsyncStats extends Thread {
         return json;
     }
     
-    
+    /**
+     * Método que permite actializar em tempo real os parametros dos solvers
+     * @param input Objecto JSONObject que contem os novos parametros a serem carregados
+     */
     public void UpdateParametrs(JSONObject input){
         JSONArray problem = null;
         String mutationName= null;
@@ -157,6 +214,7 @@ public class AsyncStats extends Thread {
             System.out.println("Parametros de Replacement:"+selectionParms+"\n\n");
         }catch(Exception e){}        
         
+        //Aplicar as alterações a todos os solvers
         for (int i = 0; i < arrayThread.length; i++) {
             GenericSolver solver = arrayThread[i].getSolver();
             if(selectionName!=null && selectionParms != null)
@@ -171,8 +229,12 @@ public class AsyncStats extends Thread {
         
     }
 
+    /**
+     * Método para obter entre todos os solvers os melhores individuos para um determinado fitness
+     * @param Fitness de pesquesa nas populações
+     * @return String com todos os indidivudos encontrados e unicos.
+     */
     public String getAllUniqueIndividuals(double fitness){
-        
         TreeSet result = new TreeSet(new ComparatorIndividual());
         Hashtable ht = new Hashtable();
         for (int i = 0; i < arrayThread.length; i++) {
@@ -180,7 +242,6 @@ public class AsyncStats extends Thread {
                 ht.put(individuo.toString(), individuo);
             }
         }
-        
         StringBuilder sb = new StringBuilder();
         Enumeration e = ht.elements();
         System.out.println("Resultados:");
@@ -204,6 +265,11 @@ public class AsyncStats extends Thread {
         return sb.toString();
     }
     
+    /**
+     * Método que faz a contagem do número de individuos entre todas as populações com um determinado fitness
+     * @param fitness que vai ser utilizado par a pesquisa
+     * @return número de individuos
+     */
     public int getAllUniqueIndividualsCount(double fitness){
         TreeSet result = new TreeSet(new ComparatorIndividual());
         for (int i = 0; i < arrayThread.length; i++) {
