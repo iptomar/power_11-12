@@ -97,7 +97,7 @@ public class AsyncStats extends Thread {
         try{
             JSONArray problem = input.getJSONArray("algorithm");
             String problemStop = problem.getString(2);
-            BestToFound = Integer.parseInt(problemStop.split(" ")[2]);
+            BestToFound = Integer.parseInt(problemStop.split(" ")[1]);
         }catch(Exception e){
             BestToFound = 0;
         }
