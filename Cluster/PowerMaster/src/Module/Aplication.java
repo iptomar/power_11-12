@@ -60,7 +60,8 @@ public class Aplication {
 
         //System.out.println("Databse Module - Offline");
         System.out.println("Start Database Connection...");
-        db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt","powercomputing");
+        //db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt","powercomputing");
+        db = new Database("root", "testestestes", "130.185.82.39","powercomputing");
         //db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "127.0.0.1");
 
         if (db.getAplicationStatus()) {

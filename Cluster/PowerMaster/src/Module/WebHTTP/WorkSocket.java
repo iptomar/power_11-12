@@ -104,10 +104,10 @@ public class WorkSocket extends Thread {
                 BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 String data;
                 while ((data = br.readLine()) != null) {
-
-                    if (data.contains("info-")) {
+                    System.out.println(data);
+                    if (data.contains("info|")) {
                         System.out.println("New Info Request:" + data);
-                        String[] params = data.split("-");
+                        String[] params = data.split("\\|");
                         try {
                             GeneticLoader gl = new GeneticLoader();
                             String dataToSend = "{";
@@ -123,6 +123,8 @@ public class WorkSocket extends Thread {
                             dataToSend += ",'idClient':" + params[1];
                             dataToSend += "}";
 
+                            //System.out.println(dataToSend);
+                            
                             try {
                                 Aplication.nodeJS.EmitInfo(dataToSend);
                             } catch (JSONException ex) {
@@ -133,9 +135,9 @@ public class WorkSocket extends Thread {
                         }
 
                         //Novo parametro
-                    } else if (data.contains("load-")) {
+                    } else if (data.contains("load|")) {
                         System.out.println("New Problem Request:" + data);
-                        String[] params = data.split("-");
+                        String[] params = data.split("\\|");
                         try {
                             JSONObject input = new JSONObject(params[1]);
 
@@ -163,13 +165,13 @@ public class WorkSocket extends Thread {
 
                         System.out.println(data);
                         //Novo Pedido do estado do servidor e slaves
-                    } else if (data.contains("status-")) {
+                    } else if (data.contains("status|")) {
                         System.out.println("New Status request...");
                         Aplication.nodeJS.EmitStatus();
                         //Pedido de paragem do Solver
-                    } else if (data.contains("stop-")) {
+                    } else if (data.contains("stop|")) {
                         System.out.println("New Stop Request:" + data);
-                        String[] params = data.split("-");
+                        String[] params = data.split("\\|");
                         JSONObject input = new JSONObject(params[1]);
                         int idClient = input.getInt("client");
                         int id = input.getInt("id");
@@ -179,9 +181,9 @@ public class WorkSocket extends Thread {
                         } else {
                             System.out.println("ProblemID/ClientID - Error - NO STOP");
                         }
-                    } else if (data.contains("pop-")) {
+                    } else if (data.contains("pop|")) {
                         System.out.println("New Population Request:" + data);
-                        String[] params = data.split("-");
+                        String[] params = data.split("\\|");
                         JSONObject input = new JSONObject(params[1]);
                         int idClient = input.getInt("client");
                         int id = input.getInt("id");
@@ -189,9 +191,9 @@ public class WorkSocket extends Thread {
                         if (client != null) {
                             client.getBestPopulation();
                         }
-                    } else if (data.contains("update-")) {
+                    } else if (data.contains("update|")) {
                         System.out.println("New Update Request:" + data);
-                        String[] params = data.split("-");
+                        String[] params = data.split("\\|");
                         JSONObject input = new JSONObject(params[1]);
                         int idClient = input.getInt("client");
                         int id = input.getInt("id");

@@ -28,7 +28,8 @@ public class GeneticEvents implements EventsSolver {
         this.idClient = idClient;
         this.idProblem = idProblem;
 
-        db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt", "powercomputing");
+        //db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt", "powercomputing");
+        db = new Database("root", "testestestes", "130.185.82.39", "powercomputing");
     }
 
     @Override

@@ -15,8 +15,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -97,7 +99,7 @@ public class AsyncStats extends Thread {
         try{
             JSONArray problem = input.getJSONArray("algorithm");
             String problemStop = problem.getString(2);
-            BestToFound = Integer.parseInt(problemStop.split(" ")[1]);
+            BestToFound = Integer.parseInt(problemStop.split(" ")[0]);
         }catch(Exception e){
             BestToFound = 0;
         }
@@ -235,22 +237,33 @@ public class AsyncStats extends Thread {
      * @return String com todos os indidivudos encontrados e unicos.
      */
     public String getAllUniqueIndividuals(double fitness){
-        TreeSet result = new TreeSet(new ComparatorIndividual());
+        //TreeSet result = new TreeSet(new ComparatorIndividual());
         Hashtable ht = new Hashtable();
         for (int i = 0; i < arrayThread.length; i++) {
-            for (Individual individuo : arrayThread[i].getUniqueIndividuals(fitness)) {
-                ht.put(individuo.toString(), individuo);
+            Iterator<Individual> iterator = arrayThread[i].getPopulation().getPopulation().iterator();
+            //Iterator<Individual> iterator = p.iterator();
+            while(iterator.hasNext()){
+                Individual individuo = iterator.next();
+                if(ht.containsKey(individuo.toString())==false && individuo.fitness()==fitness){
+                    ht.put(individuo.toString(), individuo);
+                }else{
+                    //System.out.println(individuo.toString());
+                }
             }
+//            for (Individual individuo : arrayThread[i].getUniqueIndividuals(fitness)) {
+//                ht.put(individuo.toString(), individuo);
+//            }
         }
         StringBuilder sb = new StringBuilder();
         Enumeration e = ht.elements();
         System.out.println("Resultados:");
         while(e.hasMoreElements()){
-            sb.append(((Individual)e.nextElement()).toString());
-            sb.append(":");
-            System.out.println(sb.toString());
+            Individual ind = (Individual)e.nextElement();
+            sb.append(ind.toString() + " __ " + ind.fitness() + "\n");
+            sb.append(":"+"\n");
+            //System.out.println(sb.toString());
         }
-        
+        System.out.println(sb.toString());
 //        for (int i = 0; i < arrayThread.length; i++) {
 //            //Entra uma collection
 //            result.addAll( arrayThread[i].getUniqueIndividuals(fitness));
@@ -271,12 +284,24 @@ public class AsyncStats extends Thread {
      * @return número de individuos
      */
     public int getAllUniqueIndividualsCount(double fitness){
-        TreeSet result = new TreeSet(new ComparatorIndividual());
+//        TreeSet result = new TreeSet(new ComparatorIndividual());
+//        for (int i = 0; i < arrayThread.length; i++) {
+//            //Entra uma collection
+//            result.addAll( arrayThread[i].getUniqueIndividuals(fitness));
+//        }
+//        return result.size();
+        Hashtable ht = new Hashtable();
         for (int i = 0; i < arrayThread.length; i++) {
-            //Entra uma collection
-            result.addAll( arrayThread[i].getUniqueIndividuals(fitness));
+            Iterator<Individual> iterator = arrayThread[i].getPopulation().getPopulation().iterator();
+            //Iterator<Individual> iterator = p.iterator();
+            while(iterator.hasNext()){
+                Individual individuo = iterator.next();
+                if(ht.containsKey(individuo.toString())==false && individuo.fitness()==fitness){
+                    ht.put(individuo.toString(), individuo);
+                }
+            }
         }
-        return result.size();
+        return ht.size();     
     }    
     
     /**
@@ -296,14 +321,15 @@ public class AsyncStats extends Thread {
     public void run() {
 
         //Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "127.0.0.1");
-        Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt", "powercomputing");
+        Database db = new Database("root", "testestestes", "130.185.82.39", "powercomputing");
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException ex) {
             Logger.getLogger(AsyncStats.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        boolean chegouAoFim = false;
         while (!Stop) {
             try {
                 int result_count = db.ExecuteCountQuery(period, idClient, idProblem);
@@ -311,26 +337,28 @@ public class AsyncStats extends Thread {
 
                 // System.out.println("Async|  Period: " + period + "  Threads working: " + numThread + "  Result count: " + result_count + "  Cliente: " + idClient + "  Problema: " + idProblem);
                 if (result_count == 0 && numThread == 0) {
+                    chegouAoFim=true;
                     //getAllUniqueIndividuals(getBestIndividual());
                     System.out.println("********************************************-------------"+period);
-                    db.ExecuteMedia(period,idClient, idProblem, ""+getAllUniqueIndividualsCount(getBestIndividual()),""+getAllUniqueIndividuals(getBestIndividual()));                    
+                    db.ExecuteMedia(period,idClient, idProblem, ""+getAllUniqueIndividualsCount(this.BestToFound),""+getAllUniqueIndividuals(getBestIndividual()));                    
                     Aplication.nodeJS.Emit("end", this.period, this.idClient, this.idProblem);
                     System.out.println("Async Stop");
                     break;
                 }
 
-                if (result_count >= numThread) {
+                if (result_count >= numThread && chegouAoFim==false) {
                     System.out.println("********************************************============="+period);
                     //System.out.println("Fechado"+Aplication.db.Connection.isClosed());
-                    boolean temp = db.ExecuteMedia(period, idClient, idProblem, ""+getAllUniqueIndividualsCount(getBestIndividual())," ");
+                    boolean temp = db.ExecuteMedia(period, idClient, idProblem, ""+getAllUniqueIndividualsCount(this.BestToFound)," ");
                     //System.out.println("Async Insertion| Iteration:" + period);
                     Aplication.nodeJS.Emit("run", this.period, this.idClient, this.idProblem);
                     period = period + aux;
                 }
 
-                Thread.sleep(1000);
+                Thread.sleep(750);
             } catch (Exception e) {
                 e.printStackTrace();
+                
                 System.out.println("Error - Sync Class " + e);
             }
         }
