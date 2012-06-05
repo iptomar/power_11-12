@@ -5,12 +5,7 @@
 package powermaster;
 
 import Module.DataBase.Database;
-import genetics.Individual;
 import genetics.Population;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import statistics.Statistics;
 import utils.EventsSolver;
 import utils.PopulationUtils;
@@ -33,7 +28,8 @@ public class GeneticEvents implements EventsSolver {
         this.idClient = idClient;
         this.idProblem = idProblem;
 
-        db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt", "powercomputing");
+        //db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt", "powercomputing");
+        db = new Database("root", "testestestes", "130.185.82.39", "powercomputing");
     }
 
     @Override

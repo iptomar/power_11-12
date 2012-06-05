@@ -49,10 +49,16 @@ public abstract class Problem {
      */
     private ArrayList<Operator> operators = new ArrayList<Operator>(4);     
     
+    /**
+     * Construtor do objecto problema
+     * @param ProblemName Nome do problema
+     * @param NUM_PARAMS Número de parametros que existem no problema
+     */
     public Problem(String ProblemName, int NUM_PARAMS) {
         this.ProblemName = ProblemName;
         this.NUM_PARAMS = NUM_PARAMS;
         this.ACTUAL_NUM_PARAMS = 0;
+        //Dicionário com os parametros dos dados
         Parms = new HashMap<String, Object>();
     }
 
@@ -170,8 +176,8 @@ public abstract class Problem {
         return operators;
     }
     
-    
-    
+
+    @Deprecated 
     public static Boolean VerInt(String[] linha) {
         Boolean res = false;
         for (int i = 1; i < linha.length; i++) {
@@ -204,20 +210,3 @@ public abstract class Problem {
         return ClientID;
     }
 }
-
-
-/***              
- *              ClassLoader cl = ClassLoader.getSystemClassLoader();
-                try {
-                    //http://twit88.com/blog/2007/10/04/java-dynamic-loading-of-class-and-jar-file/
-                    //System.out.println(System.getProperty("java.class.path"));
-                    Class selector = cl.loadClass("operators.selections."+operator[1]);
-                    //http://tutorials.jenkov.com/java-reflection/constructors.html
-                    //Constructor[] constructors = selector.getConstructors();
-                    Constructor constructor =  selector.getConstructor(new Class[]{Integer.TYPE,Integer.TYPE});
-                    Object selectorObj = constructor.newInstance(70,2); 
-                    operators.add(0, (Operator)selectorObj);
-                } catch (Exception ex) {
-                    Logger.getLogger(Problem.class.getName()).log(Level.SEVERE, null, ex);
-                }
- */

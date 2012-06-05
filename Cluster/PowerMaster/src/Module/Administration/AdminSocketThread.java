@@ -4,6 +4,7 @@
  */
 package Module.Administration;
 
+import Module.WebHTTP.WorkSocket;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,12 +15,14 @@ import java.util.logging.Logger;
  *
  * @author KopDicht
  */
-public class CommandThread extends Thread {
+public class AdminSocketThread extends Thread {
 
     private ServerSocket server1;
+    private WorkSocket s;
     
-    public CommandThread() throws IOException{
-        server1 = new ServerSocket(666, 10);        
+    public AdminSocketThread(WorkSocket s) throws IOException{
+        server1 = new ServerSocket(666, 10); 
+        this.s = s;
     }
     
     @Override
@@ -30,13 +33,13 @@ public class CommandThread extends Thread {
                 Socket socket1 = server1.accept();
                 //Socket socket2 = server2.accept();
 
-                AdministrationClient receber1 = new AdministrationClient(socket1);
+                AdminClientThread receber1 = new AdminClientThread(socket1,s);
                 //Thread_recebe receber2 = new Thread_recebe(socket2);
 
                 receber1.start();
                 //receber2.start();
             } catch (IOException ex) {
-                Logger.getLogger(CommandThread.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AdminSocketThread.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 

@@ -7,13 +7,10 @@ package Module.Administration;
 import Module.Loader.Loader;
 import Module.Loader.Problem;
 import Module.WebHTTP.WebFileDownloader;
-import NodeJS.Statistics.AsyncStats;
-import genetics.GenericSolver;
-import genetics.Solver;
+import Module.WebHTTP.WorkSocket;
 import java.io.*;
 import java.net.Socket;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -27,16 +24,18 @@ import reflection.GeneticLoader;
  *
  * @author KopDicht
  */
-public class AdministrationClient extends Thread {
+public class AdminClientThread extends Thread {
 
     BufferedReader in;
     PrintStream out;
     Socket socket;
     String estado;
     public static SolverThread[] arrayThread;
-
-    public AdministrationClient(Socket sock) {
+    private WorkSocket ws;
+    
+    public AdminClientThread(Socket sock, WorkSocket ws) {
         socket = sock;
+        this.ws = ws;
         try {
 
 
@@ -45,7 +44,7 @@ public class AdministrationClient extends Thread {
             out = new PrintStream(socket.getOutputStream());
 
         } catch (IOException ex) {
-            Logger.getLogger(AdministrationClient.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminClientThread.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
