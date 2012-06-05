@@ -99,6 +99,7 @@ public class Aplication {
             workSocket = new WorkSocket(8080);
             workSocket.start();
             System.out.println("WorkSocket (8080) - OK");
+            admin.SetWorkSocketReference(workSocket);
         } catch (Exception e) {
             System.out.println("WorkSocket (8080) - Not OK!!!");
             db = null;

@@ -21,6 +21,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -59,6 +60,20 @@ public class WorkSocket extends Thread {
             }
 
         }
+    }
+    
+    /**
+     * Método para percorrer todas os clientes activos e retornar a informação em tempo real.
+     * @return 
+     */
+    public String getClientsData(){
+        Iterator it = clients.entrySet().iterator();
+        StringBuilder sb = new  StringBuilder();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry)it.next();
+            sb.append(pairs.getKey()+":");
+        }
+        return sb.toString();
     }
 
     public class newClient extends Thread {
