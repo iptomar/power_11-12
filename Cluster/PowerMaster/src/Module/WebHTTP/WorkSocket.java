@@ -10,20 +10,17 @@ import org.json.JSONException;
 import powermaster.*;
 
 import NodeJS.Statistics.AsyncStats;
-import genetics.GenericSolver;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONObject;
@@ -205,6 +202,16 @@ public class WorkSocket extends Thread {
                         newClient client = clients.get(new String(idClient + "_" + id));
                         if (client != null) {
                             client.getBestPopulation();
+                        }else{//verificar localmente
+                            try{
+                                System.out.println("Pop não encontrada... Procurar no disco!");
+                                FileInputStream fis = new FileInputStream(new File(new String("Pops/"+idClient + "_" + id)));
+                                ObjectInputStream ois = new ObjectInputStream(fis);      
+                                SaveStatus st = (SaveStatus) ois.readObject();
+                                Aplication.nodeJS.EmitPop(st.getBestPopulation());
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
                         }
                     } else if (data.contains("update|")) {
                         System.out.println("New Update Request:" + data);

@@ -32,7 +32,7 @@ public class AdminClientThread extends Thread {
     String estado;
     public static SolverThread[] arrayThread;
     private WorkSocket ws;
-    
+
     public AdminClientThread(Socket sock, WorkSocket ws) {
         socket = sock;
         this.ws = ws;
@@ -55,16 +55,16 @@ public class AdminClientThread extends Thread {
         String client = socket.getInetAddress().getHostName() + ":" + socket.getPort();
         String[] cmds;
         String[] meses = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
-        //while (true) {
-        try {
 
+        try {
             String message = in.readLine();
             cmds = message.split(" ");
-            //System.out.println(cmds.toString());
             if ("get".equals(cmds[0])) {
+                //<editor-fold>
                 if ("-s".equals(cmds[1])) {
-
+                    //<editor-fold>
                     if ("cores".equals(cmds[2])) {
+
                         out.println(Runtime.getRuntime().availableProcessors());
                         out.flush();
 
@@ -80,9 +80,9 @@ public class AdminClientThread extends Thread {
                         out.println("Comando não reconhecido");
                         out.flush();
                     }
-
-
+                    //</editor-fold>
                 } else if ("-l".equals(cmds[1])) {
+                    //<editor-fold>
                     if ("date".equals(cmds[2])) {
                         Calendar cal = new GregorianCalendar();
                         int month = cal.get(Calendar.MONTH);
@@ -98,8 +98,9 @@ public class AdminClientThread extends Thread {
                         out.println("Comando não reconhecido");
                         out.flush();
                     }
-
+                    //</editor-fold>
                 } else if ("-cpu".equals(cmds[1])) {
+                    //<editor-fold>
 
                     /*
                      * if (recebe_cena.mon.osName().contains("Windows")) {
@@ -118,8 +119,6 @@ public class AdminClientThread extends Thread {
                      * } else {
                      */
                     String cois = "";
-
-
                     Process p;
 
                     //p = Runtime.getRuntime().exec("./cpu");
@@ -139,12 +138,14 @@ public class AdminClientThread extends Thread {
 
                     out.println(cois);
 
+                    //</editor-fold>
                 } else if ("-mem".equals(cmds[1])) {
-
+                    //<editor-fold>
                     out.println("Memory: " + (Administration.mon.physical().getFreeBytes() / (1024 * 1024)) + "MB / " + (Administration.mon.physical().getTotalBytes() / (1024 * 1024)) + "MB");
                     out.flush();
-
+                    //</editor-fold>
                 } else if ("-info".equals(cmds[1])) {
+                    //<editor-fold>
                     GeneticLoader genLoad = new GeneticLoader();
                     String res = "";
                     try {
@@ -173,18 +174,19 @@ public class AdminClientThread extends Thread {
                     } catch (Exception e) {//Catch exception if any
                         System.err.println("Error: " + e.getMessage());
                     }
-                    String[] texto = res.split("#");
 
-                    out.println(texto[2].toString());
+                    out.println(res.split("#")[2].toString());
                     out.flush();
 
-
+                    //</editor-fold>
 
                 } else if ("-cpumem".equals(cmds[1])) {
+                    //<editor-fold>
+
                     String cpu = "";
                     Process p;
 
-                   
+
                     try {
                         FileInputStream fstream = new FileInputStream("Scripts/cpu.res");
                         DataInputStream in = new DataInputStream(fstream);
@@ -202,14 +204,15 @@ public class AdminClientThread extends Thread {
                     long OcupMem = TotalMem - Administration.mon.physical().getFreeBytes();
 
                     long MemPercent = (OcupMem * 100) / TotalMem;
-                    
+
                     out.println(cpu + "£" + MemPercent);
-                    //out.println("50£50");
+//                    out.println("50£50");
                     out.flush();
 
+                    //</editor-fold>
 
                 } else if ("-tasks".equals(cmds[1])) {
-
+                    //<editor-fold>
                     String cois = "";
                     try {
                         String line;
@@ -233,93 +236,48 @@ public class AdminClientThread extends Thread {
 
 
                     out.flush();
+                    //</editor-fold>
+                } else if ("-running".equals(cmds[1])) {
+                    //<editor-fold>
+                    try {
+                        out.println(ws.getClientsData());
+
+
+                    } catch (Exception err) {
+                        out.println(""+err.getMessage());
+                    }
+
+                    out.flush();
+                    //</editor-fold>
                 } else {
+                    //<editor-fold>
                     out.println("Comando não reconhecido");
                     out.flush();
+                    //</editor-fold>
                 }
+                //</editor-fold>
+            } else if ("killRunning".equals(cmds[0])) {
+                //<editor-fold>
+                
+                
+                //</editor-fold>
             } else if ("kill".equals(cmds[0])) {
+                //<editor-fold>
                 Administration.mon.killProcess(Integer.parseInt(cmds[1]));
                 out.println("You just killed " + cmds[1]);
                 out.flush();
-            } else if ("OneMax".equals(cmds[0])) {
-                String caminho;
-                String URL;
-                Boolean URLSite = true;
-
-                String PrimeiraLinha;
-
-                String Nome = cmds[0].toString();
-                String ProblemID = cmds[1].toString();
-                String ClientID = cmds[2].toString();
-                String PopSize = cmds[3].toString();
-                String AlleSize = cmds[4].toString();
-                String ParBestFit = cmds[5].toString();
-                String Itera = cmds[6].toString();
-
-                if (VerInt(ProblemID) && VerInt(ClientID) && VerInt(PopSize) && VerInt(AlleSize) && VerInt(ParBestFit) && VerInt(Itera)) {
-
-                    String NameFile = "OneMax.pc";
-                    if (cmds[7] == "Tournament") {
-                        PrimeiraLinha = "{type:\"" + Nome + "\",id:" + ProblemID + ",client:" + ClientID
-                                + ",selection:[\"" + cmds[7].toString() + "\"," + cmds[8].toString() + ","
-                                + cmds[9].toString() + "],mutation:[\"" + cmds[10].toString() + "\"," + cmds[11].toString()
-                                + "],recombination:[\"" + cmds[12].toString() + "\"],replacement:[\"" + cmds[13].toString()
-                                + "\"," + cmds[14].toString() + "," + cmds[15].toString() + "],iterations:" + Itera + ",pop:"
-                                + PopSize + ",alello:" + AlleSize + ",best:" + ParBestFit
-                                + ",lenght:1000,data:[[x,y],[y,z],[b,a]]}";
-                    } else {
-                        PrimeiraLinha = "{type:\"" + Nome + "\",id:" + ProblemID + ",client:" + ClientID + ",selection:[\""
-                                + cmds[7].toString() + "\"," + cmds[8].toString() + "],mutation:[\"" + cmds[9].toString() + "\","
-                                + cmds[10].toString() + "],recombination:[\"" + cmds[11].toString() + "\"],replacement:[\""
-                                + cmds[12].toString() + "\"," + cmds[13].toString() + "," + cmds[14].toString() + "],iterations:"
-                                + Itera + ",pop:" + PopSize + ",alello:" + AlleSize + ",best:" + ParBestFit
-                                + ",lenght:1000,data:[[x,y],[y,z],[b,a]]}";
-                    }
-                    FileWriter testFile = new FileWriter(NameFile);
-                    File file = new File(NameFile);
-                    BufferedWriter output = new BufferedWriter(testFile);
-                    output.write(PrimeiraLinha);
-                    output.close();
-                    //System.out.println("Your file has been written");
-
-                    caminho = file.getAbsolutePath().toString();
-                    //Text_Caminho.setText("File:" + caminho);
-
-
-                    //EmuladorEcran.TextArea.append("\nA Carregar dados...\n");
-                    //Emulador emu = new Emulador("File:" + caminho);
-//                    if (emu.Carregar()) {
-//                        Carregar.setEnabled(true);
-//                        Executar.setEnabled(true);
-//                    } else {
-//                        Carregar.setEnabled(false);
-//                        Executar.setEnabled(false);
-//                    }
-                    out.println("OK");
-                    out.flush();
-                    RemoteWork("File:" + caminho);
-                } else {
-                    out.println("NOTOK");
-                    out.flush();
-                }
-
-
-
+                //</editor-fold>
             } else {
+                //<editor-fold>
                 out.println("Comando não reconhecido");
                 out.flush();
+                //</editor-fold>
             }
-
-            //Administration.txt_consola.append(message+ "\n");
-
-
 
         } catch (Exception ex) {
             System.out.println(ex);
             return;
         }
-        //}
-
     }
 
     public Boolean VerInt(String valor) {

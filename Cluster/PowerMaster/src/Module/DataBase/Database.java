@@ -120,7 +120,7 @@ public class Database extends AbstractAplication {
 
         
     
-    public boolean ExecuteMedia(int period, int idClient, int idProblem, String globalNumBest, String Final) {
+    public boolean ExecuteMedia(int period, int idClient, int idProblem, String globalNumBest, String Final,int control) {
         boolean erro = false;
         try {
 //            ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, MAX(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
@@ -144,7 +144,7 @@ public class Database extends AbstractAplication {
             
              //erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ");");
          
-            erro = this.ExecuteNonQuery("call ExecuteMedia(" + period + "," + idClient + "," + idProblem + ",'"+globalNumBest+"','"+Final+"');");
+            erro = this.ExecuteNonQuery("call ExecuteMedia(" + period + "," + idClient + "," + idProblem + ",'"+globalNumBest+"','"+Final+"',"+control+");");
         } catch (Exception e) {
 
             try {
@@ -156,7 +156,7 @@ public class Database extends AbstractAplication {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    return ExecuteMedia(period, idClient, idProblem, globalNumBest,Final);
+                    return ExecuteMedia(period, idClient, idProblem, globalNumBest,Final,control);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
