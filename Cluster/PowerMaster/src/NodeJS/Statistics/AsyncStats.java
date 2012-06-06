@@ -6,6 +6,7 @@ package NodeJS.Statistics;
 
 import Module.Aplication;
 import Module.DataBase.Database;
+import Module.GlobalData;
 import Module.WebHTTP.SolverCreator;
 import genetics.GenericSolver;
 import genetics.Individual;
@@ -72,8 +73,10 @@ public class AsyncStats extends Thread {
      * Veriável que contem o best fitness que irá ser encontrado por os solvers.
      */
     private int BestToFound;
-    
-    
+    /**
+     * Variável de controlo para verificar se é de maximização e minimização
+     */
+    private int controlo;
     /**
      * Contrutor do AsynsStats
      * @param period Espaçamento entre calculos estatisticos (entre iterações)
@@ -96,14 +99,15 @@ public class AsyncStats extends Thread {
         this.Stop = false;
 
         //Verificar qual o best fitness a ser encontrado
-        try{
+        try {
             JSONArray problem = input.getJSONArray("algorithm");
             String problemStop = problem.getString(2);
             BestToFound = Integer.parseInt(problemStop.split(" ")[0]);
-        }catch(Exception e){
+            controlo = Integer.parseInt(problemStop.split(" ")[3]);
+        } catch (Exception e) {
             BestToFound = 0;
         }
-        
+
         //Inicialização dos diversos solvers.
         numThreads = new AtomicInteger(PowerMaster.NUM_THREADS);
         arrayThread = new SolverThread[PowerMaster.NUM_THREADS];
@@ -124,7 +128,7 @@ public class AsyncStats extends Thread {
      * @throws IOException 
      */
     public synchronized void Stop() throws FileNotFoundException, IOException {
-        SaveStatus save = new SaveStatus(idClient + "_" + idProblem);
+        SaveStatus save = new SaveStatus(idClient + "_" + idProblem,this.controlo);
         for (int i = 0; i < arrayThread.length; i++) {
             save.AddPopulation(arrayThread[i].Stop());
         }
@@ -135,100 +139,108 @@ public class AsyncStats extends Thread {
         oos.writeObject(save);
         oos.close();
     }
-    
+
     /**
      * Método para obter de todos os solvers a melhor poulação entre eles através do fitness. (Pedido feito por optimum computing para o problema KnapSack)
      * @return String formatada em json com todos os individuos da população
      */
-    public synchronized String getBestPopulation(){
-        double bestOfAll=0;
-        int index=-1;//index da melhor população encontrada
+    public synchronized String getBestPopulation() {
+        double bestOfAll = 0;
+        int index = -1;//index da melhor população encontrada
         for (int i = 0; i < arrayThread.length; i++) {
             Statistics s = new Statistics(arrayThread[i].getPopulation());
-            if(s.getMediaFitnessPopulation()>bestOfAll){
-                index=i;
+            if (s.getMediaFitnessPopulation() > bestOfAll) {
+                index = i;
             }
-        }   
-        String json="";
-        if(index>=0){
-            json+="'data':[";
+        }
+        String json = "";
+        if (index >= 0) {
+            json += "'data':[";
             Population p = arrayThread[index].getPopulation();
-            int i=1;
+            int i = 1;
             for (Individual individuo : p) {
-                json+="[";
-                json+="'"+i+"',";
-                json+="'"+individuo.fitness()+"'";
-                json+="]";
-                if(i<p.getSizePopulation()){
-                    json+=",";
-                }  
-                i++;                
+                json += "[";
+                json += "'" + i + "',";
+                json += "'" + individuo.fitness() + "'";
+                json += "]";
+                if (i < p.getSizePopulation()) {
+                    json += ",";
+                }
+                i++;
             }
-            json+="]";
+            json += "]";
 
         }
         return json;
     }
-    
+
     /**
      * Método que permite actializar em tempo real os parametros dos solvers
      * @param input Objecto JSONObject que contem os novos parametros a serem carregados
      */
-    public void UpdateParametrs(JSONObject input){
+    public void UpdateParametrs(JSONObject input) {
         JSONArray problem = null;
-        String mutationName= null;
+        String mutationName = null;
         String mutationParms = null;
-        try{
+        try {
             problem = input.getJSONArray("mutation");
             mutationName = problem.getString(0);
-            System.out.println("Mutação:"+mutationName);
+            System.out.println("Mutação:" + mutationName);
             mutationParms = problem.getString(1);
-            System.out.println("Parametros de Mutação:"+mutationParms+"\n\n");
-        }catch(Exception e){}
-        
+            System.out.println("Parametros de Mutação:" + mutationParms + "\n\n");
+        } catch (Exception e) {
+        }
+
         String recombinationName = null;
         String recombinationParms = null;
-        try{
+        try {
             problem = input.getJSONArray("recombination");
             recombinationName = problem.getString(0);
-            System.out.println("Recominação:"+recombinationName);
+            System.out.println("Recominação:" + recombinationName);
             recombinationParms = problem.getString(1);
-            System.out.println("Parametros de Recombinação:"+recombinationParms+"\n\n");
-        }catch(Exception e){}
-        
-         String replacementName = null;
-         String replacementParms = null;
-        try{
+            System.out.println("Parametros de Recombinação:" + recombinationParms + "\n\n");
+        } catch (Exception e) {
+        }
+
+        String replacementName = null;
+        String replacementParms = null;
+        try {
             problem = input.getJSONArray("replacement");
             replacementName = problem.getString(0);
-            System.out.println("Replacement:"+replacementName);
+            System.out.println("Replacement:" + replacementName);
             replacementParms = problem.getString(1);
-            System.out.println("Parametros de Replacement:"+replacementParms+"\n\n");
-        }catch(Exception e){}
-        
+            System.out.println("Parametros de Replacement:" + replacementParms + "\n\n");
+        } catch (Exception e) {
+        }
+
         String selectionName = null;
         String selectionParms = null;
-        try{
+        try {
             problem = input.getJSONArray("selection");
             selectionName = problem.getString(0);
-            System.out.println("Selection:"+selectionName);
+            System.out.println("Selection:" + selectionName);
             selectionParms = problem.getString(1);
-            System.out.println("Parametros de Replacement:"+selectionParms+"\n\n");
-        }catch(Exception e){}        
-        
+            System.out.println("Parametros de Replacement:" + selectionParms + "\n\n");
+        } catch (Exception e) {
+        }
+
         //Aplicar as alterações a todos os solvers
         for (int i = 0; i < arrayThread.length; i++) {
             GenericSolver solver = arrayThread[i].getSolver();
-            if(selectionName!=null && selectionParms != null)
-            System.out.println("SetSelection:"+solver.SetSelection(selectionName + " " + selectionParms));
-            if(mutationName!=null && mutationParms != null)
-            System.out.println("SetMutation:"+solver.SetMutation(mutationName + " " + mutationParms));  
-            if(replacementName!=null && replacementParms != null)
-            System.out.println("SetReplacement:"+solver.SetReplacement(replacementName + " " + replacementParms));
-            if(recombinationName!=null && recombinationParms != null)
-            System.out.println("SetRecombination:"+solver.SetRecombination(recombinationName + " " + recombinationParms));         
-        }        
-        
+            if (selectionName != null && selectionParms != null) {
+                System.out.println("SetSelection:" + solver.SetSelection(selectionName + " " + selectionParms));
+            }
+            if (mutationName != null && mutationParms != null) {
+                System.out.println("SetMutation:" + solver.SetMutation(mutationName + " " + mutationParms));
+            }
+            if (replacementName != null && replacementParms != null) {
+                System.out.println("SetReplacement:" + solver.SetReplacement(replacementName + " " + replacementParms));
+            }
+            if (recombinationName != null && recombinationParms != null) {
+                System.out.println("SetRecombination:" + solver.SetRecombination(recombinationName + " " + recombinationParms));
+            }
+        }
+
     }
 
     /**
@@ -236,17 +248,17 @@ public class AsyncStats extends Thread {
      * @param Fitness de pesquesa nas populações
      * @return String com todos os indidivudos encontrados e unicos.
      */
-    public String getAllUniqueIndividuals(double fitness){
+    public String getAllUniqueIndividuals(double fitness) {
         //TreeSet result = new TreeSet(new ComparatorIndividual());
         Hashtable ht = new Hashtable();
         for (int i = 0; i < arrayThread.length; i++) {
-            Iterator<Individual> iterator = arrayThread[i].getPopulation().getPopulation().iterator();
-            //Iterator<Individual> iterator = p.iterator();
-            while(iterator.hasNext()){
+//            Iterator<Individual> iterator = arrayThread[i].getUniqueIndividuals(fitness).iterator();
+            Iterator<Individual> iterator = arrayThread[i].getPopulation().iterator();
+            while (iterator.hasNext()) {
                 Individual individuo = iterator.next();
-                if(ht.containsKey(individuo.toString())==false && individuo.fitness()==fitness){
+                if (ht.containsKey(individuo.toString()) == false && individuo.fitness() == fitness) {
                     ht.put(individuo.toString(), individuo);
-                }else{
+                } else {
                     //System.out.println(individuo.toString());
                 }
             }
@@ -257,10 +269,10 @@ public class AsyncStats extends Thread {
         StringBuilder sb = new StringBuilder();
         Enumeration e = ht.elements();
         System.out.println("Resultados:");
-        while(e.hasMoreElements()){
-            Individual ind = (Individual)e.nextElement();
-            sb.append(ind.toString() + " __ " + ind.fitness() + "\n");
-            sb.append(":"+"\n");
+        while (e.hasMoreElements()) {
+            Individual ind = (Individual) e.nextElement();
+            sb.append(ind.toString() + " __ " + ind.fitness() + "<br>\n");
+            //sb.append(":" + "\n");
             //System.out.println(sb.toString());
         }
         System.out.println(sb.toString());
@@ -277,13 +289,13 @@ public class AsyncStats extends Thread {
 //        }
         return sb.toString();
     }
-    
+
     /**
      * Método que faz a contagem do número de individuos entre todas as populações com um determinado fitness
      * @param fitness que vai ser utilizado par a pesquisa
      * @return número de individuos
      */
-    public int getAllUniqueIndividualsCount(double fitness){
+    public int getAllUniqueIndividualsCount(double fitness) {
 //        TreeSet result = new TreeSet(new ComparatorIndividual());
 //        for (int i = 0; i < arrayThread.length; i++) {
 //            //Entra uma collection
@@ -294,34 +306,43 @@ public class AsyncStats extends Thread {
         for (int i = 0; i < arrayThread.length; i++) {
             Iterator<Individual> iterator = arrayThread[i].getPopulation().getPopulation().iterator();
             //Iterator<Individual> iterator = p.iterator();
-            while(iterator.hasNext()){
+            while (iterator.hasNext()) {
                 Individual individuo = iterator.next();
-                if(ht.containsKey(individuo.toString())==false && individuo.fitness()==fitness){
+                if (ht.containsKey(individuo.toString()) == false && individuo.fitness() == fitness) {
                     ht.put(individuo.toString(), individuo);
                 }
             }
         }
-        return ht.size();     
-    }    
-    
+        return ht.size();
+    }
+
     /**
      * Método para percorrer todas as threads e procurar o maior double
      */
-    public double getBestIndividual(){
-        double maxFitness=0,aux=0;
-        for (int i = 0; i < arrayThread.length; i++) {
-            if((aux=PopulationUtils.getBestFitness(arrayThread[i].getPopulation()))>maxFitness){
-                maxFitness=aux;
+    public double getBestIndividual() {
+        double maxFitness = 0, aux = 0;
+        if(this.controlo==0){
+            for (int i = 0; i < arrayThread.length; i++) {
+                if ((aux = PopulationUtils.getBestFitness(arrayThread[i].getPopulation())) > maxFitness) {
+                    maxFitness = aux;
+                }
             }
+        }else{
+            maxFitness=10000000;
+            for (int i = 0; i < arrayThread.length; i++) {
+                if ((aux = PopulationUtils.getBestFitness(arrayThread[i].getPopulation())) < maxFitness) {
+                    maxFitness = aux;
+                }
+            }            
         }
         return maxFitness;
     }
-    
+
     @Override
     public void run() {
 
         //Database db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "127.0.0.1");
-        Database db = new Database("root", "testestestes", "130.185.82.39", "powercomputing");
+        Database db = new Database(GlobalData.database_user, GlobalData.database_pass, GlobalData.database_location, GlobalData.database_database);
 
         try {
             Thread.sleep(2000);
@@ -337,19 +358,19 @@ public class AsyncStats extends Thread {
 
                 // System.out.println("Async|  Period: " + period + "  Threads working: " + numThread + "  Result count: " + result_count + "  Cliente: " + idClient + "  Problema: " + idProblem);
                 if (result_count == 0 && numThread == 0) {
-                    chegouAoFim=true;
+                    chegouAoFim = true;
                     //getAllUniqueIndividuals(getBestIndividual());
-                    System.out.println("********************************************-------------"+period);
-                    db.ExecuteMedia(period,idClient, idProblem, ""+getAllUniqueIndividualsCount(this.BestToFound),""+getAllUniqueIndividuals(getBestIndividual()));                    
+                    System.out.println("********************************************-------------" + period);
+                    db.ExecuteMedia(period, idClient, idProblem, "" + getAllUniqueIndividualsCount(this.BestToFound), "" + getAllUniqueIndividuals(getBestIndividual()),controlo);
                     Aplication.nodeJS.Emit("end", this.period, this.idClient, this.idProblem);
                     System.out.println("Async Stop");
                     break;
                 }
 
-                if (result_count >= numThread && chegouAoFim==false) {
-                    System.out.println("********************************************============="+period);
+                if (result_count >= numThread && chegouAoFim == false) {
+                    System.out.println("********************************************=============" + period);
                     //System.out.println("Fechado"+Aplication.db.Connection.isClosed());
-                    boolean temp = db.ExecuteMedia(period, idClient, idProblem, ""+getAllUniqueIndividualsCount(this.BestToFound)," ");
+                    boolean temp = db.ExecuteMedia(period, idClient, idProblem, "" + getAllUniqueIndividualsCount(this.BestToFound), " ",controlo);
                     //System.out.println("Async Insertion| Iteration:" + period);
                     Aplication.nodeJS.Emit("run", this.period, this.idClient, this.idProblem);
                     period = period + aux;
@@ -358,16 +379,27 @@ public class AsyncStats extends Thread {
                 Thread.sleep(750);
             } catch (Exception e) {
                 e.printStackTrace();
-                
+
                 System.out.println("Error - Sync Class " + e);
             }
         }
-        
-//        if(Stop=true){                              
-//                db.ExecuteLastItera(idClient, idProblem, getAllUniqueIndividuals(getBestIndividual())); 
-//                Aplication.nodeJS.EmitStop(getAllUniqueIndividuals(getBestIndividual()),idClient,idProblem);
-//                System.out.println("Async Stop By Force");           
-//        }
 
+        if (Stop == true) {
+            db.ExecuteMedia(period, idClient, idProblem, "" + getAllUniqueIndividualsCount(this.BestToFound), "" + getAllUniqueIndividuals(getBestIndividual()),controlo);
+            try {
+                Aplication.nodeJS.Emit("end", this.period, this.idClient, this.idProblem);
+            } catch (JSONException ex) {
+                Logger.getLogger(AsyncStats.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Async Stop By Force");
+        }
+        try {
+            Stop();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(AsyncStats.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(AsyncStats.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }

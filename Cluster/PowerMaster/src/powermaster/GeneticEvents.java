@@ -5,7 +5,11 @@
 package powermaster;
 
 import Module.DataBase.Database;
+import Module.GlobalData;
 import genetics.Population;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import statistics.Statistics;
 import utils.EventsSolver;
 import utils.PopulationUtils;
@@ -29,7 +33,7 @@ public class GeneticEvents implements EventsSolver {
         this.idProblem = idProblem;
 
         //db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt", "powercomputing");
-        db = new Database("root", "testestestes", "130.185.82.39", "powercomputing");
+        db = new Database(GlobalData.database_user, GlobalData.database_pass, GlobalData.database_location, GlobalData.database_database);
     }
 
     @Override
@@ -91,6 +95,12 @@ public class GeneticEvents implements EventsSolver {
         System.out.println("Hall of Fame - Top 5");
         System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
         System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
-
+        
+        
+        try {
+            this.db.Connection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
