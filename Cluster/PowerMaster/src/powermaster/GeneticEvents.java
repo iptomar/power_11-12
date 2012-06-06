@@ -7,6 +7,9 @@ package powermaster;
 import Module.DataBase.Database;
 import Module.GlobalData;
 import genetics.Population;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import statistics.Statistics;
 import utils.EventsSolver;
 import utils.PopulationUtils;
@@ -92,6 +95,12 @@ public class GeneticEvents implements EventsSolver {
         System.out.println("Hall of Fame - Top 5");
         System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
         System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
-
+        
+        
+        try {
+            this.db.Connection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

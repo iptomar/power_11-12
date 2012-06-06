@@ -203,12 +203,16 @@ public class WorkSocket extends Thread {
                         if (client != null) {
                             client.getBestPopulation();
                         }else{//verificar localmente
-                            try{
+                            try{                                
                                 System.out.println("Pop não encontrada... Procurar no disco!");
                                 FileInputStream fis = new FileInputStream(new File(new String("Pops/"+idClient + "_" + id)));
                                 ObjectInputStream ois = new ObjectInputStream(fis);      
                                 SaveStatus st = (SaveStatus) ois.readObject();
-                                Aplication.nodeJS.EmitPop(st.getBestPopulation());
+                                String result = "{'idProblem':" + id;
+                                result += ",'idClient':" + idClient + ",";
+                                result += st.getBestPopulation();
+                                result += "}";
+                                Aplication.nodeJS.EmitPop(result);
                             }catch(Exception e){
                                 e.printStackTrace();
                             }
