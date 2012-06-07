@@ -365,7 +365,7 @@ public class AsyncStats extends Thread {
                     period = period + aux;
                 }
 
-                Thread.sleep(50);
+                Thread.sleep(100);
             } catch (Exception e) {
                 e.printStackTrace();
 
