@@ -276,17 +276,6 @@ public class AsyncStats extends Thread {
             //System.out.println(sb.toString());
         }
         System.out.println(sb.toString());
-//        for (int i = 0; i < arrayThread.length; i++) {
-//            //Entra uma collection
-//            result.addAll( arrayThread[i].getUniqueIndividuals(fitness));
-//        }
-//        StringBuilder sb = new StringBuilder();
-//        System.out.println("Resultado Final:");
-//        for (Object ind : result) {
-//            sb.append(ind.toString());
-//            sb.append(":");
-//            System.out.println(ind.toString());
-//        }
         return sb.toString();
     }
 
@@ -376,7 +365,7 @@ public class AsyncStats extends Thread {
                     period = period + aux;
                 }
 
-                Thread.sleep(750);
+                Thread.sleep(100);
             } catch (Exception e) {
                 e.printStackTrace();
 

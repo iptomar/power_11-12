@@ -18,6 +18,7 @@ namespace PowerComputing.Classes
                 salt += guid[i];
             }
 
+
             Coneccao.Open();
             Comando.CommandText = inserts;
             Comando.ExecuteNonQuery();
