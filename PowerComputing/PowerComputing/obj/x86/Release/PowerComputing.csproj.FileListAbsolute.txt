@@ -100,3 +100,7 @@ C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\PowerC
 C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.Properties.Resources.resources
 C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\GenerateResource.read.1.tlog
 C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\Controls.Gravatar.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\Tamir.SharpSSH.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\DiffieHellman.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\Org.Mentalis.Security.dll
