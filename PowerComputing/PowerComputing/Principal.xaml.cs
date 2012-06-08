@@ -20,6 +20,7 @@ using System.Windows.Controls.DataVisualization.Charting;
 using Visiblox.Charts;
 using System.Data;
 using PowerComputing.Classes;
+using Tamir.SharpSsh;
 
 namespace PowerComputing
 {
@@ -37,9 +38,11 @@ namespace PowerComputing
 
         MySocket socket_consola = new MySocket();
         MySocket socket_graficos = new MySocket();
+        
+        MySocket socket_pedidos = new MySocket();
 
         //0 -> problems; 1-> results; 2-> slaves
-        private int area_actual = 1;
+        private int area_actual = 0;
 
         private DateTime currentTime;
         private const int MaxPoints = 70;
@@ -52,13 +55,22 @@ namespace PowerComputing
 
         Thread thr;
 
+        private string info_knapsack;
+        private string info_onemax;
+        private string info_k5;
+        private string info_k50;
+        private string info_k100;
+        private string info_tsp;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            //Mudar titulo
-            tb_titulo.Text = Utilizador.NOME.ToUpper() + "@POWER_COMPUTING";
 
+            gravatar1.Email = Utilizador.EMAIL;
+
+            tb_nome.Text = Utilizador.NOME;
+            
             //Ip e porta do socket para os graficos
             socket_graficos.IP = Properties.Settings.Default.IPMaster;
             socket_graficos.Porta = Convert.ToInt32(Properties.Settings.Default.PortaGrafico);
@@ -67,23 +79,32 @@ namespace PowerComputing
             socket_consola.IP = Properties.Settings.Default.IPMaster;
             socket_consola.Porta = Convert.ToInt32(Properties.Settings.Default.PortaGrafico);
 
+            //Ip e porta do socket para pedidos
+            socket_pedidos.IP = Properties.Settings.Default.IPMaster;
+            socket_pedidos.Porta = 8080;
+
             //Adicionar zoom ao grafico
             chart.Behaviour = new ZoomBehaviour();
 
             var stack = chart.Series[0] as IChartMultipleSeries;
             var stack2 = chart.Series[1] as IChartMultipleSeries;
 
-           
             stack.Series[0].DataSeries = GenerateDataCPU();
             stack2.Series[0].DataSeries = GenerateDataMEM();
 
+            //Get Infos
+            info_knapsack = socket_consola.EnviaPedido("get -info KnapSack", true).Replace('€', '\n');
+            info_onemax = socket_consola.EnviaPedido("get -info OnesMax", true).Replace('€', '\n');
+            info_k5 = socket_consola.EnviaPedido("get -info K5", true).Replace('€', '\n');
+            info_k50 = socket_consola.EnviaPedido("get -info K50", true).Replace('€', '\n');
+            info_k100 = socket_consola.EnviaPedido("get -info K100", true).Replace('€', '\n');
+            info_tsp = socket_consola.EnviaPedido("get -info TSP", true).Replace('€', '\n');
+            
             CompositionTarget.Rendering += new EventHandler(CompositionTargetCPU_Rendering);
-                        
+
             thr = new Thread(VerificarLigacao);
             thr.Start();
         }
-
-
 
         private void VerificarLigacao()
         {
@@ -99,7 +120,7 @@ namespace PowerComputing
                     {
 
                         //Buscar numero de cores do master
-                        NUMERO_CORES = Convert.ToInt32(socket_consola.EnviaPedido("get -s cores"));
+                        NUMERO_CORES = Convert.ToInt32(socket_consola.EnviaPedido("get -s cores", true));
 
                         if (painel_erro_aberto == 1)
                         {
@@ -123,7 +144,7 @@ namespace PowerComputing
 
                 MudaEstadoConeccao();
 
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
             }
         }
@@ -132,7 +153,7 @@ namespace PowerComputing
         {
             try
             {
-                int teste = Convert.ToInt32(socket_consola.EnviaPedido("get -s cores"));
+                int teste = Convert.ToInt32(socket_consola.EnviaPedido("get -s cores", true));
 
                 _LIGADO = true;
 
@@ -166,8 +187,6 @@ namespace PowerComputing
                 }
             }
         }
-
-
 
         private IDataSeries GenerateDataCPU()
         {
@@ -218,8 +237,6 @@ namespace PowerComputing
             {
                 UpdateChartCPU();
                 UpdateChartMEM();
-                
-
             }
         }
 
@@ -237,18 +254,19 @@ namespace PowerComputing
                 
 
                 //MessageBox.Show(stackedLineSeries.Series[0].GetType()+" | " + stackedLineSeries.Series[1].GetType() + " | " + stackedLineSeries.Series[2].GetType());
-                string []dados = socket_graficos.EnviaPedido("get -cpumem").ToString().Split('£');
+                string []dados = socket_graficos.EnviaPedido("get -cpumem", true).ToString().Split('£');
 
-                double currentCPU = Convert.ToInt32(Convert.ToDouble(dados[0].ToString().Replace(',','.')) / NUMERO_CORES);
+                double currentCPU = Convert.ToInt32(Convert.ToDouble(dados[0].ToString().Replace('.',',')));
                 double currentMEM= Convert.ToDouble(dados[1]);
 
-                lbl_cpu.Text = "CPU: " + currentCPU + "%";
 
                 if (currentCPU > 100.0)
                 {
                     currentCPU = 100.0;
                    
                 }
+
+                lbl_cpu.Text = "CPU: " + currentCPU + "%";
 
                 cpu.Add(new DataPoint<DateTime, double>(currentTime, currentCPU));
                 
@@ -278,7 +296,7 @@ namespace PowerComputing
                 var mem = (DataSeries<DateTime, double>)stackedLineSeries.Series[0].DataSeries;
 
                 //MessageBox.Show(stackedLineSeries.Series[0].GetType()+" | " + stackedLineSeries.Series[1].GetType() + " | " + stackedLineSeries.Series[2].GetType());
-                string[] dados = socket_graficos.EnviaPedido("get -cpumem").ToString().Split('£');
+                string[] dados = socket_graficos.EnviaPedido("get -cpumem", true).ToString().Split('£');
 
                 double currentCPU = Convert.ToInt32(Convert.ToDouble(dados[0].ToString().Replace(',', '.')) / NUMERO_CORES);
                 double currentMEM = Convert.ToDouble(dados[1]);
@@ -297,16 +315,13 @@ namespace PowerComputing
                 currentTime = currentTime.AddMilliseconds(tickInterval);
 
                 if (mem.Count > MaxPoints)
-                {
-                    
+                {  
                     mem.RemoveAt(0);
                 }
                 lastUpdated = DateTime.Now;
             }
             catch { }
         }
-
-
 
 
         private void Button_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -392,9 +407,11 @@ namespace PowerComputing
                 socket_consola.IP = Properties.Settings.Default.IPMaster;
                 socket_consola.Porta = Convert.ToInt32(Properties.Settings.Default.PortaConsola);
 
-                string txt_recebido = socket_consola.EnviaPedido(tb_diz.Text);
+                string txt_recebido = socket_consola.EnviaPedido(tb_diz.Text, true);
 
-                string[] partido = txt_recebido.Split('£');
+                string bom = txt_recebido.Replace('€', '\n');
+
+                string[] partido = bom.Split('£');
                 
                 for (int i = 0; i < partido.Length; i++)
                 {
@@ -436,79 +453,121 @@ namespace PowerComputing
             Properties.Settings.Default.Save();
         }
 
-        private DataTable CriaDataTable()
-        {
-            DataTable mDataTable = new DataTable();
-
-            DataColumn mDataColumn;
-            mDataColumn = new DataColumn();
-            mDataColumn.DataType = Type.GetType("System.String");
-            mDataColumn.ColumnName = "PID";
-            mDataTable.Columns.Add(mDataColumn);
-
-            mDataColumn = new DataColumn();
-            mDataColumn.DataType = Type.GetType("System.String");
-            mDataColumn.ColumnName = "NAME";
-            mDataTable.Columns.Add(mDataColumn);
-
-            return mDataTable;
-        }
-
         /// <summary>
-        /// ComboBox
+        /// Hover rectangulos
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Grid_MouseEnter(object sender, MouseEventArgs e)
         {
+            Grid gr = sender as Grid;
+            tb_info_alg.Foreground = Brushes.White;
 
-            try
+            switch (gr.Name)
             {
-                if (onemax_ddl_selection.SelectedIndex.ToString() == "2")
-                {
-                    onemax_selection_valor2.IsEnabled = true;
-                }
-                else
-                {
-                    onemax_selection_valor2.IsEnabled = false;
-                }
+                case "knapsack":
+                    image_knap_sack.Visibility = Visibility.Visible;
+                    tb_info_alg.Text = info_knapsack;
+                    tb_info_alg.Background = knapsack.Background;
+                    break;
+                case "onemax":
+                    image_one_max.Visibility = Visibility.Visible;
+                    tb_info_alg.Text = info_onemax;
+                    tb_info_alg.Background = onemax.Background;
+                    break;
+                case "k5":
+                    image_k5.Visibility = Visibility.Visible;
+                    tb_info_alg.Text = info_k5;
+                    tb_info_alg.Background = k5.Background;
+                    break;
+                case "k50":
+                    image_k50.Visibility = Visibility.Visible;
+                    tb_info_alg.Text = info_k50;
+                    tb_info_alg.Background = k50.Background;
+                    break;
+                case "k100":
+                    image_k100.Visibility = Visibility.Visible;
+                    tb_info_alg.Text = info_k100;
+                    tb_info_alg.Background = k100.Background;
+                    break;
+                case "tsp":
+                    image_tsp.Visibility = Visibility.Visible;
+                    tb_info_alg.Text = info_tsp;
+                    tb_info_alg.Background = tsp.Background;
+                    break;
+                default:
+                    break;
             }
-            catch { }
+        }
+
+        private void image_knap_sack_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Grid gr = sender as Grid;
+
+            switch (gr.Name)
+            {
+                case "knapsack":
+                    image_knap_sack.Visibility = Visibility.Hidden;
+                    break;
+                case "onemax":
+                    image_one_max.Visibility = Visibility.Hidden;
+                    break;
+                case "k5":
+                    image_k5.Visibility = Visibility.Hidden;
+                    break;
+                case "k50":
+                    image_k50.Visibility = Visibility.Hidden;
+                    break;
+                case "k100":
+                    image_k100.Visibility = Visibility.Hidden;
+                    break;
+                case "tsp":
+                    image_tsp.Visibility = Visibility.Hidden;
+                    break;
+                default:
+                    break;
+            }
         }
 
         /// <summary>
-        /// Metodo que executa um OneMax
+        /// Enviar Problemas
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void bt_execute_onemax_Click(object sender, RoutedEventArgs e)
+        private void onemax_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string[] ddl_selection = onemax_ddl_selection.SelectedItem.ToString().Split(' ');
-            string[] ddl_mutation = onemax_dll_mutation.SelectedItem.ToString().Split(' ');
-            string[] ddl_recombination = onemax_dll_recombination.SelectedItem.ToString().Split(' ');
-            string[] ddl_replacement = onemax_dll_replacement.SelectedItem.ToString().Split(' ');
+            Grid gr = sender as Grid;
 
-            string pedido_onemax = onemax_problem_name.Text + " " + onemax_problem_id.Text + " " + onemax_client_id.Text + " ";
-            pedido_onemax += onemax_population_size.Text + " " + onemax_alello_size.Text + " " + onemax_best_fitness.Text + " " + onemax_iterations.Text + " ";
-
-            pedido_onemax += ddl_selection[1] + " ";
-
-            if (ddl_selection[1].ToString() == "Tournament")
+            switch (gr.Name)
             {
-                pedido_onemax += onemax_selection_valor1.Text + " " + onemax_selection_valor2.Text + " ";
+                case "knapsack":
+                    break;
+                case "onemax":
+                    string pedido_knapsack = "load|{\"id\":132890752,\"client\":\"1\",\"algorithm\":[\"genetics.algorithms.OnesMax\",\"1000 1 1 500 OnesMax\",\"499 1 300 0\"],\"mutation\":[\"operators.mutation.Flipbit\",\"0.025\"],\"operator\":[\"operators.recombinations.PMX\",\"0\"],\"recombination\":[\"operators.recombinations.UniformCrossover\",\"0.75\"],\"replacement\":[\"operators.replacements.Truncation\",\"1000\"],\"selection\":[\"operators.selections.SUS\",\"1000\"],\"nome\":\"teste\",\"desc\":\"testes tecnicos das equipas\"}";
+                    socket_pedidos.EnviaPedido(pedido_knapsack, false);
+                    animacao = (Storyboard)FindResource("problems_to_results");
+                    animacao.Begin();
+                    area_actual = 1;
+                    break;
+                case "k5":
+                    string pedido_k5 = "load|{\"id\":132890752,\"client\":\"1\",\"algorithm\":[\"genetics.algorithms.OnesMax\",\"1000 1 1 500 OnesMax\",\"499 1 300 0\"],\"mutation\":[\"operators.mutation.Flipbit\",\"0.025\"],\"operator\":[\"operators.recombinations.PMX\",\"0\"],\"recombination\":[\"operators.recombinations.UniformCrossover\",\"0.75\"],\"replacement\":[\"operators.replacements.Truncation\",\"1000\"],\"selection\":[\"operators.selections.SUS\",\"1000\"],\"nome\":\"teste\",\"desc\":\"testes tecnicos das equipas\"}";
+                    socket_pedidos.EnviaPedido(pedido_k5, false);
+                    animacao = (Storyboard)FindResource("problems_to_results");
+                    animacao.Begin();
+                    area_actual = 1;
+                    break;
+                case "k50":
+
+                    break;
+                case "k100":
+
+                    break;
+                case "tsp":
+
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                pedido_onemax += onemax_selection_valor1.Text + " ";
-            }
-
-            pedido_onemax += ddl_mutation[1] + " " + onemax_mutation_valor.Text + " ";
-            pedido_onemax += ddl_recombination[1] + " ";
-            pedido_onemax += ddl_replacement[1] + " " + onemax_tournament_valor1.Text + " " + onemax_tournament_valor2.Text;
-
-            string resultado = socket_consola.EnviaPedido(pedido_onemax);
-
-            lbl_onemax_resultado.Content = resultado;
         }
 
     }

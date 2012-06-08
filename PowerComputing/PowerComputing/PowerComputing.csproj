@@ -52,6 +52,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Controls.Gravatar">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 10.0\KITS\Controls.Gravatar.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.4.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -64,6 +67,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Tamir.SharpSSH">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 10.0\KITS\Tamir.SharpSSH.dll</HintPath>
     </Reference>
     <Reference Include="Visiblox.Charts">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 10.0\KITS\Visiblox.Charts.dll</HintPath>
@@ -134,17 +140,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\power grande.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\power.tif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Power.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\glyphicons_019_cogwheel.png" />
-    <Resource Include="Images\power_black.png" />
     <Resource Include="Images\power_icon_black.png" />
     <Resource Include="Images\default_avatar.gif" />
   </ItemGroup>
@@ -173,6 +169,10 @@
   <ItemGroup>
     <Resource Include="Images\lost.png" />
     <Resource Include="Images\glyphicons_280_settings.png" />
+    <Resource Include="Images\next.png" />
+    <Resource Include="Images\i.png" />
+    <Resource Include="Images\windows8.png" />
+    <Resource Include="Images\548367_204938556281452_732666385_n.jpg" />
     <Content Include="Sounds\access_denied.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

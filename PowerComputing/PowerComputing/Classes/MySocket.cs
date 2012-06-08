@@ -21,13 +21,13 @@ namespace PowerComputing
         public int Porta { get; set; }
         public String IP { get; set; }
 
-        public String EnviaPedido(string txt)
+        public String EnviaPedido(string txt, bool read)
         {
 
             Cliente = new TcpClient(IP, Porta);
 
-            Cliente.ReceiveTimeout = 1000;
-            Cliente.SendTimeout = 1000;
+            Cliente.ReceiveTimeout = 3000;
+            Cliente.SendTimeout = 3000;
 
             Stream = Cliente.GetStream();
 
@@ -37,7 +37,11 @@ namespace PowerComputing
             Out.WriteLine(txt);
             Out.Flush();
 
-            String recebi = In.ReadLine();
+            String recebi;
+            if(read)
+                recebi = In.ReadLine();
+            else
+                recebi = "";
 
             Stream.Close();
 

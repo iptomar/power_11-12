@@ -50,3 +50,5 @@ C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\Generate
 C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\PowerComputing.exe
 C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\PowerComputing.pdb
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\Controls.Gravatar.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\Tamir.SharpSSH.dll
