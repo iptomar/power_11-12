@@ -72,7 +72,7 @@ public class AsyncStats extends Thread {
     /**
      * Veriável que contem o best fitness que irá ser encontrado por os solvers.
      */
-    private int BestToFound;
+    private double BestToFound;
     /**
      * Variável de controlo para verificar se é de maximização e minimização
      */
@@ -102,7 +102,7 @@ public class AsyncStats extends Thread {
         try {
             JSONArray problem = input.getJSONArray("algorithm");
             String problemStop = problem.getString(2);
-            BestToFound = Integer.parseInt(problemStop.split(" ")[0]);
+            BestToFound = Double.parseDouble(problemStop.split(" ")[0]);
             controlo = Integer.parseInt(problemStop.split(" ")[3]);
         } catch (Exception e) {
             BestToFound = 0;
@@ -147,11 +147,21 @@ public class AsyncStats extends Thread {
     public synchronized String getBestPopulation() {
         double bestOfAll = 0;
         int index = -1;//index da melhor população encontrada
-        for (int i = 0; i < arrayThread.length; i++) {
-            Statistics s = new Statistics(arrayThread[i].getPopulation());
-            if (s.getMediaFitnessPopulation() > bestOfAll) {
-                index = i;
+        if(this.controlo==0){
+            for (int i = 0; i < arrayThread.length; i++) {
+                Statistics s = new Statistics(arrayThread[i].getPopulation());
+                if (s.getMediaFitnessPopulation() > bestOfAll) {
+                    index = i;
+                }
             }
+        }else{
+            bestOfAll = 10000000;
+            for (int i = 0; i < arrayThread.length; i++) {
+                Statistics s = new Statistics(arrayThread[i].getPopulation());
+                if (s.getMediaFitnessPopulation() < bestOfAll) {
+                    index = i;
+                }
+            }            
         }
         String json = "";
         if (index >= 0) {
@@ -173,6 +183,50 @@ public class AsyncStats extends Thread {
         }
         return json;
     }
+    
+    /**
+     * Método para obter de todos os solvers a melhor poulação entre eles através do fitness. (Pedido feito por optimum computing para o problemas de função)
+     * @return String formatada em json com todos os individuos da população (toString())
+     */
+    public synchronized String getBestPopulationFunction() {
+        double bestOfAll = 0;
+        int index = -1;//index da melhor população encontrada
+        if(this.controlo==0){
+            for (int i = 0; i < arrayThread.length; i++) {
+                Statistics s = new Statistics(arrayThread[i].getPopulation());
+                if (s.getMediaFitnessPopulation() > bestOfAll) {
+                    index = i;
+                }
+            }
+        }else{
+            bestOfAll = 10000000;
+            for (int i = 0; i < arrayThread.length; i++) {
+                Statistics s = new Statistics(arrayThread[i].getPopulation());
+                if (s.getMediaFitnessPopulation() < bestOfAll) {
+                    index = i;
+                }
+            }            
+        }
+        String json = "";
+        if (index >= 0) {
+            json += "'data':[";
+            Population p = arrayThread[index].getPopulation();
+            int i = 1;
+            for (Individual individuo : p) {
+                json += "[";
+                json += "'" + i + "',";
+                json += "'" + individuo.toString() + "'";
+                json += "]";
+                if (i < p.getSizePopulation()) {
+                    json += ",";
+                }
+                i++;
+            }
+            json += "]";
+
+        }
+        return json;
+    }    
 
     /**
      * Método que permite actializar em tempo real os parametros dos solvers
@@ -365,7 +419,7 @@ public class AsyncStats extends Thread {
                     period = period + aux;
                 }
 
-                Thread.sleep(100);
+                Thread.sleep(10);
             } catch (Exception e) {
                 e.printStackTrace();
 

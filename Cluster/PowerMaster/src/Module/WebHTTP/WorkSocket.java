@@ -97,7 +97,9 @@ public class WorkSocket extends Thread {
         public void UpdateParms(JSONObject input) {
             async.UpdateParametrs(input);
         }
-
+        /**
+         * Método para retorna todos os individuos fitness
+         */
         public void getBestPopulation() {
             String result = "{'idProblem':" + id;
             result += ",'idClient':" + idClient + ",";
@@ -109,6 +111,20 @@ public class WorkSocket extends Thread {
             System.out.println(result);
         }
 
+        /**
+         * Método para retorna todos os individuos (toString())
+         * Martelada para as funções... Não sei se funciona nem quero saber. Pedido feito por a optimum
+         */
+        public void getBestPopulationFunction() {
+            String result = "{'idProblem':" + id;
+            result += ",'idClient':" + idClient + ",";
+            String data = async.getBestPopulationFunction();
+            result += data;
+            result += "}";
+            Aplication.nodeJS.EmitPopFunction(result);
+            System.out.println(result);
+        }        
+        
         @Override
         public void run() {
             try {
@@ -199,7 +215,7 @@ public class WorkSocket extends Thread {
                         JSONObject input = new JSONObject(params[1]);
                         int idClient = input.getInt("client");
                         int id = input.getInt("id");
-                        newClient client = clients.get(new String(idClient + "_" + id));
+                        newClient client = clients.get(new String(idClient + "_" + id));                        
                         if (client != null) {
                             client.getBestPopulation();
                         }else{//verificar localmente
@@ -217,6 +233,30 @@ public class WorkSocket extends Thread {
                                 e.printStackTrace();
                             }
                         }
+                    } else if (data.contains("popf|")) {
+                        System.out.println("New Population Request:" + data);
+                        String[] params = data.split("\\|");
+                        JSONObject input = new JSONObject(params[1]);
+                        int idClient = input.getInt("client");
+                        int id = input.getInt("id");
+                        newClient client = clients.get(new String(idClient + "_" + id));
+                        if (client != null) {
+                            client.getBestPopulationFunction();
+                        }else{//verificar localmente
+                            try{                                
+                                System.out.println("Pop não encontrada... Procurar no disco!");
+                                FileInputStream fis = new FileInputStream(new File(new String("Pops/"+idClient + "_" + id)));
+                                ObjectInputStream ois = new ObjectInputStream(fis);      
+                                SaveStatus st = (SaveStatus) ois.readObject();
+                                String result = "{'idProblem':" + id;
+                                result += ",'idClient':" + idClient + ",";
+                                result += st.getBestPopulationFunction();
+                                result += "}";
+                                Aplication.nodeJS.EmitPop(result);
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
+                        }                                            
                     } else if (data.contains("update|")) {
                         System.out.println("New Update Request:" + data);
                         String[] params = data.split("\\|");
@@ -232,7 +272,7 @@ public class WorkSocket extends Thread {
 
 
             } catch (Exception ex) {
-                //Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(WorkSocket.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

@@ -110,7 +110,16 @@ public class NodeEmiter extends AbstractAplication implements IOCallback {
             System.out.println("Server Node Fechado");
         }            
     }    
-    
+
+    public void EmitPopFunction(String pop){
+        //Criar o objecto JSON
+        if(this.socket.isConnected()){
+            socket.emit("popf", Base64Coder.encodeString(pop));
+        }else{
+            ReconectSingle();
+            System.out.println("Server Node Fechado");
+        }            
+    }    
     /**
      * Método para enviar para o servidor de Node.JS da Optimum Computing toda a informação lida por reflection.
      * A informação é enviada com codificação base64 devido aos caracteres especiadis que o JSON utiliza.

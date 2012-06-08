@@ -81,4 +81,45 @@ public class SaveStatus implements Serializable {
         }
         return json;
     }
+    
+    public synchronized String getBestPopulationFunction() {
+        double bestOfAll = 0;
+        int index = -1;//index da melhor população encontrada
+        if (this.tipo == 0) {
+            for (int i = 0; i < pops.size(); i++) {
+                Statistics s = new Statistics(pops.get(i));
+                if (s.getMediaFitnessPopulation() > bestOfAll) {
+                    index = i;
+                }
+            }
+        } else {
+            bestOfAll = 1000000;
+            for (int i = 0; i < pops.size(); i++) {
+                Statistics s = new Statistics(pops.get(i));
+                if (s.getMediaFitnessPopulation() < bestOfAll) {
+                    index = i;
+                }
+            }            
+        }
+        String json = "";
+        if (index >= 0) {
+            json += "'data':[";
+            Population p = pops.get(index);
+            int i = 1;
+            for (Individual individuo : p) {
+                json += "[";
+                json += "'" + i + "',";
+                json += "'" + individuo.toString() + "'";
+                json += "]";
+                if (i < p.getSizePopulation()) {
+                    json += ",";
+                }
+                i++;
+            }
+            json += "]";
+
+        }
+        return json;
+    }    
+    
 }
