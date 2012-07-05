@@ -88,10 +88,6 @@ public class Database extends AbstractAplication {
     public int ExecuteCountQuery(int period, int idClient, int idProblem) {
         int count = 0;
         try {
-//            ResultSet rs = this.Command.executeQuery("SELECT * FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
-//            rs.last();
-//            count = rs.getRow();
-//            rs.close(); 
             ResultSet rs = this.Command.executeQuery("call ExecuteCountQuery(" + period + "," + idClient + "," + idProblem + ");");
             rs.first();
             count = rs.getInt("num");
@@ -120,31 +116,10 @@ public class Database extends AbstractAplication {
 
         
     
-    public boolean ExecuteMedia(int period, int idClient, int idProblem, String globalNumBest, String Final) {
+    public boolean ExecuteMedia(int period, int idClient, int idProblem, String globalNumBest, String Final,int control) {
         boolean erro = false;
         try {
-//            ResultSet rs = this.Command.executeQuery("SELECT AVG(average) AS mediaAverage, MAX(best) AS best, AVG(deviation) AS deviation, MAX(numBest) AS numBest, AVG(variance) AS variance FROM tblIterations WHERE itera='" + period + "' AND idClient='" + idClient + "' AND idProblem='" + idProblem + "';");
-//            rs.first();
-//            String a1 = rs.getString("mediaAverage").toString();
-//            String a2 = rs.getString("deviation").toString();
-//            String a3 = rs.getString("best").toString();
-//            String a4 = rs.getString("numBest").toString();
-//            String a5 = rs.getString("variance").toString();
-//            rs.close();
-//
-//           //async.getAllUniqueIndividuals(Double.parseDouble(a3));
-//            
-//            //ResultSet rs2 = this.Command.executeQuery("Select COUNT(best) AS numBest  FROM tblIterations WHERE best='"+ 60 +"' AND idClient='"+idClient+"' AND idProblem='"+idProblem+"';");
-//            ResultSet rs2 = this.Command.executeQuery("Select COUNT(*) AS numBest  FROM tblIterations WHERE best=" + a3 + " AND idClient=" + idClient + " AND idProblem=" + idProblem + " AND itera=" + period + ";");
-//            rs2.first();
-//            //rs2.close();
-//            erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + a1 + "," + a2 + "," + a3 + "," + rs2.getString("numBest").toString() + "," + a5 + ");");
-//            rs2.close();            
-            
-            
-             //erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + period + "," + idClient + "," + idProblem + "," + rs.getString("mediaAverage").toString() + "," + rs.getString("deviation").toString() + "," + rs.getString("best").toString() + "," + rs.getString("numBest") + "," + rs.getString("variance") + ");");
-         
-            erro = this.ExecuteNonQuery("call ExecuteMedia(" + period + "," + idClient + "," + idProblem + ",'"+globalNumBest+"','"+Final+"');");
+            erro = this.ExecuteNonQuery("call ExecuteMedia(" + period + "," + idClient + "," + idProblem + ",'"+globalNumBest+"','"+Final+"',"+control+");");
         } catch (Exception e) {
 
             try {
@@ -156,7 +131,7 @@ public class Database extends AbstractAplication {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    return ExecuteMedia(period, idClient, idProblem, globalNumBest,Final);
+                    return ExecuteMedia(period, idClient, idProblem, globalNumBest,Final,control);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -198,33 +173,6 @@ public class Database extends AbstractAplication {
         }
         return erro;
     }
-
-//    public boolean InserirResult(int itera, int idClient, int idProblem, double globalAverage, double globalDeviation, double globalBest, double globalNumBest, double variance) {
-//        boolean erro = false;
-//        try {
-//            //erro = this.ExecuteNonQuery("INSERT INTO tblResults VALUES (" + itera + "," + idClient + "," + idProblem + "," + globalAverage + "," + globalDeviation + "," + globalBest + "," + globalNumBest + "," + variance + ");");
-//            erro = this.ExecuteNonQuery("call InserirResult(" + itera + "," + idClient + "," + idProblem + "," + globalAverage + "," + globalDeviation + "," + globalBest + "," + globalNumBest + "," + variance + ");");
-//        } catch (Exception e) {
-//
-//            try {
-//                if (Connection.isClosed()) {
-//                    System.out.println("Connection Lost Database.InserirResult");
-//                    Connect();
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException ex) {
-//                        Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                    return InserirResult(itera, idClient, idProblem, globalAverage, globalDeviation, globalBest, globalNumBest, variance);
-//                }
-//            } catch (SQLException ex) {
-//                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//            e.printStackTrace();
-//        }
-//        return erro;
-//    }
 
     public boolean InserirIteracoes(int threadId, int itera, int idClient, int idProblem, double best, double average, String attributes, double deviation, int type, double variance) {
         boolean erro = false;

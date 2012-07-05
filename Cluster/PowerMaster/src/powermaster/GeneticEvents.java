@@ -5,10 +5,9 @@
 package powermaster;
 
 import Module.DataBase.Database;
-import genetics.Individual;
+import Module.GlobalData;
 import genetics.Population;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import statistics.Statistics;
@@ -33,7 +32,8 @@ public class GeneticEvents implements EventsSolver {
         this.idClient = idClient;
         this.idProblem = idProblem;
 
-        db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt", "powercomputing");
+        //db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt", "powercomputing");
+        db = new Database(GlobalData.database_user, GlobalData.database_pass, GlobalData.database_location, GlobalData.database_database);
     }
 
     @Override
@@ -68,6 +68,7 @@ public class GeneticEvents implements EventsSolver {
             db.InserirIteracoes(Integer.parseInt(Thread.currentThread().getName()), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getHallOfFame(pltn, PopulationUtils.getNumberIndividualsWithBestFitness(pltn)).toString(), statistics.getDesvioPadraoPopulation(), 0, statistics.getVarianciaPopulation());
             //            System.out.println("Thread["+Thread.currentThread().getName()+"]First Iteration inserted[" + i + "]:" + aux);
         } else {
+            //System.out.println(Integer.parseInt(Thread.currentThread().getName())+"");
             db.InserirIteracoes(Integer.parseInt(Thread.currentThread().getName()), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getHallOfFame(pltn, PopulationUtils.getNumberIndividualsWithBestFitness(pltn)).toString(), statistics.getDesvioPadraoPopulation(), 1, statistics.getVarianciaPopulation());}
     }
 
@@ -95,6 +96,12 @@ public class GeneticEvents implements EventsSolver {
         System.out.println("Hall of Fame - Top 5");
         System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
         System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
-
+        
+        
+        try {
+            this.db.Connection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
