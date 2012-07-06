@@ -5,8 +5,11 @@
 package powermaster;
 
 import Module.DataBase.Database;
-import Module.DataBase.Operations;
+import Module.GlobalData;
 import genetics.Population;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import statistics.Statistics;
 import utils.EventsSolver;
 import utils.PopulationUtils;
@@ -21,12 +24,16 @@ public class GeneticEvents implements EventsSolver {
     int nextInterval;
     int idClient;
     int idProblem;
+    Database db;
 
     public GeneticEvents(int interval, int idClient, int idProblem) {
         this.Interval = interval;
         this.nextInterval = Interval;
         this.idClient = idClient;
         this.idProblem = idProblem;
+
+        //db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt", "powercomputing");
+        db = new Database(GlobalData.database_user, GlobalData.database_pass, GlobalData.database_location, GlobalData.database_database);
     }
 
     @Override
@@ -44,43 +51,57 @@ public class GeneticEvents implements EventsSolver {
         // De 10 em 10 vai mostrar estatistica
         Statistics statistics = new Statistics(pltn);
 //        if ((i % 10) == 0) {
-//            System.out.println("Thread["+Thread.currentThread().getName()+"]:");
-//            System.out.println("--------------------------------------------------");
-//            System.out.println("Iteration:" + i);
-//            System.out.println("Variance: " + statistics.getVarianciaPopulation().doubleValue());
-//            System.out.println("Average:" + statistics.getMediaFitnessPopulation().doubleValue());
-//            System.out.println("Deviation: " + statistics.getDesvioPadraoPopulation().doubleValue());
+        System.out.println("Thread[" + Thread.currentThread().getName() + "]:");
+        System.out.println("--------------------------------------------------");
+        System.out.println("Iteration:" + i);
+        System.out.println("Variance: " + statistics.getVarianciaPopulation().doubleValue());
+        System.out.println("Average:" + statistics.getMediaFitnessPopulation().doubleValue());
+        System.out.println("Deviation: " + statistics.getDesvioPadraoPopulation().doubleValue());
 //            System.out.println("");
 //        }
 
+        
+//        ArrayList<Individual> arr = new ArrayList<Individual>(PopulationUtils.getUniqueIndividuals(pltn, PopulationUtils.getBestFitness(pltn)));
+//        int numBestUnique = arr.size();
+        
         if (i == 0) {
-            boolean aux = Operations.InserirIteracoes(Thread.currentThread().getName().toString(), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 0, statistics.getVarianciaPopulation());
-//            System.out.println("Thread["+Thread.currentThread().getName()+"]First Iteration inserted[" + i + "]:" + aux);
+            db.InserirIteracoes(Integer.parseInt(Thread.currentThread().getName()), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getHallOfFame(pltn, PopulationUtils.getNumberIndividualsWithBestFitness(pltn)).toString(), statistics.getDesvioPadraoPopulation(), 0, statistics.getVarianciaPopulation());
+            //            System.out.println("Thread["+Thread.currentThread().getName()+"]First Iteration inserted[" + i + "]:" + aux);
         } else {
-            boolean aux = Operations.InserirIteracoes(Thread.currentThread().getName().toString(), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 1, statistics.getVarianciaPopulation());
-//            System.out.println("Thread["+Thread.currentThread().getName()+"]Iteration inserted[" + i + "]:" + aux);
-        }
-
-
+            //System.out.println(Integer.parseInt(Thread.currentThread().getName())+"");
+            db.InserirIteracoes(Integer.parseInt(Thread.currentThread().getName()), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getHallOfFame(pltn, PopulationUtils.getNumberIndividualsWithBestFitness(pltn)).toString(), statistics.getDesvioPadraoPopulation(), 1, statistics.getVarianciaPopulation());}
     }
 
     @Override
     public void EventFinishSolver(int i, Population pltn) {
         Statistics statistics = new Statistics(pltn);
-        boolean aux = Operations.InserirIteracoes(Thread.currentThread().getName().toString(), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getNumberIndividualsWithBestFitness(pltn), PopulationUtils.getHallOfFame(pltn, 1).toString(), statistics.getDesvioPadraoPopulation(), 2, statistics.getVarianciaPopulation());
-//        System.out.println("Thread["+Thread.currentThread().getName()+"]Last Iteration inserted[" + i + "]:" + aux);
-//        
-//        System.out.println("Thread["+Thread.currentThread().getName()+"]: Solver ended");
-//        System.out.println("--------------------------------------------------");
-//        System.out.println("Iteration:" + i);
-//        System.out.println("Variance: " + statistics.getVarianciaPopulation().doubleValue());
-//        System.out.println("Average:" + statistics.getMediaFitnessPopulation().doubleValue());
-//        System.out.println("Deviation: " + statistics.getDesvioPadraoPopulation().doubleValue());
-//        System.out.println("--------------------------------------------------");
-//        System.out.println("");
-//
-//        System.out.println("Hall of Fame - Top 5");
-//        System.out.println("--------------------------------------------------");
-//        System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
+
+        
+//        ArrayList<Individual> arr = new ArrayList<Individual>(PopulationUtils.getUniqueIndividuals(pltn, PopulationUtils.getBestFitness(pltn)));
+//        int numBestUnique = arr.size();
+        
+        String knap = PopulationUtils.getKnapSackLastParameters(pltn);
+        if(knap==null){knap=" ";}
+        db.InserirIteracoes(Integer.parseInt(Thread.currentThread().getName()), i, this.idClient, this.idProblem, PopulationUtils.getBestFitness(pltn), statistics.getMediaFitnessPopulation().doubleValue(), PopulationUtils.getHallOfFame(pltn, PopulationUtils.getNumberIndividualsWithBestFitness(pltn)).toString()+":" + knap, statistics.getDesvioPadraoPopulation(), 2, statistics.getVarianciaPopulation()); //        System.out.println("Thread["+Thread.currentThread().getName()+"]Last Iteration inserted[" + i + "]:" + aux);
+        //        
+        System.out.println("Thread[" + Thread.currentThread().getName() + "]: Solver ended");
+        System.out.println("--------------------------------------------------");
+        System.out.println("Iteration:" + i);
+        System.out.println("Variance: " + statistics.getVarianciaPopulation().doubleValue());
+        System.out.println("Average:" + statistics.getMediaFitnessPopulation().doubleValue());
+        System.out.println("Deviation: " + statistics.getDesvioPadraoPopulation().doubleValue());
+        System.out.println("--------------------------------------------------");
+        System.out.println("");
+
+        System.out.println("Hall of Fame - Top 5");
+        System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
+        System.out.println(PopulationUtils.getHallOfFame(pltn, 5));
+        
+        
+        try {
+            this.db.Connection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(GeneticEvents.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

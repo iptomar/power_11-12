@@ -1,0 +1,100 @@
+-- --------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- --------------------------------------------------------------------------------
+DELIMITER $$
+
+CREATE DEFINER=`adminpower`@`%` PROCEDURE `ExecuteMedia`(period INT, id_Cliente INT, id_Problem INT, globalNumBests text,final text, control int)
+BEGIN
+
+    DECLARE media1 double; /*Soma dos resultados na itera=period com type=1 */
+    DECLARE media2 double; /*Soma dos resultados com type=2 */
+    
+    /*Numero de registos para fazer a media  */
+    DECLARE num1 int; 
+    DECLARE num2 int;
+    
+    DECLARE deviationAverage double;
+    DECLARE varianceAverage double;
+    
+    DECLARE deviationAverage2 double;
+    DECLARE varianceAverage2 double; 
+    
+    DECLARE BestFit DOUBLE;
+    DECLARE BestFit2 DOUBLE;
+    DECLARE MAXItera INT;
+
+    IF period = 0 THEN
+      SELECT SUM(average), SUM(deviation), SUM(variance), count(average) INTO media1, deviationAverage, varianceAverage, num1
+      FROM tblIterations 
+      WHERE itera=period AND idClient=id_Cliente AND idProblem=id_Problem;
+
+      SET num2 = 0;
+    ELSE
+      /* Todas as que têm itera que entra e type = 1*/
+      SELECT SUM(average), SUM(deviation), SUM(variance), count(average) INTO media1, deviationAverage, varianceAverage, num1
+      FROM tblIterations 
+      WHERE itera=period AND idClient=id_Cliente AND idProblem=id_Problem and tipo=1;
+      
+      /* Todas as que têm type=2 */
+      SELECT SUM(average), SUM(deviation), SUM(variance), count(average) INTO media2, deviationAverage2, varianceAverage2, num2
+      FROM tblIterations 
+      WHERE idClient=id_Cliente AND idProblem=id_Problem and tipo=2;
+    END IF;
+    
+    
+    /*0 > MAX */
+    /*1 > MIN */
+    IF control = 0 THEN
+      /* verifica se existe algum registo naquela itera*/
+      SELECT MAX(best) INTO BestFit 
+      FROM tblIterations
+      WHERE itera=period AND idClient=id_Cliente AND idProblem=id_Problem; 
+      
+      SELECT MAX(best) INTO BestFit2 
+      FROM tblIterations
+      WHERE tipo=2 AND idClient=id_Cliente AND idProblem=id_Problem;
+
+        IF BestFit2 > BestFit THEN
+            Set BestFit = BestFit2;
+        END IF;    
+
+    ELSEIF control = 1 THEN
+      /* verifica se existe algum registo naquela itera*/
+      SELECT MIN(best) INTO BestFit
+      FROM tblIterations 
+      WHERE itera=period AND idClient=id_Cliente AND idProblem=id_Problem; 
+      
+      SELECT MIN(best) INTO BestFit2
+      FROM tblIterations 
+      WHERE itera=period AND idClient=id_Cliente AND idProblem=id_Problem; 
+      
+      IF BestFit2 < BestFit THEN
+            Set BestFit = BestFit2;
+        END IF; 
+      
+    END IF;
+      
+
+   
+    IF num2 = 0 THEN 
+        INSERT INTO tblResults VALUES (period, id_Cliente, id_Problem, (media1 / num1), (deviationAverage / num1), BestFit, globalNumBests, (varianceAverage / num1), final);
+    Elseif num1 = 0 THEN
+       IF BestFit IS null THEN
+            SELECT MAX(itera) INTO MAXItera
+            FROM tblIterations 
+            WHERE idClient=id_Cliente AND idProblem=id_Problem;
+             
+            SELECT MAX(best) INTO BestFit
+            FROM tblIterations 
+            WHERE itera=MAXItera AND idClient=id_Cliente AND idProblem=id_Problem;
+        
+            INSERT INTO tblResults VALUES (MAXItera, id_Cliente, id_Problem, (media2 / num2), (deviationAverage2 / num2), BestFit, globalNumBests, (varianceAverage2 / num2), final);
+        ELSE
+            INSERT INTO tblResults VALUES (period, id_Cliente, id_Problem, (media2 / num2), (deviationAverage2 / num2), BestFit, globalNumBests, (varianceAverage2 / num2), final);
+        END IF;
+    ELSE 
+        INSERT INTO tblResults VALUES (period, id_Cliente, id_Problem, ((media1 + media2) / (num1 + num2)), ((deviationAverage + deviationAverage2) / (num1 + num2)), BestFit, globalNumBests, (varianceAverage + varianceAverage2) / (num1 + num2), final);
+    END IF;
+    
+END

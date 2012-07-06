@@ -1,0 +1,9 @@
+Objecto: genetics.algorithms.K100
+INFO:
+<p>K100 Best Fitness - 1561</p><p>Solver para o K100: setParameters(«num Individuos» «num Cromossomas» «num Genes Cromossoma» «tamanho array allelo (OBRIGATORIO SER 100)» K100)</p><p>Ex: setParameters(1000 1 1 100 K100) - É criado um solver que terá uma </p><p>população inicial de 1000 individuos, cada um com um cromossoma, cada cromossoma</p><p>com um gene e cada gene contem um array de tamanho 100. Os individuos são do tipo</p><p>K100.</p>
+
+**********************************************************************
+Número de construtores :2
+  +genetics.algorithms.K100 -- Construtor por defeito
+  +genetics.algorithms.K100 -- 1 parametros
+            -genetics.algorithms.KnapSack.ModeFunction  -- Objecto

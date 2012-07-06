@@ -6,7 +6,7 @@ package Module;
 
 import Module.Administration.Administration;
 import Module.DataBase.Database;
-import _old.WebServer;
+import Module.WebHTTP.WorkSocket;
 import NodeJS.NodeEmiter;
 import java.net.MalformedURLException;
 import java.util.Hashtable;
@@ -20,7 +20,7 @@ public class Aplication {
     /**
      * Variável que indica o estado global da aplicação (Todos os módulos)
      */
-    public static boolean STATUS;
+    public boolean STATUS;
     /**
      * Referencia estatica para o objecto Database
      */
@@ -30,9 +30,9 @@ public class Aplication {
      */
     public static Administration admin;
     /**
-     * Referencia estatica para o objecto WebSocket
+     * Referencia estatica para o objecto WorkSocket
      */
-    public static WebServer webSocket;
+    public static WorkSocket workSocket;
     /**
      * Referencia estatica para o objecto NodeEmiter
      */
@@ -60,7 +60,8 @@ public class Aplication {
 
         //System.out.println("Databse Module - Offline");
         System.out.println("Start Database Connection...");
-        db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt");
+        //db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "code.dei.estt.ipt.pt","powercomputing");
+        db = new Database(GlobalData.database_user, GlobalData.database_pass, GlobalData.database_location,GlobalData.database_database);
         //db = new Database("power", "_p55!gv{7MJ]}dIpPk7n1*0-,hq(PD", "127.0.0.1");
 
         if (db.getAplicationStatus()) {
@@ -91,42 +92,43 @@ public class Aplication {
         // --------------------------------------------------
 
         // --------------------------------------------------
-        // ---- Módulo WebSocket (8080)
+        // ---- Módulo WWorkSocket (8080)
         // --------------------------------------------------
-        /*try {
-        webSocket = new WebServer();
-        if (webSocket.getAplicationStatus()) {
-        System.out.println("WebSocket Module - OK");
-        AplicationStatus.put(webSocket.AplicationName, true);
-        } else {
-        System.out.println(webSocket.AplicationName+" - Not OK!!!");
-        db = null;
-        admin = null;
-        webSocket = null;
-        return false;
-        }
+        try {
+            System.out.println("Start WorkSocket on port 8080...");
+            workSocket = new WorkSocket(8080);
+            workSocket.start();
+            System.out.println("WorkSocket (8080) - OK");
+            admin.SetWorkSocketReference(workSocket);
         } catch (Exception e) {
-        System.out.println(webSocket.AplicationName+" - Not OK!!!");
-        db = null;
-        admin = null;
-        webSocket = null;
-        return false;
-        }*/
+            System.out.println("WorkSocket (8080) - Not OK!!!");
+            db = null;
+            admin = null;
+            workSocket = null;
+            return false;
+        }
         // --------------------------------------------------
 
         // --------------------------------------------------
         // ---- Módulo Node.Js
         // --------------------------------------------------        
         try {
+            System.out.println("Start Node.JS connection...");
             nodeJS = new NodeEmiter();
             if (nodeJS.getAplicationStatus()) {
-                System.out.println(admin.AplicationName + " - OK");
+                System.out.println(nodeJS.AplicationName + " - OK");
+            }else{
+                System.out.println(nodeJS.AplicationName + " - ?? OK!!!");
+                db = null;
+                admin = null;
+                workSocket = null;
+                return false;                
             }
         } catch (MalformedURLException ex) {
-            System.out.println(admin.AplicationName + " - Not OK!!!");
+            System.out.println(nodeJS.AplicationName + " - Not OK!!!");
             db = null;
             admin = null;
-            webSocket = null;
+            workSocket = null;
             return false;
         }
         // --------------------------------------------------
@@ -135,4 +137,9 @@ public class Aplication {
         return true;
 
     }
+    
+    public boolean getApplicationSatus(){
+        return this.STATUS;
+    }
+    
 }

@@ -1,0 +1,11 @@
+Objecto: genetics.algorithms.OnesMax
+INFO:
+<p>Solver para o OnesMax: setParameters(«num Individuos» «num Cromossomas» «num Genes Cromossoma» «tamanho array allelo» OnesMax)</p><p>Ex: setParameters(1000 1 1 10 OnesMax) - É criado um solver que terá uma </p><p>população inicial de 1000 individuos, cada um com um cromossoma, cada cromossoma</p><p>com um gene e cada gene contem um array de tamanho 10. Os individuos são do tipo</p><p>OnesMax.</p>
+
+**********************************************************************
+Número de construtores :3
+  +genetics.algorithms.OnesMax -- 1 parametros
+            -genetics.Individual  -- Objecto
+  +genetics.algorithms.OnesMax -- 1 parametros
+            -genetics.algorithms.OnesMax  -- Objecto
+  +genetics.algorithms.OnesMax -- Construtor por defeito

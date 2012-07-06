@@ -4,10 +4,15 @@
  */
 package powermaster;
 
+import genetics.GenericSolver;
+import genetics.Individual;
+import genetics.Population;
 import genetics.Solver;
+import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.PopulationUtils;
 
 /**
  *
@@ -15,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class SolverThread extends Thread {
 
-    Solver solver;
+    GenericSolver solver;
     AtomicInteger numThreads;
 
     /**
@@ -24,19 +29,40 @@ public class SolverThread extends Thread {
      * @param numThreads 
      * 
      */
-    public SolverThread(Solver solve, AtomicInteger numThreads) {
+    public SolverThread(GenericSolver solve, AtomicInteger numThreads) {
         this.solver = solve;
         this.numThreads = numThreads;
     }
+    
+    public GenericSolver getSolver(){
+        return this.solver;
+    }
 
+    public Population Stop(){  
+        Population p = solver.getPopulation();
+        solver.StopSolver();
+        return p;
+    }
+    
+    public Population getPopulation(){
+        return solver.getPopulation();
+    }
+    
+    public Collection<Individual> getUniqueIndividuals(double fitness){
+        return PopulationUtils.getUniqueIndividuals(this.solver.getPopulation(),fitness);
+    }
+    
     public void run() {
         try {
-            Solver __newSolver = solver;
-            __newSolver.run();
-
+//            GenericSolver __newSolver = solver;
+//            __newSolver.run();
+            
+            solver.run();
             numThreads.getAndDecrement();
             System.out.println("Atomic numThreads: " + numThreads.toString());
         } catch (Exception ex) {
+            numThreads.getAndDecrement();
+            System.out.println("Force Stop: " + numThreads.toString());
             Logger.getLogger(SolverThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -1,0 +1,10 @@
+-- --------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- --------------------------------------------------------------------------------
+DELIMITER $$
+
+CREATE DEFINER=`adminpower`@`%` PROCEDURE `InserirIteracoes`(threadId int, itera int, idClient int, idProblem int, best double, average double, attributes longtext, deviation double, tipo int, variance double)
+BEGIN
+    INSERT INTO tblIterations VALUES (threadId, itera, idClient, idProblem, NOW(), best, average, attributes, deviation, tipo, variance);
+END

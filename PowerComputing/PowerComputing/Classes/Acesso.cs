@@ -8,6 +8,23 @@ namespace PowerComputing.Classes
 {
     class Acesso : Conectar
     {
+        public void Registar()
+        {
+            string[] guid = Guid.NewGuid().ToString().Split('-');
+            string salt = "";
+
+            for (int i = 0; i < guid.Length - 2; i++)
+            {
+                salt += guid[i];
+            }
+
+
+            Coneccao.Open();
+            Comando.CommandText = inserts;
+            Comando.ExecuteNonQuery();
+            Coneccao.Close();
+        }
+
         public bool Login(string email, string password)
         {
             Comando.Parameters.AddWithValue("@email", email);

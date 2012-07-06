@@ -11,10 +11,14 @@
 package poweremulator;
 
 
+import genetics.GenericSolver;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.ListModel;
@@ -36,18 +40,28 @@ public class EmuladorEcran extends javax.swing.JFrame {
     ArrayList peso = new ArrayList();
     ArrayList valor = new ArrayList();
     String msg;
+    
+    String problemName="";
+    String problemParms="";
+    String problemStop="";
+    String mutationName="";
+    String mutationParms="";
+    String recombinationName="";
+    String recombinationParms="";
+    String replacementName="";
+    String replacementParms="";
+    String selectionName="";
+    String selectionParms="";     
+    
     /** Creates new form EmuladorEcran */
     public EmuladorEcran() {
         initComponents();
-      
         loader = new GeneticLoader();
-
-        loadData(this.ProblemList,loader.getAlgorithms());
-        loadData(this.MutationList,loader.getMutation());
-        loadData(this.SelectionList,loader.getSelections());
-        loadData(this.ReplacementList,loader.getReplacements());
-        loadData(this.RecombinationList,loader.getRecombinations());
-       
+        loadData(this.ProblemList,loader.getInfo(GeneticLoader.STRING_ALGOTITHMS));
+        loadData(this.MutationList,loader.getInfo(GeneticLoader.STRING_MUTATION));
+        loadData(this.SelectionList,loader.getInfo(GeneticLoader.STRING_SELECTIONS));
+        loadData(this.ReplacementList,loader.getInfo(GeneticLoader.STRING_REPLACEMENTS));
+        loadData(this.RecombinationList,loader.getInfo(GeneticLoader.STRING_RECOMBINATIONS));
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -69,13 +83,16 @@ public class EmuladorEcran extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         ProblemList = new javax.swing.JList();
         jLabel24 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        Problem_Parameters = new javax.swing.JTextField();
         jLabel43 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtProblem = new javax.swing.JTextArea();
         jLabel45 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         ButtonNextProblem = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         SelectionList = new javax.swing.JList();
@@ -83,7 +100,7 @@ public class EmuladorEcran extends javax.swing.JFrame {
         txtSelection = new javax.swing.JTextArea();
         ButtonNextSelection = new javax.swing.JButton();
         jLabel44 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        Selection_Parameters = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
         jLabel49 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -93,7 +110,7 @@ public class EmuladorEcran extends javax.swing.JFrame {
         txtRecombination = new javax.swing.JTextArea();
         ButtonNextRecombination = new javax.swing.JButton();
         jLabel46 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        Recombination_Parameters = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
         jLabel53 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
@@ -103,7 +120,7 @@ public class EmuladorEcran extends javax.swing.JFrame {
         txtMutation = new javax.swing.JTextArea();
         ButtonNextMutation = new javax.swing.JButton();
         jLabel47 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        Mutation_Parameters = new javax.swing.JTextField();
         jButton9 = new javax.swing.JButton();
         jLabel52 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
@@ -113,9 +130,8 @@ public class EmuladorEcran extends javax.swing.JFrame {
         txtReplacement = new javax.swing.JTextArea();
         ButtonNextReplacement = new javax.swing.JButton();
         jLabel48 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        Replacement_Parameters = new javax.swing.JTextField();
         jButton10 = new javax.swing.JButton();
-        jLabel50 = new javax.swing.JLabel();
         jLabel51 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -134,7 +150,6 @@ public class EmuladorEcran extends javax.swing.JFrame {
         TextArea.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         TextArea.setForeground(new java.awt.Color(51, 255, 0));
         TextArea.setRows(5);
-        TextArea.setAutoscrolls(false);
         jScrollPane1.setViewportView(TextArea);
 
         Executar.setText("Executar");
@@ -160,19 +175,19 @@ public class EmuladorEcran extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(Executar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Limpar, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                .addComponent(Limpar, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
                 .addGap(528, 528, 528))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 991, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Executar)
                     .addComponent(Limpar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
         );
 
         TabMain.addTab("Monitor", jPanel1);
@@ -191,7 +206,7 @@ public class EmuladorEcran extends javax.swing.JFrame {
 
         jLabel24.setText("Problems");
 
-        jTextField1.setText("100");
+        Problem_Parameters.setText("100");
 
         jLabel43.setText("Parameters");
 
@@ -217,6 +232,17 @@ public class EmuladorEcran extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Info");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Stop Criteria: ");
+
+        jTextField1.setText("2");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -233,21 +259,28 @@ public class EmuladorEcran extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ButtonNextProblem, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel43)
+                                .addComponent(ButtonNextProblem, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(170, 170, 170)
+                                .addComponent(jButton2))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel43, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextField1)
+                                    .addComponent(Problem_Parameters, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)))
-                        .addContainerGap(20, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 417, Short.MAX_VALUE)
                         .addComponent(jLabel45)
-                        .addGap(278, 278, 278))))
+                        .addGap(278, 278, 278))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,12 +297,18 @@ public class EmuladorEcran extends javax.swing.JFrame {
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1)
-                            .addComponent(jLabel43))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                        .addComponent(ButtonNextProblem, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                            .addComponent(Problem_Parameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel43)
+                            .addComponent(jButton1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ButtonNextProblem, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2))))
+                .addContainerGap())
         );
 
         TabMain.addTab("Problem", jPanel4);
@@ -301,7 +340,7 @@ public class EmuladorEcran extends javax.swing.JFrame {
 
         jLabel44.setText("Parameters");
 
-        jTextField2.setText("100");
+        Selection_Parameters.setText("100");
 
         jButton7.setText("Set Parameters");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -327,10 +366,10 @@ public class EmuladorEcran extends javax.swing.JFrame {
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel44)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
-                            .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Selection_Parameters, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel49)
@@ -343,14 +382,14 @@ public class EmuladorEcran extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel44)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Selection_Parameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ButtonNextSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -386,7 +425,7 @@ public class EmuladorEcran extends javax.swing.JFrame {
 
         jLabel46.setText("Parameters");
 
-        jTextField3.setText("100");
+        Recombination_Parameters.setText("100");
 
         jButton8.setText("Set Parameters");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -411,12 +450,14 @@ public class EmuladorEcran extends javax.swing.JFrame {
                             .addComponent(ButtonNextRecombination, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addComponent(jLabel46)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
-                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(jLabel46)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(Recombination_Parameters, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel53)
@@ -429,16 +470,16 @@ public class EmuladorEcran extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                        .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Recombination_Parameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton8)
                             .addComponent(jLabel46))
                         .addGap(18, 18, 18)
                         .addComponent(ButtonNextRecombination, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
-                .addGap(39, 39, 39))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE))
+                .addGap(59, 59, 59))
         );
 
         TabMain.addTab("Recombination", jPanel6);
@@ -470,7 +511,7 @@ public class EmuladorEcran extends javax.swing.JFrame {
 
         jLabel47.setText("Parameters");
 
-        jTextField4.setText("100");
+        Mutation_Parameters.setText("0.01");
 
         jButton9.setText("Set Parameters");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -492,14 +533,14 @@ public class EmuladorEcran extends javax.swing.JFrame {
                         .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+                            .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 677, Short.MAX_VALUE)
                             .addComponent(ButtonNextMutation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
                                 .addComponent(jLabel47)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)))
+                                .addComponent(Mutation_Parameters, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel52)
@@ -512,16 +553,16 @@ public class EmuladorEcran extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel47)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Mutation_Parameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                         .addComponent(ButtonNextMutation, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23))))
         );
@@ -555,7 +596,7 @@ public class EmuladorEcran extends javax.swing.JFrame {
 
         jLabel48.setText("Parameters");
 
-        jTextField5.setText("100");
+        Replacement_Parameters.setText("100");
 
         jButton10.setText("Set Parameters");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
@@ -563,8 +604,6 @@ public class EmuladorEcran extends javax.swing.JFrame {
                 jButton10ActionPerformed(evt);
             }
         });
-
-        jLabel50.setText("Info");
 
         jLabel51.setText("Info");
 
@@ -579,29 +618,25 @@ public class EmuladorEcran extends javax.swing.JFrame {
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ButtonNextReplacement, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel8Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE))
+                                    .addGroup(jPanel8Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel48)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(Replacement_Parameters, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap())
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel48)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
-                                .addGap(30, 30, 30))
-                            .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                                .addComponent(ButtonNextReplacement, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel51)
                         .addGap(244, 244, 244))))
-            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel8Layout.createSequentialGroup()
-                    .addGap(0, 393, Short.MAX_VALUE)
-                    .addComponent(jLabel50)
-                    .addGap(0, 393, Short.MAX_VALUE)))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -610,23 +645,18 @@ public class EmuladorEcran extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                        .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                        .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel48)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Replacement_Parameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton10))
                         .addGap(18, 18, 18)
                         .addComponent(ButtonNextReplacement, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(21, 21, 21))))
-            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel8Layout.createSequentialGroup()
-                    .addGap(0, 207, Short.MAX_VALUE)
-                    .addComponent(jLabel50)
-                    .addGap(0, 207, Short.MAX_VALUE)))
         );
 
         TabMain.addTab("Replacement", jPanel8);
@@ -638,12 +668,12 @@ public class EmuladorEcran extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(TabMain, javax.swing.GroupLayout.PREFERRED_SIZE, 811, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(344, 344, 344)
-                        .addComponent(jLabel2)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(TabMain, javax.swing.GroupLayout.DEFAULT_SIZE, 996, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -651,7 +681,7 @@ public class EmuladorEcran extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(TabMain, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                .addComponent(TabMain)
                 .addContainerGap())
         );
 
@@ -678,30 +708,39 @@ private void RecombinationListMouseClicked(java.awt.event.MouseEvent evt) {//GEN
 
 private void LimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LimparActionPerformed
      TabMain.setSelectedIndex(1);
-     
+     LimparEcran();
 }//GEN-LAST:event_LimparActionPerformed
 
 private void ExecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecutarActionPerformed
-  
-            //Verificação se está tudo Ok
-        if (URLSite) {
-             Executar.setEnabled(true);
-             Emulador.IniciarPeloEmulador(caminho);
-             //TextArea.append("\n\nPROBLEMA FINALIZADO");
-//             Carregar.setEnabled(true);
-        }else{
-             Executar.setEnabled(true);
-             Emulador.IniciarPeloEmulador("File:"+caminho);
-             //TextArea.append("\n\nPROBLEMA FINALIZADO");
-//             Carregar.setEnabled(true);
+        try {
+            GenericSolver solver = loader.getSolver();
+            solver.setParameters(problemParms);
+            solver.SetSelection(selectionParms+" "+selectionName);
+            solver.SetMutation(mutationName+" "+mutationParms);
+            solver.SetReplacement(replacementName+" "+replacementParms);
+            solver.SetRecombination("."+recombinationName+" "+recombinationParms);
+            solver.SetStopCrit(problemStop);
+            
+            solver.SetEvents(new GeneticEvents((TextArea)));
+            
+
+            
+            Thread_solverstar trabalhar = new Thread_solverstar(solver);
+            trabalhar.start();
+        } catch (Exception ex) {
+            Escrever("\n ERRO AO INICIAR O SOLVER: "+ex);
         }
-   
-    
+ 
 }//GEN-LAST:event_ExecutarActionPerformed
 
 private void ButtonNextReplacementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNextReplacementActionPerformed
-    Escrever("Populacao criada com sucesso");
+    Escrever("\nPopulacao criada com sucesso");
     Executar.setEnabled(true);
+    ButtonNextProblem.setEnabled(false);
+    ButtonNextSelection.setEnabled(false);
+    ButtonNextRecombination.setEnabled(false);
+    ButtonNextMutation.setEnabled(false);
+    ButtonNextReplacement.setEnabled(false);
     TabMain.setSelectedIndex(0);
     
 }//GEN-LAST:event_ButtonNextReplacementActionPerformed
@@ -741,23 +780,84 @@ private void ProblemListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     ButtonNextProblem.setEnabled(true);
+    String texto = Problem_Parameters.getText();
+    String[] ProblemAux = ProblemList.getSelectedValue().toString().split(".class");
+    String[] ProblemName = ProblemAux[0].split("/");
+    try{
+        Escrever("Problem name: " + ProblemName[2] +  "\nParameters: "+texto);
+        problemName=ProblemName[2];
+        problemParms=texto;
+        problemStop=jTextField1.getText();
+    }catch(Exception e){
+        Escrever("ERRO in Problem: "+e);    
+    }
 }//GEN-LAST:event_jButton1ActionPerformed
 
 private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-ButtonNextSelection.setEnabled(true);
+    ButtonNextSelection.setEnabled(true);
+    String texto = Selection_Parameters.getText();
+    String[] SelectionAux = SelectionList.getSelectedValue().toString().split(".class");
+    String[] SelectionName = SelectionAux[0].split("/");
+    try{
+        Escrever("Selection name: " + SelectionName[2] + "\nParameters: "+texto);
+        selectionName=texto;
+        selectionParms=SelectionName[2];
+    }catch(Exception e){
+        Escrever("ERRO IN Selection: " + e);
+    }
 }//GEN-LAST:event_jButton7ActionPerformed
 
 private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-ButtonNextRecombination.setEnabled(true);
+    ButtonNextRecombination.setEnabled(true);
+    String texto = Recombination_Parameters.getText();
+    String[] RecombinationAux = RecombinationList.getSelectedValue().toString().split(".class");
+    String[] RecombinationName = RecombinationAux[0].split("/");
+    try{
+        Escrever("Recombination name: " +RecombinationName[2] + "\nParameters: "+texto);
+        recombinationName=RecombinationName[2];
+        recombinationParms=texto;
+    }catch(Exception e){
+        Escrever("ERRO IN Recombination: "+e);
+    }
 }//GEN-LAST:event_jButton8ActionPerformed
 
 private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-ButtonNextMutation.setEnabled(true);
+    ButtonNextMutation.setEnabled(true);
+    String texto = Mutation_Parameters.getText();
+    String[] MutationAux = MutationList.getSelectedValue().toString().split(".class");
+    String[] MutationName = MutationAux[0].split("/");
+    try{
+        Escrever("Mutation name: " + MutationName[2] + "\nParameters: "+texto);
+        mutationName=MutationName[2];
+        mutationParms=texto;
+     }catch(Exception e){
+        Escrever("ERRO In Mutation: "+e);
+    }
 }//GEN-LAST:event_jButton9ActionPerformed
 
 private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-ButtonNextReplacement.setEnabled(true);
+    ButtonNextReplacement.setEnabled(true);
+    String texto = Replacement_Parameters.getText();
+    String[] ReplacementAux = ReplacementList.getSelectedValue().toString().split(".class");
+    String[] ReplacementName = ReplacementAux[0].split("/");
+    try{
+        Escrever("Replacement name: " +ReplacementName[2] + "\nParameters: "+texto);
+        replacementName=ReplacementName[2];
+        replacementParms=texto;
+    }catch(Exception e){
+        Escrever("ERRO In Replacement: "+e);
+    }
 }//GEN-LAST:event_jButton10ActionPerformed
+
+
+
+private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            txtProblem.setText(loader.getSolver().getInfo().replace("<p>", "").replace("</p>", "\n"));
+        } catch (Exception ex) {
+            System.out.println("ERRO NO SOLVER INFO:\n "+ex);
+        }
+}//GEN-LAST:event_jButton2ActionPerformed
 
     private void loadData(JList campo,ArrayList<String> data){
         DefaultListModel dados = new DefaultListModel();
@@ -807,7 +907,7 @@ ButtonNextReplacement.setEnabled(true);
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -841,17 +941,24 @@ ButtonNextReplacement.setEnabled(true);
     private javax.swing.JButton Executar;
     private javax.swing.JButton Limpar;
     private javax.swing.JList MutationList;
+    private javax.swing.JTextField Mutation_Parameters;
     private javax.swing.JList ProblemList;
+    private javax.swing.JTextField Problem_Parameters;
     private javax.swing.JList RecombinationList;
+    private javax.swing.JTextField Recombination_Parameters;
     private javax.swing.JList ReplacementList;
+    private javax.swing.JTextField Replacement_Parameters;
     private javax.swing.JList SelectionList;
+    private javax.swing.JTextField Selection_Parameters;
     private javax.swing.JTabbedPane TabMain;
     public static javax.swing.JTextArea TextArea;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel43;
@@ -861,7 +968,6 @@ ButtonNextReplacement.setEnabled(true);
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
-    private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
@@ -883,10 +989,6 @@ ButtonNextReplacement.setEnabled(true);
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextArea txtMutation;
     private javax.swing.JTextArea txtProblem;
     private javax.swing.JTextArea txtRecombination;

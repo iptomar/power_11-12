@@ -24,3 +24,31 @@ C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerCo
 C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Debug\PowerComputing_Content.g.cs
 C:\Users\Marinheiro\Documents\Visual Studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Debug\Definicoes.baml
 C:\Users\Marinheiro\Documents\Visual Studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Debug\Definicoes.g.cs
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\Sounds\access_denied.wav
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\PowerComputing.exe.config
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\PowerComputing.exe
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\PowerComputing.pdb
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\System.Windows.Controls.DataVisualization.Toolkit.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\Visiblox.Charts.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\WPFToolkit.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\System.Windows.Controls.DataVisualization.Toolkit.pdb
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\Visiblox.Charts.xml
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\WPFToolkit.pdb
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\Definicoes.baml
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\Login.baml
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\Principal.baml
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\Definicoes.g.cs
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\Login.g.cs
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\Principal.g.cs
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\App.g.cs
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\PowerComputing_Content.g.cs
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\PowerComputing_MarkupCompile.cache
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\PowerComputing.g.resources
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\PowerComputing.Properties.Resources.resources
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\PowerComputing.exe
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Debug\PowerComputing.pdb
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\Controls.Gravatar.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Debug\Tamir.SharpSSH.dll

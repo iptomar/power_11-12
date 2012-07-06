@@ -1,0 +1,9 @@
+Objecto: genetics.algorithms.K5
+INFO:
+<p>Em caso do individuo ser do tipo KnapSack genérico, será preciso passar mais</p><p>três parametros que serão o peso da mochila, o modo de funcionamento do problema</p><p>e os dados com os pesos e valores da mochila.</p><p></p><p>Em caso do individuo ser do tipo KnapSack genérico, será preciso passar mais</p><p>três parametros que serão o peso da mochila, o modo de funcionamento do problema</p><p>e os dados com os pesos e valores da mochila.</p><p></p><p>Exemplo do solver para o KnapSack: setParameters(<num Individuos> <num Cromossomas> <num Genes Cromossoma> <tamanho do array no allelo (OBRIGATORIO SER IGUAL AO NUM DE ITEMS DA MOCHILA)> KnapSack <modo de funcionamento> <ordem de penalidade>$$<String com os valores> <String com os pesos>)</p><p>Ex: setParameters(1000 1 1 3 KnapSack ModeFunction.RANDOM 2$$3 2 3 10 3 2) - Neste</p><p>caso, a população será igual à de cima, excepto o allelo do individuo que tem um </p><p>array de tamanho 3. O ModeFunction refere-se à forma como o problema será abordado </p><p>em termos de penalidade e o 2 refere-se a uma penalidade de orndem 2. A partir dos $$,</p><p>será a string de dados que contem o valor1, valor2, valor3 e peso1, peso2 e peso3</p><p>respectivamente aos items da mochila do problema.</p><p></p>
+
+**********************************************************************
+Número de construtores :2
+  +genetics.algorithms.K5 -- Construtor por defeito
+  +genetics.algorithms.K5 -- 1 parametros
+            -genetics.algorithms.KnapSack.ModeFunction  -- Objecto

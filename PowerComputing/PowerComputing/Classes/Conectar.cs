@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
+using System.Threading;
 
 namespace PowerComputing.Classes
 {
@@ -16,7 +17,7 @@ namespace PowerComputing.Classes
 
         public Conectar()
         {
-            ConnectionString = "server=localhost; User Id=; password=; database=powercomputing";
+            ConnectionString = "";
 
             Coneccao = new MySqlConnection(ConnectionString);
             Comando = new MySqlCommand();

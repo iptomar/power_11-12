@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using PowerComputing.Classes;
+using Tamir.SharpSsh;
 
 namespace PowerComputing
 {
@@ -25,9 +26,12 @@ namespace PowerComputing
         {
             InitializeComponent();
 
-            Properties.Settings.Default.PortaConsola = "666";
-            Properties.Settings.Default.PortaGrafico = "667";
-            Properties.Settings.Default.IPMaster = "code.dei.estt.ipt.pt";
+            if (Properties.Settings.Default.IPMaster == "")
+            {
+                Properties.Settings.Default.PortaConsola = "666";
+                Properties.Settings.Default.PortaGrafico = "667";
+                Properties.Settings.Default.IPMaster = "code.dei.estt.ipt.pt";
+            }
 
             Properties.Settings.Default.Save();
         }
@@ -37,9 +41,10 @@ namespace PowerComputing
             if (Properties.Settings.Default.GuardarCredenciais == true)
             {
                 cb_lembrar.IsChecked = true;
-
                 tb_email.Text = Properties.Settings.Default.Email;
                 tb_password.Password = Properties.Settings.Default.Password;
+
+                avatar.Email = Properties.Settings.Default.Email;
 
                 tb_nome.Text = Properties.Settings.Default.Nome;
             }
@@ -48,7 +53,7 @@ namespace PowerComputing
         private void Entrar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             bool resultado = acesso.Login(tb_email.Text, tb_password.Password);
-            
+
             if (resultado == true)
             {
                 MainWindow principal = new MainWindow();
@@ -58,6 +63,7 @@ namespace PowerComputing
             else
             {
                 System.Media.SoundPlayer player = new System.Media.SoundPlayer("Sounds/access_denied.wav");
+                
                 player.Play();
             }
         }

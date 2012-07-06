@@ -1,0 +1,106 @@
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\bin\Release\PowerComputing.exe.config
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\bin\Release\Sounds\access_denied.wav
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\bin\Release\PowerComputing.exe
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\bin\Release\PowerComputing.pdb
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\bin\Release\System.Windows.Controls.DataVisualization.Toolkit.dll
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\bin\Release\Visiblox.Charts.dll
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\bin\Release\WPFToolkit.dll
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\bin\Release\System.Windows.Controls.DataVisualization.Toolkit.pdb
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\bin\Release\Visiblox.Charts.xml
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\bin\Release\WPFToolkit.pdb
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\Definicoes.baml
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\Login.baml
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\Principal.baml
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\Definicoes.g.cs
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\Login.g.cs
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\Principal.g.cs
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\App.g.cs
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing_Content.g.cs
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing_MarkupCompile.cache
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.g.resources
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.Properties.Resources.resources
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.exe
+C:\Users\Marinheiro\documents\visual studio 2010\Projects\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.pdb
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\bin\Release\PowerComputing.exe.config
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.exe
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.pdb
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\bin\Release\Sounds\access_denied.wav
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\bin\Release\PowerComputing.exe
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\bin\Release\PowerComputing.pdb
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\bin\Release\System.Windows.Controls.DataVisualization.Toolkit.dll
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\bin\Release\WPFToolkit.dll
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\bin\Release\System.Windows.Controls.DataVisualization.Toolkit.pdb
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\bin\Release\Visiblox.Charts.xml
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\bin\Release\WPFToolkit.pdb
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\Definicoes.baml
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\Login.baml
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\Principal.baml
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\Definicoes.g.cs
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\Login.g.cs
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\Principal.g.cs
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\App.g.cs
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing_Content.g.cs
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing_MarkupCompile.cache
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.g.resources
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.Properties.Resources.resources
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\KopDicht\Dropbox\PSI - Power Computing\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\bin\Release\PowerComputing.exe.config
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.exe
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.pdb
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\bin\Release\Sounds\access_denied.wav
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\bin\Release\PowerComputing.exe
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\bin\Release\PowerComputing.pdb
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\bin\Release\System.Windows.Controls.DataVisualization.Toolkit.dll
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\bin\Release\WPFToolkit.dll
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\bin\Release\System.Windows.Controls.DataVisualization.Toolkit.pdb
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\bin\Release\Visiblox.Charts.xml
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\bin\Release\WPFToolkit.pdb
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\Definicoes.baml
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\Login.baml
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\Principal.baml
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\Definicoes.g.cs
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\Login.g.cs
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\Principal.g.cs
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\App.g.cs
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing_Content.g.cs
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing_MarkupCompile.cache
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.g.resources
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.Properties.Resources.resources
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\KopDicht\Desktop\PSI\PARA TI\PowerComputing\PowerComputing\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\PowerComputing.exe.config
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.exe
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.pdb
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\Sounds\access_denied.wav
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\PowerComputing.exe
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\PowerComputing.pdb
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\System.Windows.Controls.DataVisualization.Toolkit.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\Visiblox.Charts.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\WPFToolkit.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\System.Windows.Controls.DataVisualization.Toolkit.pdb
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\Visiblox.Charts.xml
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\WPFToolkit.pdb
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\Definicoes.baml
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\Login.baml
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\Principal.baml
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\Definicoes.g.cs
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\Login.g.cs
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\Principal.g.cs
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\App.g.cs
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing_Content.g.cs
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing_MarkupCompile.cache
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.g.resources
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\PowerComputing.Properties.Resources.resources
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\Controls.Gravatar.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\Tamir.SharpSSH.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\DiffieHellman.dll
+C:\Users\Marinheiro\Desktop\PowerComputing\PowerComputing\bin\Release\Org.Mentalis.Security.dll
