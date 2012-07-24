@@ -1,0 +1,18 @@
+c:\users\marinheiro\documents\visual studio 2010\Projects\Paulo\Paulo\bin\Debug\Paulo.exe
+c:\users\marinheiro\documents\visual studio 2010\Projects\Paulo\Paulo\bin\Debug\Paulo.pdb
+c:\users\marinheiro\documents\visual studio 2010\Projects\Paulo\Paulo\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\marinheiro\documents\visual studio 2010\Projects\Paulo\Paulo\obj\x86\Debug\Paulo.Form1.resources
+c:\users\marinheiro\documents\visual studio 2010\Projects\Paulo\Paulo\obj\x86\Debug\Paulo.Properties.Resources.resources
+c:\users\marinheiro\documents\visual studio 2010\Projects\Paulo\Paulo\obj\x86\Debug\GenerateResource.read.1.tlog
+c:\users\marinheiro\documents\visual studio 2010\Projects\Paulo\Paulo\obj\x86\Debug\GenerateResource.write.1.tlog
+c:\users\marinheiro\documents\visual studio 2010\Projects\Paulo\Paulo\obj\x86\Debug\Paulo.exe
+c:\users\marinheiro\documents\visual studio 2010\Projects\Paulo\Paulo\obj\x86\Debug\Paulo.pdb
+D:\IPT\3Ano\PSI\testes\Paulo\Paulo\obj\x86\Debug\Paulo.exe
+D:\IPT\3Ano\PSI\testes\Paulo\Paulo\obj\x86\Debug\Paulo.pdb
+D:\IPT\3Ano\PSI\testes\Paulo\Paulo\bin\Debug\Paulo.exe
+D:\IPT\3Ano\PSI\testes\Paulo\Paulo\bin\Debug\Paulo.pdb
+D:\IPT\3Ano\PSI\testes\Paulo\Paulo\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\IPT\3Ano\PSI\testes\Paulo\Paulo\obj\x86\Debug\Paulo.Form1.resources
+D:\IPT\3Ano\PSI\testes\Paulo\Paulo\obj\x86\Debug\Paulo.Properties.Resources.resources
+D:\IPT\3Ano\PSI\testes\Paulo\Paulo\obj\x86\Debug\GenerateResource.read.1.tlog
+D:\IPT\3Ano\PSI\testes\Paulo\Paulo\obj\x86\Debug\GenerateResource.write.1.tlog
